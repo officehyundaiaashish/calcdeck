@@ -113,9 +113,10 @@ input::placeholder{
     left:0;
     background:#1e293b;
     border-radius:16px;
-    overflow:hidden;
-    display:none;
-    z-index:1000;
+    overflow-y:auto; /* Enable vertical scrolling */
+    max-height:170px; /* Ensure at least 3 options are fully visible */
+        display:none;
+        z-index:1000;
     border:1px solid rgba(255,255,255,.1);
 }
 
