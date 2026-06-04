@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>GST Calculator Pro</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0f172a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GST Calculator">
+<meta name="description" content="Professional GST Calculator PWA">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.card{
+    width:100%;
+    max-width:430px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:28px;
+    padding:28px;
+    color:#fff;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.logo{
+    font-size:52px;
+    text-align:center;
+}
+
+h1{
+    text-align:center;
+    margin-top:10px;
+    font-size:28px;
+}
+
+.subtitle{
+    text-align:center;
+    opacity:.75;
+    margin-top:5px;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:16px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    font-size:16px;
+}
+
+input::placeholder{
+    color:rgba(255,255,255,.5);
+}
+
+.row{
+    margin-bottom:18px;
+}
+
+.gst-selector{
+    position:relative;
+}
+
+.gst-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+    text-align:left;
+}
+
+.gst-menu{
+    position:absolute;
+    width:100%;
+    top:60px;
+    left:0;
+    background:#1e293b;
+    border-radius:16px;
+    overflow:hidden;
+    display:none;
+    z-index:1000;
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.gst-menu.show{
+    display:block;
+}
+
+.gst-menu div{
+    padding:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.gst-menu div:hover{
+    background:rgba(255,255,255,.08);
+}
+
+.btns{
+    display:flex;
+    gap:12px;
+}
+
+button.action{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:15px;
+    transition:.25s;
+}
+
+button.action:hover{
+    transform:translateY(-2px);
+}
+
+.add{
+    background:#22c55e;
+    color:white;
+}
+
+.remove{
+    background:#3b82f6;
+    color:white;
+}
+
+.result{
+    margin-top:25px;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    padding:20px;
+}
+
+.result-item{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+}
+
+.result-item span:last-child{
+    font-weight:600;
+}
+
+.total{
+    font-size:24px;
+    font-weight:700;
+    color:#38bdf8;
+}
+
+hr{
+    border:none;
+    border-top:1px solid rgba(255,255,255,.1);
+    margin:14px 0;
+}
+
+.install-btn{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border:none;
+    border-radius:16px;
+    background:#f59e0b;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    display:none;
+}
+
+.footer{
+    margin-top:18px;
+    text-align:center;
+    font-size:12px;
+    opacity:.5;
+}
+
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">🧾</div>
+
+    <h1>GST Calculator Pro</h1>
+
+    <div class="subtitle">
+        Add or Remove GST Instantly
+    </div>
+
+    <div class="row">
+        <label>Amount</label>
+        <input
+            type="number"
+            id="amount"
+            placeholder="Enter Amount"
+            inputmode="decimal">
+    </div>
+
+    <div class="row">
+        <label>GST Rate</label>
+
+        <div class="gst-selector">
+
+            <button
+                class="gst-btn"
+                id="selectedGST"
+                type="button">
+                18% GST ▼
+            </button>
+
+            <div class="gst-menu" id="gstMenu">
+                <div onclick="setGST(3)">3% GST</div>
+                <div onclick="setGST(5)">5% GST</div>
+                <div onclick="setGST(12)">12% GST</div>
+                <div onclick="setGST(18)">18% GST</div>
+                <div onclick="setGST(28)">28% GST</div>
+            </div>
+
+            <input type="hidden" id="gst" value="18">
+
+        </div>
+    </div>
+
+    <div class="btns">
+
+        <button
+            class="action add"
+            onclick="addGST()">
+            Add GST
+        </button>
+
+        <button
+            class="action remove"
+            onclick="removeGST()">
+            Remove GST
+        </button>
+
+    </div>
+
+    <div class="result">
+
+        <div class="result-item">
+            <span>Base Amount</span>
+            <span id="base">₹0.00</span>
+        </div>
+
+        <div class="result-item">
+            <span>GST Amount</span>
+            <span id="gstAmount">₹0.00</span>
+        </div>
+
+        <hr>
+
+        <div class="result-item">
+            <span>Total</span>
+            <span class="total" id="total">₹0.00</span>
+        </div>
+
+    </div>
+
+    <button id="installBtn" class="install-btn">
+        Install App
+    </button>
+
+    <div class="footer">
+        GST Calculator Pro PWA
+    </div>
+
+</div>
+
+<script>
+
+const gstMenu = document.getElementById("gstMenu");
+
+document
+.getElementById("selectedGST")
+.addEventListener("click",()=>{
+    gstMenu.classList.toggle("show");
+});
+
+function setGST(value){
+
+    document.getElementById("gst").value=value;
+
+    document.getElementById("selectedGST").innerHTML=
+        value + "% GST ▼";
+
+    gstMenu.classList.remove("show");
+}
+
+window.addEventListener("click",(e)=>{
+
+    if(!e.target.closest(".gst-selector")){
+        gstMenu.classList.remove("show");
+    }
+});
+
+function addGST(){
+
+    let amount =
+        parseFloat(
+            document.getElementById("amount").value
+        ) || 0;
+
+    let gst =
+        parseFloat(
+            document.getElementById("gst").value
+        );
+
+    let gstAmount =
+        (amount * gst) / 100;
+
+    let total =
+        amount + gstAmount;
+
+    document.getElementById("base").innerText =
+        "₹" + amount.toFixed(2);
+
+    document.getElementById("gstAmount").innerText =
+        "₹" + gstAmount.toFixed(2);
+
+    document.getElementById("total").innerText =
+        "₹" + total.toFixed(2);
+}
+
+function removeGST(){
+
+    let amount =
+        parseFloat(
+            document.getElementById("amount").value
+        ) || 0;
+
+    let gst =
+        parseFloat(
+            document.getElementById("gst").value
+        );
+
+    let base =
+        amount / (1 + gst/100);
+
+    let gstAmount =
+        amount - base;
+
+    document.getElementById("base").innerText =
+        "₹" + base.toFixed(2);
+
+    document.getElementById("gstAmount").innerText =
+        "₹" + gstAmount.toFixed(2);
+
+    document.getElementById("total").innerText =
+        "₹" + amount.toFixed(2);
+}
+
+let deferredPrompt;
+
+window.addEventListener(
+    "beforeinstallprompt",
+    (e)=>{
+
+        e.preventDefault();
+
+        deferredPrompt = e;
+
+        document.getElementById(
+            "installBtn"
+        ).style.display="block";
+    }
+);
+
+document
+.getElementById("installBtn")
+.addEventListener("click",async()=>{
+
+    if(!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+});
+
+if("serviceWorker" in navigator){
+
+    window.addEventListener("load",()=>{
+
+        navigator.serviceWorker.register(
+            "./service-worker.js"
+        );
+    });
+}
+
+</script>
+
+</body>
+</html>
