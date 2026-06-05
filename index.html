@@ -396,8 +396,51 @@ hr{
     height: 20px;
 }
 
+/* NEW: Greeting Title Styles */
+.greeting-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: linear-gradient(270deg, #38bdf8, #c084fc, #f43f5e, #38bdf8);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    animation: gradient-shift 8s ease infinite;
+}
+
+.greeting-title .wave {
+    -webkit-text-fill-color: initial;
+    display: inline-block;
+    animation: wave-animation 2.5s infinite;
+    transform-origin: 70% 70%;
+    font-size: 20px;
+}
+
+@keyframes wave-animation {
+    0% { transform: rotate( 0.0deg) }
+    10% { transform: rotate(14.0deg) }
+    20% { transform: rotate(-8.0deg) }
+    30% { transform: rotate(14.0deg) }
+    40% { transform: rotate(-4.0deg) }
+    50% { transform: rotate(10.0deg) }
+    60% { transform: rotate( 0.0deg) }
+    100% { transform: rotate( 0.0deg) }
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 /* NEW: Light Mode Overrides */
-/* Smooth transitions for theme switching */
 body, .card, input, .gst-btn, .gst-menu, .result, .mini-calculator-dialog, .calculator-display, .calculator-buttons button, .theme-toggle-btn, .calculator-icon-btn {
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
@@ -487,9 +530,18 @@ body.light-mode .gst-menu .gst-manual-input-wrapper input::placeholder {
 }
 
 body.light-mode .result {
-    background: rgba(0, 0, 0, 0.03);
+body.light-mode .greeting-title {
+    background: linear-gradient(270deg, #0284c7, #7c3aed, #db2777, #0284c7);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    animation: gradient-shift 8s ease infinite;
 }
 
+body.light-mode .result {
+    background: rgba(0, 0, 0, 0.03);
+}
 body.light-mode .total {
     color: #0284c7; /* High contrast blue for light mode */
 }
@@ -561,22 +613,23 @@ body.light-mode .calculator-buttons button[data-delete]:hover {
 /* Desktop View Overrides */
 @media (min-width: 768px) {
     .card {
-        max-width: 800px;
-        padding: 40px;
+        max-width: 850px;
+        width: 90%;
+        padding: 35px 40px;
     }
 
     .theme-toggle-btn {
-        top: 40px;
+        top: 35px;
         left: 40px;
     }
 
     .calculator-icon-btn {
-        top: 40px;
+        top: 35px;
         right: 40px;
     }
 
     .mini-calculator-dialog {
-        top: 95px;
+        top: 90px;
         right: 40px;
         width: 280px;
     }
@@ -615,15 +668,47 @@ body.light-mode .calculator-buttons button[data-delete]:hover {
     }
 
     .logo {
-        font-size: 60px;
+        font-size: 52px;
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .subtitle {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Extra optimization for shorter screens / laptops */
+@media (min-width: 768px) and (max-height: 800px) {
+    .card {
+        padding: 25px 35px;
+    }
+    .theme-toggle-btn, .calculator-icon-btn {
+        top: 25px;
+    }
+    .mini-calculator-dialog {
+        top: 80px;
+    }
+    .logo {
+        font-size: 40px;
+    }
+    h1 {
+        font-size: 24px;
+        margin-top: 5px;
+    }
+    .subtitle {
+        margin-bottom: 15px;
+    }
+    .calc-body {
+        gap: 24px;
+    }
+    .result {
+        padding: 20px;
+    }
+    .result-item {
+        margin: 10px 0;
     }
 }
 </style>
@@ -631,6 +716,10 @@ body.light-mode .calculator-buttons button[data-delete]:hover {
 <body>
 
 <div class="card">
+
+    <div class="greeting-title">
+        <span>Hello Aashish!</span>
+    </div>
 
     <div class="logo">🧾</div>
 
