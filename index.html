@@ -397,6 +397,24 @@ hr{
 }
 
 /* NEW: Light Mode Overrides */
+/* Smooth transitions for theme switching */
+body, .card, input, .gst-btn, .gst-menu, .result, .mini-calculator-dialog, .calculator-display, .calculator-buttons button, .theme-toggle-btn, .calculator-icon-btn {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Custom Scrollbar for GST Menu */
+.gst-menu::-webkit-scrollbar {
+    width: 6px;
+}
+.gst-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+.gst-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Light Mode Overrides */
 body.light-mode {
     background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
 }
@@ -450,6 +468,10 @@ body.light-mode .gst-menu div:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 
+body.light-mode .gst-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+}
+
 body.light-mode .gst-menu .gst-manual-input-wrapper {
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -460,8 +482,16 @@ body.light-mode .gst-menu .gst-manual-input-wrapper input {
     color: #1e293b;
 }
 
+body.light-mode .gst-menu .gst-manual-input-wrapper input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
 body.light-mode .result {
     background: rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .total {
+    color: #0284c7; /* High contrast blue for light mode */
 }
 
 body.light-mode hr {
@@ -523,7 +553,79 @@ body.light-mode .calculator-buttons button[data-delete] {
 body.light-mode .calculator-buttons button[data-delete]:hover {
     background: #d97706;
 }
+.calc-body {
+    display: flex;
+    flex-direction: column;
+}
 
+/* Desktop View Overrides */
+@media (min-width: 768px) {
+    .card {
+        max-width: 800px;
+        padding: 40px;
+    }
+
+    .theme-toggle-btn {
+        top: 40px;
+        left: 40px;
+    }
+
+    .calculator-icon-btn {
+        top: 40px;
+        right: 40px;
+    }
+
+    .mini-calculator-dialog {
+        top: 95px;
+        right: 40px;
+        width: 280px;
+    }
+
+    .calc-body {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 32px;
+        align-items: stretch;
+        margin-top: 10px;
+    }
+
+    .calc-col-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .calc-col-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .result {
+        margin-top: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px;
+    }
+
+    .result-item {
+        margin: 16px 0;
+    }
+
+    .logo {
+        font-size: 60px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .subtitle {
+        margin-bottom: 30px;
+    }
+}
 </style>
 </head>
 <body>
@@ -542,12 +644,12 @@ body.light-mode .calculator-buttons button[data-delete]:hover {
         <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Theme">
             <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
         </button>
-    
+
         <!-- NEW: Calculator Icon Button -->
         <button id="openCalculatorBtn" class="calculator-icon-btn" aria-label="Open Calculator">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 10h8"/><path d="M8 14h8"/><path d="M8 18h8"/></svg>
         </button>
-    
+
     <!-- NEW: Mini Calculator Dialog -->
     <div id="miniCalculatorDialog" class="mini-calculator-dialog">
         <div class="calculator-display">
@@ -577,84 +679,89 @@ body.light-mode .calculator-buttons button[data-delete]:hover {
         </div>
     </div>
 
-    <div class="row">
-        <label>Amount</label>
-        <input
-            type="number"
-            id="amount"
-            placeholder="Enter Amount"
-            inputmode="decimal">
-    </div>
+    <div class="calc-body">
+        <div class="calc-col-left">
+            <div class="row">
+                <label>Amount</label>
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Enter Amount"
+                    inputmode="decimal">
+            </div>
 
-    <div class="row">
-        <label>GST Rate</label>
+            <div class="row">
+                <label>GST Rate</label>
 
-        <div class="gst-selector">
+                <div class="gst-selector">
 
-            <button
-                class="gst-btn"
-                id="selectedGST"
-                type="button">
-                18% GST ▼
-            </button>
+                    <button
+                        class="gst-btn"
+                        id="selectedGST"
+                        type="button">
+                        18% GST ▼
+                    </button>
 
-            <div class="gst-menu" id="gstMenu">
-                            <div onclick="setGST(3)">3% GST</div>
-                            <div onclick="setGST(5)">5% GST</div>
-                            <div onclick="setGST(12)">12% GST</div>
-                            <div onclick="setGST(18)">18% GST</div>
-                            <div onclick="setGST(28)">28% GST</div>
-                            <div class="gst-manual-input-wrapper">
-                                <input type="number" id="manualGSTInput" placeholder="Enter Custom GST" step="0.01">
-                            </div>
+                    <div class="gst-menu" id="gstMenu">
+                        <div onclick="setGST(3)">3% GST</div>
+                        <div onclick="setGST(5)">5% GST</div>
+                        <div onclick="setGST(12)">12% GST</div>
+                        <div onclick="setGST(18)">18% GST</div>
+                        <div onclick="setGST(28)">28% GST</div>
+                        <div class="gst-manual-input-wrapper">
+                            <input type="number" id="manualGSTInput" placeholder="Enter Custom GST" step="0.01">
                         </div>
+                    </div>
 
-            <input type="hidden" id="gst" value="18">
+                    <input type="hidden" id="gst" value="18">
 
+                </div>
+            </div>
+
+            <div class="btns">
+
+                <button
+                    class="action add"
+                    onclick="addGST()">
+                    Add GST
+                </button>
+
+                <button
+                    class="action remove"
+                    onclick="removeGST()">
+                    Remove GST
+                </button>
+
+            </div>
+        </div>
+
+        <div class="calc-col-right">
+            <div class="result">
+
+                <div class="result-item">
+                    <span>Base Amount</span>
+                    <span id="base">₹0.00</span>
+                </div>
+
+                <div class="result-item">
+                    <span>GST Amount</span>
+                    <span id="gstAmount">₹0.00</span>
+                </div>
+
+                <hr>
+
+                <div class="result-item">
+                    <span>Total</span>
+                    <span class="total" id="total">₹0.00</span>
+                </div>
+
+            </div>
+
+            <button id="installBtn" class="install-btn">
+                Install App
+            </button>
         </div>
     </div>
-
-    <div class="btns">
-
-        <button
-            class="action add"
-            onclick="addGST()">
-            Add GST
-        </button>
-
-        <button
-            class="action remove"
-            onclick="removeGST()">
-            Remove GST
-        </button>
-
-    </div>
-
-    <div class="result">
-
-        <div class="result-item">
-            <span>Base Amount</span>
-            <span id="base">₹0.00</span>
-        </div>
-
-        <div class="result-item">
-            <span>GST Amount</span>
-            <span id="gstAmount">₹0.00</span>
-        </div>
-
-        <hr>
-
-        <div class="result-item">
-            <span>Total</span>
-            <span class="total" id="total">₹0.00</span>
-        </div>
-
-    </div>
-
-    <button id="installBtn" class="install-btn">
-        Install App
-    </button>
-
     <div class="footer">
         </div>
 
