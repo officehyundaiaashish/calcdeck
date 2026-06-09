@@ -268,13 +268,13 @@ hr{
     position: absolute;
     top: 78px; /* Below the icon button (28px top + 40px height + 10px gap) */
     right: 28px; /* Align with the icon button */
-    width: 250px; /* Adjust size as needed */
+    width: 210px; /* More compact */
     background: #1e293b; /* Darker background */
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,.4);
     border: 1px solid rgba(255,255,255,.1);
     z-index: 1002; /* Higher than GST menu (1000) */
-    padding: 15px;
+    padding: 10px;
     transform-origin: top right;
     opacity: 0;
     transform: scale(0.85) translateY(-10px);
@@ -291,12 +291,12 @@ hr{
 .calculator-display {
     background: rgba(0,0,0,.2);
     border-radius: 10px;
-    padding: 10px 15px;
-    margin-bottom: 15px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
     text-align: right;
     word-wrap: break-word;
     word-break: break-all;
-    min-height: 60px;
+    min-height: 52px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -310,7 +310,7 @@ hr{
 
 .calculator-display .current-operand {
     color: white;
-    font-size: 1.8em;
+    font-size: 1.55em;
     font-weight: 500;
 }
 
@@ -324,8 +324,8 @@ hr{
     background: rgba(255,255,255,.1);
     border: none;
     border-radius: 10px;
-    padding: 15px 0;
-    font-size: 1.1em;
+    padding: 12px 0;
+    font-size: 1em;
     color: white;
     cursor: pointer;
     transition: .2s;
@@ -845,7 +845,7 @@ body.light-mode .clear-dialog-buttons .cancel-btn:hover {
     .mini-calculator-dialog {
         top: 90px;
         right: 40px;
-        width: 280px;
+        width: 230px; /* Compact on desktop too */
     }
 
     .history-dialog {
