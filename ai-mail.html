@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>AI Mail — CodX</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0a0a0c;
+    --surface:  #141417;
+    --surface2: #1a1a1f;
+    --border:   rgba(255,255,255,0.08);
+    --text:     #e0e0e0;
+    --muted:    rgba(224,224,224,0.45);
+    --accent:   #10b981;
+    --accent-d: rgba(16,185,129,0.15);
+    --danger:   #ef4444;
+    --warn:     #f59e0b;
+    --r:        16px;
+    --font:     'Poppins', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
+
+  /* ── SCREENS ── */
+  .screen { position: fixed; inset: 0; display: flex; flex-direction: column; transition: opacity 0.25s, transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.97); }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    flex-shrink: 0; height: 52px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+  .topbar-title { font-size: 15px; font-weight: 700; flex: 1; }
+  .topbar-title span { color: var(--accent); }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 10px; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(128,128,128,0.1); color: var(--text);
+    transition: background 0.15s, transform 0.12s;
+  }
+  .icon-btn:active { transform: scale(0.88); background: var(--accent-d); color: var(--accent); }
+  .icon-btn .material-icons-round { font-size: 20px; pointer-events: none; }
+
+  /* ── LOGIN SCREEN ── */
+  #login-screen {
+    align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 50% 0%, rgba(16,185,129,0.08) 0%, transparent 70%), var(--bg);
+  }
+  .login-card {
+    width: 92%; max-width: 380px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .login-logo {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+  }
+  .login-logo .material-icons-round { font-size: 26px; color: white; }
+  .login-title { text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .login-sub { text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+  .field-label { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.04em; }
+  .field-input {
+    width: 100%; padding: 12px 14px; border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 13px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-d); }
+  .field-input::placeholder { color: rgba(224,224,224,0.25); }
+  .btn-primary {
+    width: 100%; padding: 13px; border-radius: 12px; border: none;
+    background: var(--accent); color: white;
+    font-family: var(--font); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-primary:active { transform: scale(0.97); opacity: 0.85; }
+  .btn-primary .material-icons-round { font-size: 18px; pointer-events: none; }
+  .login-err { font-size: 11px; color: var(--danger); text-align: center; margin-top: 12px; min-height: 16px; }
+  .login-note { font-size: 10px; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.5; }
+
+  /* ── INBOX SCREEN ── */
+  #inbox-screen { background: var(--bg); }
+  .inbox-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .inbox-body::-webkit-scrollbar { display: none; }
+
+  /* Account pill */
+  .account-pill {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; border-radius: 20px;
+    background: var(--accent-d); border: 1px solid rgba(16,185,129,0.2);
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    max-width: 160px; overflow: hidden;
+  }
+  .account-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .account-pill .material-icons-round { font-size: 14px; flex-shrink: 0; }
+
+  /* Toolbar: compose + refresh */
+  .inbox-toolbar {
+    flex-shrink: 0; padding: 8px 14px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .inbox-search {
+    flex: 1; padding: 9px 14px; border-radius: 20px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+  }
+  .inbox-search:focus { border-color: var(--accent); }
+  .inbox-search::placeholder { color: var(--muted); }
+
+  /* Loading */
+  .loading-bar {
+    height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    background-size: 200% 100%;
+    animation: loadScan 1.2s linear infinite;
+    display: none;
+  }
+  .loading-bar.active { display: block; }
+  @keyframes loadScan { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* Mail items */
+  .mail-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s;
+    position: relative;
+  }
+  .mail-item:active { background: rgba(255,255,255,0.03); }
+  .mail-item.unread { background: rgba(16,185,129,0.03); }
+  .mail-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: white;
+  }
+  .mail-meta { flex: 1; min-width: 0; }
+  .mail-from { font-size: 12px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .mail-from.unread-from { color: white; }
+  .unread-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .mail-subject { font-size: 11px; font-weight: 600; color: var(--text); opacity: 0.8; margin: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-preview { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-time { font-size: 10px; color: var(--muted); white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; gap: 12px; color: var(--muted); }
+  .empty-state .material-icons-round { font-size: 48px; opacity: 0.3; }
+  .empty-state p { font-size: 13px; font-weight: 600; }
+
+  /* ── MAIL DETAIL SCREEN ── */
+  #detail-screen { background: var(--bg); }
+  .detail-body { flex: 1; overflow-y: auto; padding: 16px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .detail-body::-webkit-scrollbar { display: none; }
+  .detail-subject { font-size: 16px; font-weight: 700; line-height: 1.35; margin-bottom: 14px; }
+  .detail-meta-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+  }
+  .detail-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: white; }
+  .detail-from-name { font-size: 13px; font-weight: 700; }
+  .detail-from-email { font-size: 11px; color: var(--muted); }
+  .detail-time { font-size: 10px; color: var(--muted); margin-left: auto; }
+  .detail-content { font-size: 13px; line-height: 1.7; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+
+  /* AI Reply panel */
+  .ai-reply-panel {
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .ai-reply-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px 0;
+  }
+  .ai-badge {
+    display: flex; align-items: center; gap: 5px;
+    background: var(--accent-d); border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 20px; padding: 3px 10px;
+    font-size: 10px; font-weight: 700; color: var(--accent);
+  }
+  .ai-badge .material-icons-round { font-size: 13px; }
+  .ai-reply-label { font-size: 11px; font-weight: 700; color: var(--muted); flex: 1; }
+  .ai-reply-box {
+    margin: 8px 14px 0;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 12px; line-height: 1.6; color: var(--text);
+    min-height: 70px; max-height: 160px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+  .ai-reply-box::-webkit-scrollbar { display: none; }
+  .ai-reply-box.generating { color: var(--muted); font-style: italic; }
+  .ai-guide-row { display: flex; gap: 8px; padding: 8px 14px; align-items: center; }
+  .ai-guide-input {
+    flex: 1; padding: 9px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+  }
+  .ai-guide-input:focus { border-color: var(--accent); }
+  .ai-guide-input::placeholder { color: var(--muted); }
+  .send-row { display: flex; gap: 8px; padding: 0 14px 14px; }
+  .btn-send {
+    flex: 1; padding: 11px; border-radius: 12px; border: none;
+    background: var(--accent); color: white;
+    font-family: var(--font); font-size: 12px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: opacity 0.15s, transform 0.12s;
+  }
+  .btn-send:active { transform: scale(0.96); opacity: 0.85; }
+  .btn-send .material-icons-round { font-size: 16px; pointer-events: none; }
+  .btn-regen {
+    padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted);
+    font-family: var(--font); font-size: 12px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-regen:active { background: var(--accent-d); color: var(--accent); border-color: var(--accent); }
+  .btn-regen .material-icons-round { font-size: 15px; pointer-events: none; }
+
+  /* ── SENDING OVERLAY ── */
+  #send-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+  }
+  #send-overlay.active { display: flex; }
+  .send-spinner {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #send-overlay p { font-size: 13px; font-weight: 700; color: var(--text); }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px);
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 9px 18px; border-radius: 20px;
+    font-size: 12px; font-weight: 700; z-index: 9999;
+    opacity: 0; pointer-events: none; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast .material-icons-round { font-size: 16px; }
+
+  /* Spinner inside button */
+  .btn-spin { display: none; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; animation: spin 0.7s linear infinite; }
+  button.loading .btn-spin { display: block; }
+  button.loading .btn-text { display: none; }
+
+  /* ── TO FIELD row for send ── */
+  .to-row { display: flex; align-items: center; gap: 8px; padding: 6px 14px 0; }
+  .to-label { font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .to-input {
+    flex: 1; padding: 8px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+  }
+  .to-input:focus { border-color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ LOGIN ═══════════════════════════════════════════ -->
+<div class="screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo"><span class="material-icons-round">mail</span></div>
+    <div class="login-title">AI Mail</div>
+    <div class="login-sub">RediffMail Pro — powered by your AI agent</div>
+
+    <div class="field-label">EMAIL ADDRESS</div>
+    <input class="field-input" id="login-email" type="email" placeholder="you@rediffmail.com" autocomplete="username">
+
+    <div class="field-label">PASSWORD</div>
+    <input class="field-input" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+
+    <button class="btn-primary" id="login-btn" onclick="doLogin()">
+      <div class="btn-spin"></div>
+      <span class="btn-text" style="display:flex;align-items:center;gap:6px;">
+        <span class="material-icons-round" style="font-size:16px;">login</span>Sign In
+      </span>
+    </button>
+    <div class="login-err" id="login-err"></div>
+    <div class="login-note">Your credentials are used only to fetch your mail.<br>They are not stored by CodX.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ INBOX ═══════════════════════════════════════════ -->
+<div class="screen hidden" id="inbox-screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="goBack()" title="Back"><span class="material-icons-round">arrow_back</span></button>
+    <div class="topbar-title"><span>AI</span> Mail</div>
+    <div class="account-pill" id="account-pill">
+      <span class="material-icons-round">account_circle</span>
+      <span id="account-label">—</span>
+    </div>
+    <button class="icon-btn" onclick="refreshInbox()" title="Refresh"><span class="material-icons-round">refresh</span></button>
+    <button class="icon-btn" onclick="doLogout()" title="Logout"><span class="material-icons-round">logout</span></button>
+  </div>
+  <div class="inbox-toolbar">
+    <input class="inbox-search" id="inbox-search" placeholder="Search mail…" oninput="filterMail(this.value)">
+  </div>
+  <div class="loading-bar" id="inbox-loader"></div>
+  <div class="inbox-body" id="inbox-body">
+    <div class="empty-state"><span class="material-icons-round">inbox</span><p>Loading your inbox…</p></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ DETAIL ═══════════════════════════════════════════ -->
+<div class="screen hidden" id="detail-screen">
+  <div class="topbar">
+    <button class="icon-btn" onclick="showScreen('inbox-screen')" title="Back"><span class="material-icons-round">arrow_back</span></button>
+    <div class="topbar-title" style="font-size:13px;" id="detail-topbar-title">Mail</div>
+  </div>
+
+  <div class="detail-body" id="detail-body">
+    <!-- filled by JS -->
+  </div>
+
+  <!-- AI Reply panel -->
+  <div class="ai-reply-panel" id="ai-reply-panel">
+    <div class="ai-reply-header">
+      <div class="ai-badge"><span class="material-icons-round">smart_toy</span>AI Reply</div>
+      <div class="ai-reply-label" id="ai-status-label">Generating reply…</div>
+      <button class="icon-btn" onclick="regenerateReply()" title="Regenerate" style="width:30px;height:30px;"><span class="material-icons-round" style="font-size:17px;">autorenew</span></button>
+    </div>
+    <div class="ai-reply-box generating" id="ai-reply-box">Analysing mail and drafting reply…</div>
+    <div class="ai-guide-row">
+      <input class="ai-guide-input" id="ai-guide-input" placeholder="Guide the AI: e.g. be brief, apologise, ask for more time…">
+      <button class="icon-btn" onclick="regenerateReply()" title="Apply guidance" style="background:var(--accent-d);color:var(--accent);border:1px solid rgba(16,185,129,0.2);">
+        <span class="material-icons-round" style="font-size:17px;">send</span>
+      </button>
+    </div>
+    <div class="to-row">
+      <span class="to-label">TO</span>
+      <input class="to-input" id="reply-to" placeholder="reply-to@example.com">
+    </div>
+    <div class="send-row">
+      <button class="btn-regen" id="btn-copy" onclick="copyReply()">
+        <span class="material-icons-round">content_copy</span>Copy
+      </button>
+      <button class="btn-send" id="btn-send-reply" onclick="sendReply()">
+        <div class="btn-spin"></div>
+        <span class="btn-text" style="display:flex;align-items:center;gap:6px;">
+          <span class="material-icons-round">send</span>Send Reply
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ SEND OVERLAY ═══════════════════════════════════ -->
+<div id="send-overlay">
+  <div class="send-spinner"></div>
+  <p id="send-overlay-msg">Sending…</p>
+</div>
+
+<!-- ═══════════════════════════════════════════ TOAST ═══════════════════════════════════════════ -->
+<div id="toast"><span class="material-icons-round" id="toast-icon">check_circle</span><span id="toast-msg"></span></div>
+
+<script>
+// ── State ──
+let _email = '', _pass = '', _mails = [], _filtered = [], _currentMail = null, _aiReply = '';
+let _toastTimer = null;
+
+// ── Avatar colours ──
+const AVATAR_COLORS = ['#10b981','#6366f1','#f59e0b','#ef4444','#8b5cf6','#ec4899','#0ea5e9','#14b8a6'];
+function avatarColor(str) {
+  let h = 0; for (let c of str) h = (h * 31 + c.charCodeAt(0)) & 0xffffffff;
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+}
+function avatarLetter(from) {
+  const name = from.replace(/<.*>/, '').trim();
+  return (name[0] || '?').toUpperCase();
+}
+
+// ── Screen routing ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function goBack() {
+  // If inbox is logged in go to inbox, else go back to parent (CodX)
+  if (_email) { showScreen('inbox-screen'); }
+  else { window.close(); if (window.opener) window.opener.focus(); }
+}
+
+// ── Toast ──
+function toast(msg, icon = 'check_circle') {
+  const el = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-icon').textContent = icon;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── Login ──
+async function doLogin() {
+  const btn = document.getElementById('login-btn');
+  const em  = document.getElementById('login-email').value.trim();
+  const pw  = document.getElementById('login-pass').value;
+  const err = document.getElementById('login-err');
+  if (!em || !pw) { err.textContent = 'Please enter email and password.'; return; }
+  err.textContent = '';
+  btn.classList.add('loading');
+  try {
+    // Rediffmail doesn't expose a public API — we use a CORS proxy approach
+    // In real deployment replace with your backend endpoint
+    await _fetchInbox(em, pw);
+    _email = em; _pass = pw;
+    document.getElementById('account-label').textContent = em.length > 18 ? em.slice(0,16)+'…' : em;
+    showScreen('inbox-screen');
+    renderInbox();
+    toast('Logged in', 'check_circle');
+  } catch(e) {
+    err.textContent = e.message || 'Login failed. Check credentials.';
+  }
+  btn.classList.remove('loading');
+}
+
+// ── Fetch inbox (Rediffmail via CORS proxy / your backend) ──
+async function _fetchInbox(email, pass) {
+  // Rediffmail does not provide a public REST API.
+  // Two real-world options:
+  //   1. Deploy a thin Node/Express backend that logs in via Puppeteer and returns JSON.
+  //   2. Use IMAP: imapflow / node-imap on your server, expose /api/inbox endpoint.
+  //
+  // For now we use demo data so the UI is fully functional.
+  // Replace the block below with:
+  //   const res = await fetch('https://YOUR_BACKEND/api/inbox', {
+  //     method: 'POST',
+  //     headers: {'Content-Type':'application/json'},
+  //     body: JSON.stringify({ email, pass })
+  //   });
+  //   if (!res.ok) throw new Error((await res.json()).error || 'Login failed');
+  //   _mails = await res.json();
+
+  await new Promise(r => setTimeout(r, 1200)); // simulate network
+
+  // ── DEMO INBOX DATA ──
+  _mails = [
+    { id:'m1', from:'Rahul Sharma <rahul.sharma@gmail.com>', subject:'Project Update — Q3 Report', body:'Hi,\n\nHope you are doing well.\n\nJust wanted to touch base regarding the Q3 report. The data team has completed their analysis and the numbers look promising. However, we need your sign-off on the final figures before we send it to the client.\n\nCould you please review the attached document and let me know if everything looks correct? We are aiming to send it by Friday.\n\nBest regards,\nRahul', time:'10:42 AM', unread:true, replyTo:'rahul.sharma@gmail.com' },
+    { id:'m2', from:'Priya Nair <priya.nair@company.com>', subject:'Meeting rescheduled to Thursday', body:'Hi,\n\nDue to a conflict with the leadership team, our 1:1 originally scheduled for Wednesday has been moved to Thursday 3 PM.\n\nPlease confirm if that works for you.\n\nThanks,\nPriya', time:'9:15 AM', unread:true, replyTo:'priya.nair@company.com' },
+    { id:'m3', from:'GitHub <noreply@github.com>', subject:'[CodX] Pull request #47 opened', body:'A new pull request has been opened in the CodX repository.\n\nTitle: Add dark mode toggle\nAuthor: dev_contributor\nBranch: feature/dark-mode → main\n\nPlease review the changes and merge or request modifications as appropriate.', time:'Yesterday', unread:false, replyTo:'noreply@github.com' },
+    { id:'m4', from:'Amazon Web Services <aws-billing@amazon.com>', subject:'Your AWS bill is ready', body:'Dear Customer,\n\nYour AWS bill for the month of March 2026 is now available.\n\nTotal amount due: $47.23\nDue date: April 5, 2026\n\nPlease log in to the AWS Console to view itemised charges or to update your payment method.\n\nThank you for using AWS.', time:'Yesterday', unread:false, replyTo:'aws-billing@amazon.com' },
+    { id:'m5', from:'Ananya Kapoor <ananya.k@startup.io>', subject:'Quick question about API integration', body:'Hey!\n\nI was going through your documentation and had a quick question about the REST API integration. Specifically, how do you handle rate limiting on the /messages endpoint?\n\nAny guidance would be super helpful. Happy to jump on a call if easier.\n\nThanks,\nAnanya', time:'Mon', unread:true, replyTo:'ananya.k@startup.io' },
+    { id:'m6', from:'Rediffmail Team <support@rediff.com>', subject:'Your storage is at 85% capacity', body:'Dear User,\n\nYour Rediffmail Pro inbox is currently at 85% of its storage capacity.\n\nTo avoid disruptions, please delete old emails or upgrade your plan.\n\nVisit rediff.com/mail to manage your storage.\n\nRegards,\nRediffmail Team', time:'Sun', unread:false, replyTo:'support@rediff.com' },
+  ];
+}
+
+// ── Render inbox ──
+function renderInbox(data) {
+  const list = data || _mails;
+  _filtered = list;
+  const body = document.getElementById('inbox-body');
+  if (!list.length) {
+    body.innerHTML = '<div class="empty-state"><span class="material-icons-round">inbox</span><p>No mail found</p></div>';
+    return;
+  }
+  body.innerHTML = list.map(m => {
+    const col = avatarColor(m.from);
+    const letter = avatarLetter(m.from);
+    const fromName = m.from.replace(/<.*>/, '').replace(/"/g,'').trim();
+    return `
+      <div class="mail-item ${m.unread?'unread':''}" onclick="openMail('${m.id}')">
+        <div class="mail-avatar" style="background:${col}">${letter}</div>
+        <div class="mail-meta">
+          <div class="mail-from ${m.unread?'unread-from':''}">
+            ${m.unread?'<div class="unread-dot"></div>':''}
+            ${_esc(fromName)}
+          </div>
+          <div class="mail-subject">${_esc(m.subject)}</div>
+          <div class="mail-preview">${_esc(m.body.split('\n').filter(l=>l.trim()).slice(0,1).join(' '))}</div>
+        </div>
+        <div class="mail-time">${_esc(m.time)}</div>
+      </div>`;
+  }).join('');
+}
+
+function filterMail(q) {
+  q = q.toLowerCase();
+  const filtered = _mails.filter(m =>
+    m.from.toLowerCase().includes(q) ||
+    m.subject.toLowerCase().includes(q) ||
+    m.body.toLowerCase().includes(q)
+  );
+  renderInbox(filtered);
+}
+
+async function refreshInbox() {
+  const loader = document.getElementById('inbox-loader');
+  loader.classList.add('active');
+  try { await _fetchInbox(_email, _pass); renderInbox(); toast('Inbox refreshed', 'refresh'); }
+  catch(e) { toast('Refresh failed', 'error_outline'); }
+  loader.classList.remove('active');
+}
+
+// ── Open mail ──
+async function openMail(id) {
+  const mail = _mails.find(m => m.id === id);
+  if (!mail) return;
+  _currentMail = mail;
+  mail.unread = false;
+
+  // Render detail
+  const col = avatarColor(mail.from);
+  const letter = avatarLetter(mail.from);
+  const fromName = mail.from.replace(/<.*>/, '').replace(/"/g,'').trim();
+  const fromEmail = (mail.from.match(/<(.+)>/) || [,''])[1] || mail.from;
+
+  document.getElementById('detail-topbar-title').textContent = mail.subject;
+  document.getElementById('detail-body').innerHTML = `
+    <div class="detail-subject">${_esc(mail.subject)}</div>
+    <div class="detail-meta-row">
+      <div class="detail-avatar" style="background:${col}">${letter}</div>
+      <div>
+        <div class="detail-from-name">${_esc(fromName)}</div>
+        <div class="detail-from-email">${_esc(fromEmail)}</div>
+      </div>
+      <div class="detail-time">${_esc(mail.time)}</div>
+    </div>
+    <div class="detail-content">${_esc(mail.body)}</div>
+  `;
+
+  // Set reply-to field
+  document.getElementById('reply-to').value = mail.replyTo || fromEmail;
+  document.getElementById('ai-guide-input').value = '';
+
+  // Reset AI reply box
+  const box = document.getElementById('ai-reply-box');
+  box.classList.add('generating');
+  box.textContent = 'Analysing mail and drafting reply…';
+  document.getElementById('ai-status-label').textContent = 'Generating reply…';
+  _aiReply = '';
+
+  showScreen('detail-screen');
+  // Auto-generate reply
+  await generateAIReply(mail, '');
+}
+
+// ── AI Reply ──
+async function generateAIReply(mail, guidance) {
+  const box  = document.getElementById('ai-reply-box');
+  const lbl  = document.getElementById('ai-status-label');
+  box.classList.add('generating');
+  box.textContent = 'Analysing mail and drafting reply…';
+  lbl.textContent = 'Generating…';
+  _aiReply = '';
+
+  // Get AI agent from parent window (CodX)
+  const parentCallAgent = _getParentAgent();
+  if (!parentCallAgent) {
+    box.classList.remove('generating');
+    box.textContent = 'No AI agent connected. Please connect an AI agent in CodX first.';
+    lbl.textContent = 'Agent not found';
+    return;
+  }
+
+  const fromName = mail.from.replace(/<.*>/, '').replace(/"/g,'').trim();
+  const system = `You are an expert email assistant. Draft a professional, warm, and concise reply to the email below. 
+Write ONLY the reply body — no subject line, no "Here is a reply:" preamble. 
+Start directly with the salutation. Keep it natural and human.
+${guidance ? `\nUser guidance: ${guidance}` : ''}`;
+
+  const userMsg = `FROM: ${mail.from}
+SUBJECT: ${mail.subject}
+BODY:
+${mail.body}`;
+
+  try {
+    const reply = await parentCallAgent(system, userMsg);
+    _aiReply = reply;
+    box.classList.remove('generating');
+    box.textContent = reply;
+    lbl.textContent = 'Reply ready — edit if needed';
+  } catch(e) {
+    box.classList.remove('generating');
+    box.textContent = 'Could not generate reply: ' + (e.message || 'AI error');
+    lbl.textContent = 'Error';
+  }
+}
+
+async function regenerateReply() {
+  if (!_currentMail) return;
+  const guidance = document.getElementById('ai-guide-input').value.trim();
+  await generateAIReply(_currentMail, guidance);
+}
+
+// ── Get parent window AI agent caller ──
+function _getParentAgent() {
+  try {
+    // CodX exposes _callAgentAPI on window — if opened as popup/iframe
+    if (window.opener && typeof window.opener._callAgentAPI === 'function')
+      return window.opener._callAgentAPI.bind(window.opener);
+    if (window.parent !== window && typeof window.parent._callAgentAPI === 'function')
+      return window.parent._callAgentAPI.bind(window.parent);
+    // Fallback: standalone mode — try window itself (won't work but graceful fail)
+    if (typeof window._callAgentAPI === 'function') return window._callAgentAPI;
+    return null;
+  } catch(e) { return null; }
+}
+
+// ── Copy reply ──
+function copyReply() {
+  const text = document.getElementById('ai-reply-box').textContent;
+  if (!text || !_aiReply) { toast('Nothing to copy', 'error_outline'); return; }
+  navigator.clipboard.writeText(text).then(() => toast('Copied!', 'content_copy'));
+}
+
+// ── Send reply ──
+async function sendReply() {
+  const btn  = document.getElementById('btn-send-reply');
+  const to   = document.getElementById('reply-to').value.trim();
+  const body = document.getElementById('ai-reply-box').textContent.trim();
+  if (!to)   { toast('No recipient email', 'error_outline'); return; }
+  if (!body) { toast('Reply is empty', 'error_outline'); return; }
+
+  btn.classList.add('loading');
+  const ov = document.getElementById('send-overlay');
+  const om = document.getElementById('send-overlay-msg');
+  ov.classList.add('active');
+  om.textContent = 'Sending to ' + to + '…';
+
+  try {
+    await _sendMail({ to, subject: 'Re: ' + _currentMail.subject, body });
+    ov.classList.remove('active');
+    toast('Sent to ' + to, 'send');
+    showScreen('inbox-screen');
+  } catch(e) {
+    ov.classList.remove('active');
+    toast('Send failed: ' + (e.message || 'Error'), 'error_outline');
+  }
+  btn.classList.remove('loading');
+}
+
+// ── Send mail (backend / mailto fallback) ──
+async function _sendMail({ to, subject, body }) {
+  // Replace with your backend:
+  // const res = await fetch('https://YOUR_BACKEND/api/send', {
+  //   method: 'POST',
+  //   headers: {'Content-Type':'application/json'},
+  //   body: JSON.stringify({ email: _email, pass: _pass, to, subject, body })
+  // });
+  // if (!res.ok) throw new Error((await res.json()).error || 'Send failed');
+
+  // Fallback: open mailto (opens native mail app — works without backend)
+  await new Promise(r => setTimeout(r, 900)); // simulate
+  const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.open(mailto, '_blank');
+}
+
+// ── Logout ──
+function doLogout() {
+  _email = ''; _pass = ''; _mails = []; _currentMail = null; _aiReply = '';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-err').textContent = '';
+  showScreen('login-screen');
+  toast('Logged out', 'logout');
+}
+
+// ── Escape HTML ──
+function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Init ──
+// If already have credentials (re-open), go straight to inbox
+if (window.opener && window.opener._aiMailCredentials) {
+  const c = window.opener._aiMailCredentials;
+  _email = c.email; _pass = c.pass;
+  document.getElementById('account-label').textContent = _email.length > 18 ? _email.slice(0,16)+'…' : _email;
+  _fetchInbox(_email, _pass).then(() => { showScreen('inbox-screen'); renderInbox(); });
+}
+</script>
+</body>
+</html>
