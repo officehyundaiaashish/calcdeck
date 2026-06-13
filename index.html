@@ -1126,23 +1126,47 @@ function showTooltip(icon) {
     if (!srcBox) return;
 
     const box = srcBox.cloneNode(true);
-    // Sync current theme onto cloned box
     if (document.body.classList.contains('light-mode')) box.classList.add('light-mode');
+
+    // Append off-screen first so we can measure real dimensions
+    box.style.visibility = 'hidden';
+    box.style.opacity = '0';
+    box.style.top = '0px';
+    box.style.left = '0px';
     tooltipPortal.appendChild(box);
     _activeTooltipBox = box;
 
-    const rect = icon.getBoundingClientRect();
-    const vw = window.innerWidth;
-    let left = rect.left + rect.width / 2 - 20;
-    const boxW = 230;
-    if (left + boxW > vw - 8) left = vw - boxW - 8;
-    if (left < 8) left = 8;
-
-    box.style.top = (rect.bottom + window.scrollY + 10) + 'px';
-    box.style.left = left + 'px';
-
+    // Measure after paint
     requestAnimationFrame(() => {
-        requestAnimationFrame(() => { box.classList.add('visible'); });
+        const iconRect = icon.getBoundingClientRect();
+        const boxW = box.offsetWidth;
+        const boxH = box.offsetHeight;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const gap = 10;
+
+        // Horizontal: center on icon, clamp inside viewport with 8px padding
+        let left = iconRect.left + iconRect.width / 2 - boxW / 2;
+        if (left + boxW > vw - 8) left = vw - boxW - 8;
+        if (left < 8) left = 8;
+
+        // Vertical: prefer below icon, flip above if not enough room
+        let top;
+        const belowFits = iconRect.bottom + gap + boxH <= vh - 8;
+        if (belowFits) {
+            top = iconRect.bottom + window.scrollY + gap;
+        } else {
+            top = iconRect.top + window.scrollY - gap - boxH;
+        }
+
+        box.style.top = top + 'px';
+        box.style.left = left + 'px';
+
+        requestAnimationFrame(() => {
+            box.style.visibility = '';
+            box.style.opacity = '';
+            box.classList.add('visible');
+        });
     });
 }
 
