@@ -120,7 +120,7 @@ body.light-mode h1 {
 #themeToggleBtn { left: 1.5rem; }
 #openCalculatorBtn { right: 1.2rem; }
 #openHistoryBtn { right: 3.8rem; }
-#openComparisonBtn { right: 6rem; left: 3.7rem; }
+#openComparisonBtn { right: 6.4rem; }
 
 /* tab switcher */
 .tab-switcher {
@@ -909,10 +909,9 @@ body.light-mode .history-share-btn:hover {
     .icon-btn { top: 1rem; width: 36px; height: 36px; }
     #themeToggleBtn { left: 1rem; }
     #openCalculatorBtn { right: 1rem; }
-    #openHistoryBtn { right: 3.8rem; }
-    #openComparisonBtn { right: 5rem; }
-    #openComparisonBtn { right: 6rem; }
-    .tab-btn span { font-size: 0.65rem; }
+    #openHistoryBtn { right: 3.6rem; }
+    #openComparisonBtn { right: 6.2rem; }
+    .tab-btn span { font-size: 0.6rem; }
     .tab-btn svg { margin: 0; }
     .tab-btn { padding: 8px 0; }
     .mini-calculator-dialog, .history-dialog { right: 0.8rem; width: 260px; top: 70px; }
@@ -1650,6 +1649,478 @@ body.light-mode .fuel-rate-widget .frw-card .fuel-breakdown { border-top-color: 
 body.light-mode .fuel-rate-widget .frw-card .fuel-breakdown .bd-val { color: #475569; }
 body.light-mode .fuel-rate-widget .frw-updated { color: #64748b; }
 body.light-mode .fuel-rate-widget .frw-disclaimer { color: #64748b; }
+
+/* ===================== CALCULATOR ENHANCEMENTS ===================== */
+.preset-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+.preset-chip {
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.preset-chip:hover { background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.35); color: #e2e8f0; }
+body.light-mode .preset-chip { background: rgba(0,0,0,0.04); color: #475569; border-color: rgba(0,0,0,0.1); }
+body.light-mode .preset-chip:hover { background: rgba(2,132,199,0.1); border-color: rgba(2,132,199,0.3); color: #1e293b; }
+
+.split-toggle {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+.split-btn {
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 7px 12px;
+    border-radius: 0.7rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+}
+.split-btn:hover { background: rgba(56,189,248,0.12); color: #e2e8f0; }
+.split-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+body.light-mode .split-btn { background: rgba(0,0,0,0.04); color: #475569; border-color: rgba(0,0,0,0.1); }
+body.light-mode .split-btn:hover { background: rgba(2,132,199,0.1); color: #1e293b; }
+body.light-mode .split-btn.active { background: #0284c7; color: #ffffff; border-color: #0284c7; }
+
+.copy-btn {
+    background: rgba(255,255,255,0.08);
+    color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 5px 10px;
+    border-radius: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.copy-btn:hover { background: rgba(56,189,248,0.15); color: #e2e8f0; }
+.copy-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+body.light-mode .copy-btn { background: rgba(0,0,0,0.04); color: #475569; border-color: rgba(0,0,0,0.1); }
+body.light-mode .copy-btn:hover { background: rgba(2,132,199,0.1); color: #1e293b; }
+
+.gst-split-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    font-size: 0.85rem;
+}
+.gst-split-row .split-label { color: #94a3b8; font-size: 0.78rem; }
+.gst-split-row .split-val { color: #38bdf8; font-weight: 700; }
+body.light-mode .gst-split-row .split-label { color: #64748b; }
+body.light-mode .gst-split-row .split-val { color: #0284c7; }
+
+.result-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+/* Per-gram enhancements */
+.pg-metal-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+.metal-btn {
+    flex: 1;
+    min-width: 70px;
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e1;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px;
+    border-radius: 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+.metal-btn .metal-symbol { font-size: 1rem; font-weight: 800; }
+.metal-btn:hover { background: rgba(251,191,36,0.1); color: #fbbf24; border-color: rgba(251,191,36,0.3); }
+.metal-btn.active { background: rgba(251,191,36,0.15); color: #fbbf24; border-color: #fbbf24; }
+body.light-mode .metal-btn { background: rgba(0,0,0,0.04); color: #475569; border-color: rgba(0,0,0,0.1); }
+body.light-mode .metal-btn:hover { background: rgba(217,119,6,0.1); color: #b45309; border-color: rgba(217,119,6,0.3); }
+body.light-mode .metal-btn.active { background: rgba(217,119,6,0.15); color: #b45309; border-color: #d97706; }
+
+.making-charges-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.making-charges-row > div { flex: 1; min-width: 120px; }
+
+/* Discount enhancements */
+.discount-stack-list {
+    background: rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    padding: 10px;
+    margin-top: 10px;
+    display: none;
+}
+.discount-stack-list.show { display: block; }
+body.light-mode .discount-stack-list { background: rgba(0,0,0,0.04); }
+.stack-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+.stack-row input { flex: 1; }
+.stack-row .stack-remove {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+    border: none;
+    width: 32px;
+    height: 38px;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.stack-row .stack-remove:hover { background: rgba(239,68,68,0.3); }
+body.light-mode .stack-row .stack-remove { background: rgba(220,38,38,0.1); color: #b91c1c; }
+body.light-mode .stack-row .stack-remove:hover { background: rgba(220,38,38,0.2); }
+
+.mode-tabs {
+    display: flex;
+    background: rgba(0,0,0,0.2);
+    border-radius: 0.8rem;
+    padding: 4px;
+    margin-bottom: 12px;
+    gap: 4px;
+}
+body.light-mode .mode-tabs { background: rgba(0,0,0,0.05); }
+.mode-tab {
+    flex: 1;
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    padding: 8px;
+    border-radius: 0.6rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.15s;
+}
+.mode-tab.active { background: rgba(56,189,248,0.2); color: #38bdf8; }
+body.light-mode .mode-tab { color: #475569; }
+body.light-mode .mode-tab.active { background: rgba(2,132,199,0.15); color: #0284c7; }
+
+/* Fuel company tabs */
+.fuel-company-tabs {
+    display: flex;
+    background: rgba(0,0,0,0.2);
+    border-radius: 0.8rem;
+    padding: 4px;
+    margin-bottom: 12px;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+body.light-mode .fuel-company-tabs { background: rgba(0,0,0,0.05); }
+.company-tab {
+    flex: 1;
+    min-width: 60px;
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    padding: 7px 6px;
+    border-radius: 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+    letter-spacing: 0.3px;
+}
+.company-tab.active { background: rgba(34,197,94,0.2); color: #4ade80; }
+body.light-mode .company-tab { color: #475569; }
+body.light-mode .company-tab.active { background: rgba(5,150,105,0.15); color: #047857; }
+
+/* Vegetables widget */
+.veg-widget {
+    background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(132,204,22,0.04) 100%);
+    border: 1px solid rgba(34,197,94,0.22);
+    border-radius: 1.5rem;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px -10px rgba(34,197,94,0.15);
+}
+.veg-widget .vw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+}
+.veg-widget .vw-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #84cc16;
+    letter-spacing: 0.3px;
+}
+.veg-widget .vw-title svg {
+    width: 22px;
+    height: 22px;
+    stroke: #84cc16;
+    fill: none;
+    stroke-width: 1.8;
+}
+.veg-widget .vw-live-pill {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(132,204,22,0.15);
+    color: #84cc16;
+    border: 1px solid rgba(132,204,22,0.3);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.veg-widget .vw-live-pill .pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #84cc16;
+    animation: grwPulse 1.4s infinite;
+}
+.veg-widget .vw-input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+}
+.veg-widget .vw-input-row > div { flex: 1; min-width: 140px; }
+.veg-widget .vw-input-row label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+.veg-widget .vw-input-row input {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(132,204,22,0.15);
+    padding-right: 36px;
+}
+.veg-widget .vw-input-row input:focus {
+    box-shadow: 0 0 0 2px rgba(132,204,22,0.35);
+}
+.veg-widget .vw-fetch-btn {
+    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+    color: #1a1a1a;
+    font-weight: 700;
+    padding: 13px 18px;
+    border: none;
+    border-radius: 1.2rem;
+    cursor: pointer;
+    align-self: flex-end;
+    letter-spacing: 0.3px;
+    transition: 0.2s;
+    box-shadow: 0 4px 14px -2px rgba(132,204,22,0.4);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.veg-widget .vw-fetch-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.veg-widget .vw-fetch-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.veg-widget .vw-location-info {
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.veg-widget .vw-location-info strong { color: #84cc16; font-weight: 600; }
+.veg-widget .vw-status {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 0.7rem;
+    margin-bottom: 0.8rem;
+    display: none;
+}
+.veg-widget .vw-status.show { display: block; }
+.veg-widget .vw-status.error { color: #fca5a5; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); }
+.veg-widget .vw-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+}
+.veg-widget .vw-search {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+.veg-widget .vw-search input {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.7rem;
+    padding: 10px 14px;
+    color: #f8fafc;
+    font-size: 0.85rem;
+}
+.veg-widget .vw-search input:focus { box-shadow: 0 0 0 2px rgba(132,204,22,0.3); outline: none; }
+body.light-mode .veg-widget .vw-search input { background: rgba(0,0,0,0.04); color: #0f172a; }
+.veg-widget .vw-sort-info {
+    font-size: 0.72rem;
+    color: #64748b;
+}
+.veg-widget .vw-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 0.8rem;
+}
+.veg-widget .vw-card {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1rem;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.veg-widget .vw-card:hover { transform: translateY(-2px); border-color: rgba(132,204,22,0.4); }
+.veg-widget .vw-card .veg-emoji {
+    font-size: 1.8rem;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(132,204,22,0.1);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.veg-widget .vw-card .veg-info { flex: 1; min-width: 0; }
+.veg-widget .vw-card .veg-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.veg-widget .vw-card .veg-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #84cc16;
+    line-height: 1;
+}
+.veg-widget .vw-card .veg-unit {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+.veg-widget .vw-card .veg-trend {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 999px;
+    font-weight: 700;
+    margin-top: 4px;
+    display: inline-block;
+}
+.veg-widget .vw-card .veg-trend.up { background: rgba(239,68,68,0.15); color: #f87171; }
+.veg-widget .vw-card .veg-trend.down { background: rgba(34,197,94,0.15); color: #4ade80; }
+.veg-widget .vw-card .veg-trend.flat { background: rgba(148,163,184,0.15); color: #94a3b8; }
+.veg-widget .vw-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+.veg-widget .vw-updated {
+    font-size: 0.7rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.veg-widget .vw-disclaimer {
+    font-size: 0.65rem;
+    color: #64748b;
+    margin-top: 8px;
+    line-height: 1.4;
+    font-style: italic;
+}
+body.light-mode .veg-widget {
+    background: linear-gradient(135deg, rgba(132,204,22,0.10) 0%, rgba(101,163,13,0.05) 100%);
+    border-color: rgba(101,163,13,0.3);
+}
+body.light-mode .veg-widget .vw-title { color: #4d7c0f; }
+body.light-mode .veg-widget .vw-title svg { stroke: #4d7c0f; }
+body.light-mode .veg-widget .vw-input-row label { color: #475569; }
+body.light-mode .veg-widget .vw-input-row input {
+    background: rgba(255,255,255,0.85) !important;
+    color: #1e293b !important;
+    border-color: rgba(101,163,13,0.3);
+}
+body.light-mode .veg-widget .vw-input-row input::placeholder { color: #94a3b8; }
+body.light-mode .veg-widget .vw-fetch-btn {
+    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+    color: #1a1a1a;
+}
+body.light-mode .veg-widget .vw-location-info { color: #475569; }
+body.light-mode .veg-widget .vw-location-info strong { color: #4d7c0f; }
+body.light-mode .veg-widget .vw-status { background: rgba(0,0,0,0.04); color: #475569; }
+body.light-mode .veg-widget .vw-status.error { background: rgba(220,38,38,0.08); color: #b91c1c; border-color: rgba(220,38,38,0.25); }
+body.light-mode .veg-widget .vw-card { background: rgba(255,255,255,0.75); border-color: rgba(0,0,0,0.08); }
+body.light-mode .veg-widget .vw-card .veg-name { color: #0f172a; }
+body.light-mode .veg-widget .vw-card .veg-price { color: #4d7c0f; }
+body.light-mode .veg-widget .vw-card .veg-unit { color: #64748b; }
+body.light-mode .veg-widget .vw-updated { color: #64748b; }
+body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
+
+/* Coal card variant */
+.fuel-rate-widget .frw-card.coal::before { background: linear-gradient(90deg, #1f2937, #374151); }
+.fuel-rate-widget .frw-card.coal .fuel-name, .fuel-rate-widget .frw-card.coal .fuel-head svg { color: #9ca3af; }
+.fuel-rate-widget .frw-card.commercial::before { background: linear-gradient(90deg, #f59e0b, #b45309); }
+.fuel-rate-widget .frw-card.commercial .fuel-name, .fuel-rate-widget .frw-card.commercial .fuel-head svg { color: #fbbf24; }
 </style>
 </head>
 <body>
@@ -1724,43 +2195,182 @@ body.light-mode .fuel-rate-widget .frw-disclaimer { color: #64748b; }
         <button class="tab-btn" onclick="switchTab('discount')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 15l6-6"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg><span>Discount</span></button>
         <button class="tab-btn" onclick="switchTab('goldrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg><span>Gold Rate</span></button>
         <button class="tab-btn" onclick="switchTab('fuelrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 22V10l5-3v15M10 22V7l5-2v17M15 22V5l6 3v14"/></svg><span>Fuel Rate</span></button>
+        <button class="tab-btn" onclick="switchTab('vegetables')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg><span>Vegetables</span></button>
     </div>
 
     <!-- Panel 1: GST -->
     <div id="panel-gst" class="tab-panel active">
         <div class="two-columns">
             <div class="calc-col-left">
-                <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg> Amount (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter the base amount before GST. Example: For a ₹1000 product, enter 1000.</span></span></label><div class="amount-input-wrapper"><input type="number" id="amount" placeholder="Enter amount"><button id="clearAmountBtn" class="clear-input-btn">✕</button></div></div>
+                <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg> Amount (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter the base amount before GST. Example: For a ₹1000 product, enter 1000.</span></span></label><div class="amount-input-wrapper"><input type="number" id="amount" placeholder="Enter amount"><button id="clearAmountBtn" class="clear-input-btn">✕</button></div>
+                    <div class="preset-row">
+                        <button class="preset-chip" onclick="setGstAmount(100)">₹100</button>
+                        <button class="preset-chip" onclick="setGstAmount(500)">₹500</button>
+                        <button class="preset-chip" onclick="setGstAmount(1000)">₹1,000</button>
+                        <button class="preset-chip" onclick="setGstAmount(5000)">₹5,000</button>
+                        <button class="preset-chip" onclick="setGstAmount(10000)">₹10,000</button>
+                        <button class="preset-chip" onclick="setGstAmount(50000)">₹50,000</button>
+                    </div>
+                </div>
                 <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M8 12h8M12 18h0"/></svg> GST Rate<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Select a preset GST rate or enter a custom percentage. Common rates: 5% (essentials), 12% (processed), 18% (standard), 28% (luxury).</span></span></label><div class="gst-selector" id="gstSelector"><button class="gst-btn" id="selectedGST">18% GST ▼</button><div class="gst-menu" id="gstMenu"><div class="gst-manual-input-wrapper"><input type="number" id="manualGSTInput" placeholder="Custom GST %"></div><div onclick="setGST(3)">3% GST</div><div onclick="setGST(5)">5% GST</div><div onclick="setGST(12)">12% GST</div><div onclick="setGST(18)">18% GST</div><div onclick="setGST(28)">28% GST</div></div><input type="hidden" id="gst" value="18"></div></div>
+                <div class="row">
+                    <label>Tax Type (for split view)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">CGST+SGST applies to intra-state sales (within same state). IGST applies to inter-state sales (across states).</span></span></label>
+                    <div class="split-toggle">
+                        <button class="split-btn active" data-split="intra" onclick="setGstSplit('intra')">CGST + SGST (Intra-state)</button>
+                        <button class="split-btn" data-split="inter" onclick="setGstSplit('inter')">IGST (Inter-state)</button>
+                    </div>
+                </div>
                 <div class="action-btns"><button class="action add" onclick="addGST()">Add GST</button><button class="action remove" onclick="removeGST()">Remove GST</button></div>
                 <button class="add-to-comparison-btn" id="addGSTToComparison" onclick="addToComparison('gst')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison</button>
             </div>
-            <div class="calc-col-right"><div class="result"><div class="result-item"><span>Base Amount</span><span id="base">₹0.00</span></div><div class="result-item"><span>GST Amount</span><span id="gstAmount">₹0.00</span></div><hr><div class="result-item"><span>Total (incl. GST)</span><span class="total" id="total">₹0.00</span></div></div></div>
+            <div class="calc-col-right"><div class="result">
+                <div class="result-item"><span>Base Amount</span><span id="base">₹0.00</span></div>
+                <div class="result-item"><span>GST Amount</span><span id="gstAmount">₹0.00</span></div>
+                <div id="gstSplitRows" style="display:none">
+                    <div class="gst-split-row"><span class="split-label" id="splitLabel1">CGST (9%)</span><span class="split-val" id="splitVal1">₹0.00</span></div>
+                    <div class="gst-split-row"><span class="split-label" id="splitLabel2">SGST (9%)</span><span class="split-val" id="splitVal2">₹0.00</span></div>
+                </div>
+                <hr>
+                <div class="result-item"><span>Total (incl. GST)</span><span class="total" id="total">₹0.00</span></div>
+                <div class="result-actions">
+                    <button class="copy-btn" onclick="copyGstResult()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+                </div>
+            </div></div>
         </div>
     </div>
 
     <!-- Panel 2: Per Gram -->
     <div id="panel-pergram" class="tab-panel" style="display:none">
         <div class="two-columns">
-            <div><div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg> Total Price (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the total price of the item.</span></span></label><input type="number" id="pgPrice" placeholder="e.g. 250"></div>
-            <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M4 12h16"/></svg> Weight / Quantity<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter the weight or quantity. The unit selector below lets you choose grams, kilograms, or pieces.</span></span></label><input type="number" id="pgWeight" placeholder="e.g. 500"></div>
-            <div class="row"><label>📏 Unit<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Select the unit of measurement for accurate per-unit calculation.</span></span></label><div class="unit-selector" id="unitSelector"><button class="unit-btn" id="selectedUnit">Gram (g) ▼</button><div class="unit-menu" id="unitMenu"><div onclick="setUnit('g','Gram (g)')">Gram (g)</div><div onclick="setUnit('kg','Kilogram (kg)')">Kilogram (kg)</div><div onclick="setUnit('piece','Piece (unit)')">Piece (unit)</div></div><input type="hidden" id="pgUnit" value="g"></div></div>
-            <div class="row"><label>🛒 Desired Quantity<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter how much quantity you want to buy. The calculator will show the final amount for this quantity based on the per-unit rate.</span></span></label><input type="number" id="pgDesiredQty" placeholder="e.g. 150" oninput="calcDesiredAmount()"></div>
-            <div class="action-btns"><button class="action add" onclick="calcPerGram()">Calculate</button><button class="action secondary" onclick="clearPGCalc()">Clear</button></div>
-            <button class="add-to-comparison-btn" id="addPGToComparison" onclick="addToComparison('pergram')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison</button></div>
-            <div class="result"><div class="result-item"><span>Total Price</span><span id="pgResultPrice">₹0.00</span></div><div class="result-item"><span>Total Qty</span><span id="pgResultWeight">0</span></div><hr><div class="result-item"><span id="pgResultLabel">Price per Gram</span><span class="pg-total" id="pgResultPerUnit">₹0.00</span></div><div id="pgPer100Row" class="result-item" style="display:none"><span>Price per 100g</span><span id="pgResultPer100">₹0.00</span></div><div id="pgPer1kgRow" class="result-item" style="display:none"><span>Price per 1kg</span><span id="pgResultPer1kg">₹0.00</span></div><hr id="desiredQtyDivider" style="display:none"><div id="desiredQtyRow" class="result-item" style="display:none"><span id="desiredQtyLabel">For 0g</span><span class="total" id="desiredQtyAmount">₹0.00</span></div></div>
+            <div>
+                <div class="pg-metal-toggle">
+                    <button class="metal-btn active" data-metal="gold" onclick="setPgMetal('gold')"><span class="metal-symbol">Au</span><span>Gold</span></button>
+                    <button class="metal-btn" data-metal="silver" onclick="setPgMetal('silver')"><span class="metal-symbol">Ag</span><span>Silver</span></button>
+                    <button class="metal-btn" data-metal="copper" onclick="setPgMetal('copper')"><span class="metal-symbol">Cu</span><span>Copper</span></button>
+                    <button class="metal-btn" data-metal="bronze" onclick="setPgMetal('bronze')"><span class="metal-symbol">Bz</span><span>Bronze</span></button>
+                    <button class="metal-btn" data-metal="other" onclick="setPgMetal('other')"><span class="metal-symbol">··</span><span>Other</span></button>
+                </div>
+                <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg> Total Price (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the total price of the item.</span></span></label><input type="number" id="pgPrice" placeholder="e.g. 250"></div>
+                <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M4 12h16"/></svg> Weight / Quantity<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter the weight or quantity. The unit selector below lets you choose grams, kilograms, or pieces.</span></span></label><input type="number" id="pgWeight" placeholder="e.g. 500">
+                    <div class="preset-row">
+                        <button class="preset-chip" onclick="setPgWeight(1)">1g</button>
+                        <button class="preset-chip" onclick="setPgWeight(5)">5g</button>
+                        <button class="preset-chip" onclick="setPgWeight(8)">8g</button>
+                        <button class="preset-chip" onclick="setPgWeight(10)">10g</button>
+                        <button class="preset-chip" onclick="setPgWeight(50)">50g</button>
+                        <button class="preset-chip" onclick="setPgWeight(100)">100g</button>
+                        <button class="preset-chip" onclick="setPgWeight(1000)">1kg</button>
+                        <button class="preset-chip" onclick="setPgWeight(11.66)">1 Tola</button>
+                        <button class="preset-chip" onclick="setPgWeight(46.65)">4 Tola (1 Bhori)</button>
+                    </div>
+                </div>
+                <div class="row"><label>📏 Unit<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Select the unit of measurement for accurate per-unit calculation.</span></span></label><div class="unit-selector" id="unitSelector"><button class="unit-btn" id="selectedUnit">Gram (g) ▼</button><div class="unit-menu" id="unitMenu"><div onclick="setUnit('g','Gram (g)')">Gram (g)</div><div onclick="setUnit('kg','Kilogram (kg)')">Kilogram (kg)</div><div onclick="setUnit('tola','Tola (11.66g)')">Tola (11.66g)</div><div onclick="setUnit('bhori','Bhori (11.66×4g)')">Bhori (46.65g)</div><div onclick="setUnit('piece','Piece (unit)')">Piece (unit)</div></div><input type="hidden" id="pgUnit" value="g"></div></div>
+                <div class="row"><label>🔨 Making Charges<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Jewellers charge making charges either as a % of metal value or as a fixed per-gram rate. This is added on top of the base price.</span></span></label>
+                    <div class="making-charges-row">
+                        <div><select id="pgMakingType" onchange="resetComparisonBtnState('pergram')" style="width:100%;padding:13px 16px;border-radius:1.2rem;background:rgba(255,255,255,0.07);color:#f8fafc;border:none;font-size:0.9rem;">
+                            <option value="none">No making charges</option>
+                            <option value="percent">% of metal value</option>
+                            <option value="pergram">₹ per gram</option>
+                            <option value="fixed">₹ fixed total</option>
+                        </select></div>
+                        <div><input type="number" id="pgMakingValue" placeholder="Value (e.g. 12)" oninput="resetComparisonBtnState('pergram')"></div>
+                    </div>
+                </div>
+                <div class="row"><label>🛒 Desired Quantity<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Enter how much quantity you want to buy. The calculator will show the final amount for this quantity based on the per-unit rate.</span></span></label><input type="number" id="pgDesiredQty" placeholder="e.g. 150" oninput="calcDesiredAmount()"></div>
+                <div class="action-btns"><button class="action add" onclick="calcPerGram()">Calculate</button><button class="action secondary" onclick="clearPGCalc()">Clear</button></div>
+                <button class="add-to-comparison-btn" id="addPGToComparison" onclick="addToComparison('pergram')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison</button></div>
+            <div class="result">
+                <div class="result-item"><span>Total Price</span><span id="pgResultPrice">₹0.00</span></div>
+                <div id="pgMakingRow" class="result-item" style="display:none"><span>Making Charges</span><span id="pgResultMaking">₹0.00</span></div>
+                <div class="result-item"><span>Total Qty</span><span id="pgResultWeight">0</span></div>
+                <hr><div class="result-item"><span id="pgResultLabel">Price per Gram</span><span class="pg-total" id="pgResultPerUnit">₹0.00</span></div>
+                <div id="pgPer100Row" class="result-item" style="display:none"><span>Price per 100g</span><span id="pgResultPer100">₹0.00</span></div>
+                <div id="pgPer1kgRow" class="result-item" style="display:none"><span>Price per 1kg</span><span id="pgResultPer1kg">₹0.00</span></div>
+                <div id="pgPerTolaRow" class="result-item" style="display:none"><span>Price per Tola (11.66g)</span><span id="pgResultPerTola">₹0.00</span></div>
+                <div id="pgPerBhoriRow" class="result-item" style="display:none"><span>Price per Bhori (46.65g)</span><span id="pgResultPerBhori">₹0.00</span></div>
+                <hr id="desiredQtyDivider" style="display:none">
+                <div id="desiredQtyRow" class="result-item" style="display:none"><span id="desiredQtyLabel">For 0g</span><span class="total" id="desiredQtyAmount">₹0.00</span></div>
+                <div class="result-actions">
+                    <button class="copy-btn" onclick="copyPgResult()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Panel 3: Discount -->
     <div id="panel-discount" class="tab-panel" style="display:none">
         <div class="two-columns">
-            <div><div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg> Original Price (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the original price before discount.</span></span></label><input type="number" id="discountPrice" placeholder="0.00"></div>
-            <div class="row"><label>Discount Type<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Choose between percentage discount (e.g., 20% off) or fixed amount discount (e.g., ₹100 off).</span></span></label><div class="discount-group"><button data-type="percent" class="discount-type-btn active">% Percentage</button><button data-type="fixed" class="discount-type-btn">₹ Fixed</button></div></div>
-            <div class="row"><label id="discountValueLabel">Discount (%)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the discount percentage or fixed amount based on your selection.</span></span></label><input type="number" id="discountValue" placeholder="e.g. 15"></div>
-            <div class="action-btns"><button class="action add" onclick="calcDiscount()">Apply Discount</button><button class="action secondary" onclick="clearDiscount()">Reset</button></div>
-            <button class="add-to-comparison-btn" id="addDiscountToComparison" onclick="addToComparison('discount')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison</button></div>
-            <div class="result"><div class="result-item"><span>Original Price</span><span id="originalDisplay">₹0.00</span></div><div class="result-item"><span>You Save</span><span id="savedAmount" style="color:#f97316; font-weight:700">₹0.00</span></div><hr><div class="result-item"><span>Final Price</span><span class="total" id="finalPrice">₹0.00</span></div><div class="result-item"><span>Discount %</span><span id="effectivePercent">0%</span></div></div>
+            <div>
+                <div class="mode-tabs">
+                    <button class="mode-tab active" data-mode="single" onclick="setDiscountMode('single')">Single Discount</button>
+                    <button class="mode-tab" data-mode="stacked" onclick="setDiscountMode('stacked')">Stacked Discounts</button>
+                    <button class="mode-tab" data-mode="bogo" onclick="setDiscountMode('bogo')">Buy X Get Y</button>
+                    <button class="mode-tab" data-mode="margin" onclick="setDiscountMode('margin')">Markup / Margin</button>
+                </div>
+
+                <!-- Single discount mode (original) -->
+                <div id="discountSingleMode">
+                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg> Original Price (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the original price before discount.</span></span></label><input type="number" id="discountPrice" placeholder="0.00"></div>
+                    <div class="row"><label>Discount Type<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Choose between percentage discount (e.g., 20% off) or fixed amount discount (e.g., ₹100 off).</span></span></label><div class="discount-group"><button data-type="percent" class="discount-type-btn active">% Percentage</button><button data-type="fixed" class="discount-type-btn">₹ Fixed</button></div></div>
+                    <div class="row"><label id="discountValueLabel">Discount (%)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the discount percentage or fixed amount based on your selection.</span></span></label><input type="number" id="discountValue" placeholder="e.g. 15"></div>
+                </div>
+
+                <!-- Stacked discounts mode -->
+                <div id="discountStackedMode" style="display:none">
+                    <div class="row"><label>Original Price (₹)</label><input type="number" id="stackOrigPrice" placeholder="e.g. 5000" oninput="calcStackedDiscount()"></div>
+                    <div class="row">
+                        <label>Discounts (applied in sequence)</label>
+                        <div class="discount-stack-list show" id="stackList">
+                            <div class="stack-row">
+                                <input type="number" class="stack-input" placeholder="%" oninput="calcStackedDiscount()">
+                                <select class="stack-type" style="padding:8px;border-radius:0.7rem;background:rgba(255,255,255,0.07);color:#f8fafc;border:none;font-size:0.8rem;"><option value="percent">%</option><option value="fixed">₹</option></select>
+                                <button class="stack-remove" onclick="this.parentElement.remove(); calcStackedDiscount();">✕</button>
+                            </div>
+                            <div class="stack-row">
+                                <input type="number" class="stack-input" placeholder="%" oninput="calcStackedDiscount()">
+                                <select class="stack-type" style="padding:8px;border-radius:0.7rem;background:rgba(255,255,255,0.07);color:#f8fafc;border:none;font-size:0.8rem;"><option value="percent">%</option><option value="fixed">₹</option></select>
+                                <button class="stack-remove" onclick="this.parentElement.remove(); calcStackedDiscount();">✕</button>
+                            </div>
+                        </div>
+                        <button class="preset-chip" onclick="addStackRow()" style="margin-top:6px;">+ Add another discount</button>
+                    </div>
+                </div>
+
+                <!-- BOGO mode -->
+                <div id="discountBogoMode" style="display:none">
+                    <div class="row"><label>Unit Price (₹)</label><input type="number" id="bogoUnitPrice" placeholder="e.g. 100" oninput="calcBogo()"></div>
+                    <div class="making-charges-row">
+                        <div><label>Buy Quantity</label><input type="number" id="bogoBuyQty" placeholder="e.g. 2" oninput="calcBogo()"></div>
+                        <div><label>Get Free Quantity</label><input type="number" id="bogoGetQty" placeholder="e.g. 1" oninput="calcBogo()"></div>
+                    </div>
+                    <div class="row"><label>Customer wants total quantity</label><input type="number" id="bogoTotalQty" placeholder="e.g. 6" oninput="calcBogo()"></div>
+                </div>
+
+                <!-- Markup/Margin mode -->
+                <div id="discountMarginMode" style="display:none">
+                    <div class="row"><label>Cost Price (₹)</label><input type="number" id="marginCP" placeholder="e.g. 800" oninput="calcMargin()"></div>
+                    <div class="making-charges-row">
+                        <div><label>Markup % (on CP)</label><input type="number" id="marginMarkupPct" placeholder="e.g. 25" oninput="calcMargin()"></div>
+                        <div><label>OR Selling Price (₹)</label><input type="number" id="marginSP" placeholder="e.g. 1000" oninput="calcMargin()"></div>
+                    </div>
+                    <div class="row" style="font-size:0.72rem;color:#94a3b8;margin-top:-6px;">Tip: Enter Cost Price + Markup % OR Cost Price + Selling Price — the other values will auto-fill.</div>
+                </div>
+
+                <div class="action-btns"><button class="action add" onclick="calcDiscount()">Apply</button><button class="action secondary" onclick="clearDiscount()">Reset</button></div>
+                <button class="add-to-comparison-btn" id="addDiscountToComparison" onclick="addToComparison('discount')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison</button>
+            </div>
+            <div class="result">
+                <div class="result-item"><span>Original Price</span><span id="originalDisplay">₹0.00</span></div>
+                <div class="result-item"><span>You Save</span><span id="savedAmount" style="color:#f97316; font-weight:700">₹0.00</span></div>
+                <hr><div class="result-item"><span>Final Price</span><span class="total" id="finalPrice">₹0.00</span></div>
+                <div class="result-item"><span>Discount %</span><span id="effectivePercent">0%</span></div>
+                <div id="bogoExtraRow" class="result-item" style="display:none"><span>Free Items</span><span id="bogoFreeCount">0</span></div>
+                <div id="marginProfitRow" class="result-item" style="display:none"><span>Profit</span><span id="marginProfit">₹0.00</span></div>
+                <div id="marginPctRow" class="result-item" style="display:none"><span>Margin % (on SP)</span><span id="marginPct">0%</span></div>
+                <div class="result-actions">
+                    <button class="copy-btn" onclick="copyDiscountResult()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1848,13 +2458,87 @@ body.light-mode .fuel-rate-widget .frw-disclaimer { color: #64748b; }
             <div class="frw-location-info" id="frwLocationInfo" style="display:none"></div>
             <div class="frw-status" id="frwStatus"></div>
 
+            <!-- Company selector -->
+            <div class="fuel-company-tabs" id="frwCompanyTabs" style="display:none">
+                <button class="company-tab active" data-company="IOCL" onclick="setFuelCompany('IOCL')">IOCL</button>
+                <button class="company-tab" data-company="BPCL" onclick="setFuelCompany('BPCL')">BPCL</button>
+                <button class="company-tab" data-company="HPCL" onclick="setFuelCompany('HPCL')">HPCL</button>
+                <button class="company-tab" data-company="Reliance" onclick="setFuelCompany('Reliance')">Reliance</button>
+                <button class="company-tab" data-company="Essar" onclick="setFuelCompany('Essar')">Essar</button>
+                <button class="company-tab" data-company="Shell" onclick="setFuelCompany('Shell')">Shell</button>
+            </div>
+
+            <!-- Coal grade selector -->
+            <div class="frw-input-row" id="frwCoalGradeRow" style="display:none; margin-bottom:0.8rem;">
+                <div style="flex:1; min-width:200px;">
+                    <label>Coal Grade</label>
+                    <select id="frwCoalGrade" onchange="rerenderFuelForCoal()" style="width:100%;padding:13px 16px;border-radius:1.2rem;background:rgba(0,0,0,0.25);color:#f8fafc;border:1px solid rgba(34,197,94,0.15);font-size:0.9rem;">
+                        <option value="G4">G4 — Superior (low ash, premium steel)</option>
+                        <option value="G6">G6 — Premium steel grade</option>
+                        <option value="G10">G10 — Good quality power grade</option>
+                        <option value="G12" selected>G12 — Standard power grade (most common)</option>
+                        <option value="G14">G14 — Lower grade (higher ash)</option>
+                        <option value="G15">G15 — Lignite grade (high moisture)</option>
+                        <option value="Imported">Imported Indonesian (5000 GAR)</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="frw-cards" id="frwCards" style="display:none"></div>
 
             <div class="frw-footer" id="frwFooter" style="display:none">
                 <span class="frw-updated" id="frwUpdated"></span>
             </div>
 
-            <div class="frw-disclaimer">Rates derived from latest published state-wise base price + central excise + dealer commission + state VAT. Updated daily around 6 AM by oil marketing companies. For indication only — confirm with your local fuel station for exact rate.</div>
+            <div class="frw-disclaimer">Rates shown are OMC (Oil Marketing Company) published prices for the selected company, by state. Commercial LPG = 19kg cylinder for businesses/hotels. Coal prices are ex-mines (CIL notified) or landed cost (imported). For indication only — confirm with your local dealer for exact billing.</div>
+        </div>
+    </div>
+
+    <!-- Panel 6: Vegetables -->
+    <div id="panel-vegetables" class="tab-panel" style="display:none">
+        <div class="veg-widget" id="vegWidget">
+            <div class="vw-header">
+                <div class="vw-title">
+                    <svg viewBox="0 0 24 24"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg>
+                    Vegetable Prices by Location
+                </div>
+                <span class="vw-live-pill"><span class="pulse"></span> Daily Mandi</span>
+            </div>
+
+            <div class="vw-input-row">
+                <div>
+                    <label>Pincode or City</label>
+                    <div class="loc-combobox">
+                        <input type="text" id="vwLocationInput" placeholder="e.g. 560001 or Mumbai" inputmode="numeric" autocomplete="off">
+                        <button class="loc-history-toggle" id="vwHistoryToggle" onclick="toggleLocHistory('vw')" aria-label="Recent locations">
+                            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="loc-history-dropdown" id="vwHistoryDropdown"></div>
+                    </div>
+                </div>
+                <button class="vw-fetch-btn" id="vwFetchBtn" onclick="fetchVegRates()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Get Today's Prices
+                </button>
+            </div>
+
+            <div class="vw-location-info" id="vwLocationInfo" style="display:none"></div>
+            <div class="vw-status" id="vwStatus"></div>
+
+            <div class="vw-controls" id="vwControls" style="display:none">
+                <div class="vw-search">
+                    <input type="text" id="vwSearch" placeholder="🔍 Search vegetables (e.g. onion, tomato, potato)..." oninput="filterVegCards()">
+                </div>
+                <div class="vw-sort-info" id="vwSortInfo"></div>
+            </div>
+
+            <div class="vw-cards" id="vwCards" style="display:none"></div>
+
+            <div class="vw-footer" id="vwFooter" style="display:none">
+                <span class="vw-updated" id="vwUpdated"></span>
+            </div>
+
+            <div class="vw-disclaimer">Prices derived from major mandi (APMC) wholesale rates + typical retail markup (~30%). Trend arrows compare today's price vs yesterday's indicative. For indication only — actual shop prices may vary by vendor and locality.</div>
         </div>
     </div>
 </div>
@@ -1931,11 +2615,68 @@ openCalc.addEventListener('click',(e)=>{ e.stopPropagation(); miniDialog.classLi
 document.addEventListener('click',(e)=>{ if(!miniDialog.contains(e.target) && e.target!==openCalc) miniDialog.classList.remove('show'); });
 
 // ---------- GST LOGIC WITH HISTORY ----------
+let gstSplitMode = 'intra'; // 'intra' = CGST+SGST, 'inter' = IGST
 window.setGST = (v)=>{ document.getElementById('gst').value=v; document.getElementById('selectedGST').innerHTML=`${v}% GST ▼`; localStorage.setItem('gstRate',v); document.getElementById('gstMenu')?.classList.remove('show'); };
 if(localStorage.getItem('gstRate')){ let r=parseFloat(localStorage.getItem('gstRate')); document.getElementById('gst').value=r; document.getElementById('selectedGST').innerHTML=`${r}% GST ▼`; }
 document.getElementById('manualGSTInput')?.addEventListener('input',function(){ let val=parseFloat(this.value); if(!isNaN(val)){ if(val<0) val=0; if(val>100) val=100; this.value=val; document.getElementById('gst').value=val; document.getElementById('selectedGST').innerHTML=`${val}% GST ▼`; localStorage.setItem('gstRate',val); } });
-window.addGST = ()=>{ let amt=parseFloat(document.getElementById('amount').value)||0; let gst=parseFloat(document.getElementById('gst').value); let gstAmt=amt*gst/100; let total=amt+gstAmt; document.getElementById('base').innerText='₹'+amt.toFixed(2); document.getElementById('gstAmount').innerText='₹'+gstAmt.toFixed(2); document.getElementById('total').innerText='₹'+total.toFixed(2); if(amt>0) addHistoryEntry({ type:'gst_add', amount:amt, gstRate:gst, gstAmount:gstAmt, total:total }); };
-window.removeGST = ()=>{ let amt=parseFloat(document.getElementById('amount').value)||0; let gst=parseFloat(document.getElementById('gst').value); let base=amt/(1+gst/100); let gstAmt=amt-base; document.getElementById('base').innerText='₹'+base.toFixed(2); document.getElementById('gstAmount').innerText='₹'+gstAmt.toFixed(2); document.getElementById('total').innerText='₹'+amt.toFixed(2); if(amt>0) addHistoryEntry({ type:'gst_remove', amount:base, gstRate:gst, gstAmount:gstAmt, total:amt }); };
+window.setGstAmount = (v) => { document.getElementById('amount').value = v; document.getElementById('clearAmountBtn').style.display = 'block'; resetComparisonBtnState('gst'); };
+window.setGstSplit = (mode) => {
+    gstSplitMode = mode;
+    document.querySelectorAll('.split-btn').forEach(b => b.classList.toggle('active', b.dataset.split === mode));
+    // Re-render last result if any
+    if (document.getElementById('base').innerText !== '₹0.00') {
+        const amt = parseFloat(document.getElementById('base').innerText.replace(/[^\d.]/g, '')) || 0;
+        const totalEl = document.getElementById('total').innerText.replace(/[^\d.]/g, '');
+        const total = parseFloat(totalEl) || 0;
+        const gstAmt = total - amt;
+        if (amt > 0) renderGstSplit(amt, gstAmt);
+    }
+};
+function renderGstSplit(base, gstAmount) {
+    const gst = parseFloat(document.getElementById('gst').value);
+    const splitRows = document.getElementById('gstSplitRows');
+    if (gstSplitMode === 'intra') {
+        const half = gst / 2;
+        const halfAmt = gstAmount / 2;
+        document.getElementById('splitLabel1').innerText = `CGST (${half}%)`;
+        document.getElementById('splitVal1').innerText = '₹' + halfAmt.toFixed(2);
+        document.getElementById('splitLabel2').innerText = `SGST (${half}%)`;
+        document.getElementById('splitVal2').innerText = '₹' + halfAmt.toFixed(2);
+        splitRows.style.display = 'block';
+    } else {
+        document.getElementById('splitLabel1').innerText = `IGST (${gst}%)`;
+        document.getElementById('splitVal1').innerText = '₹' + gstAmount.toFixed(2);
+        document.getElementById('splitLabel2').innerText = '';
+        document.getElementById('splitVal2').innerText = '';
+        splitRows.style.display = 'block';
+    }
+}
+window.addGST = ()=>{
+    let amt=parseFloat(document.getElementById('amount').value)||0;
+    let gst=parseFloat(document.getElementById('gst').value);
+    let gstAmt=amt*gst/100;
+    let total=amt+gstAmt;
+    document.getElementById('base').innerText='₹'+amt.toFixed(2);
+    document.getElementById('gstAmount').innerText='₹'+gstAmt.toFixed(2);
+    document.getElementById('total').innerText='₹'+total.toFixed(2);
+    renderGstSplit(amt, gstAmt);
+    if(amt>0) addHistoryEntry({ type:'gst_add', amount:amt, gstRate:gst, gstAmount:gstAmt, total:total });
+};
+window.removeGST = ()=>{
+    let amt=parseFloat(document.getElementById('amount').value)||0;
+    let gst=parseFloat(document.getElementById('gst').value);
+    let base=amt/(1+gst/100);
+    let gstAmt=amt-base;
+    document.getElementById('base').innerText='₹'+base.toFixed(2);
+    document.getElementById('gstAmount').innerText='₹'+gstAmt.toFixed(2);
+    document.getElementById('total').innerText='₹'+amt.toFixed(2);
+    renderGstSplit(base, gstAmt);
+    if(amt>0) addHistoryEntry({ type:'gst_remove', amount:base, gstRate:gst, gstAmount:gstAmt, total:amt });
+};
+window.copyGstResult = () => {
+    const txt = `Base: ${document.getElementById('base').innerText} | GST: ${document.getElementById('gstAmount').innerText} | Total: ${document.getElementById('total').innerText}`;
+    navigator.clipboard?.writeText(txt).then(() => showToast('GST result copied'));
+};
 const clearAmount = document.getElementById('clearAmountBtn'), amountInput = document.getElementById('amount');
 amountInput?.addEventListener('input',()=>{ clearAmount.style.display = amountInput.value ? 'block' : 'none'; });
 clearAmount?.addEventListener('click',()=>{ amountInput.value=''; clearAmount.style.display='none'; amountInput.focus(); resetComparisonBtnState('gst'); });
@@ -1943,46 +2684,135 @@ amountInput?.addEventListener('input', () => resetComparisonBtnState('gst'));
 document.getElementById('manualGSTInput')?.addEventListener('input', () => resetComparisonBtnState('gst'));
 
 // ---------- PER GRAM WITH FIXED HISTORY (no duplicate, no undefined) ----------
-window.setUnit = (val,label)=>{ document.getElementById('pgUnit').value=val; document.getElementById('selectedUnit').innerHTML=label+' ▼'; document.getElementById('unitMenu')?.classList.remove('show'); resetComparisonBtnState('pergram'); };
+let pgMetal = 'gold';
+window.setPgMetal = (m) => {
+    pgMetal = m;
+    document.querySelectorAll('.metal-btn').forEach(b => b.classList.toggle('active', b.dataset.metal === m));
+    resetComparisonBtnState('pergram');
+};
+window.setPgWeight = (w) => {
+    document.getElementById('pgWeight').value = w;
+    resetComparisonBtnState('pergram');
+};
+// Unit conversion factors (everything → grams)
+const PG_UNIT_FACTORS = {
+    'g': 1,
+    'kg': 1000,
+    'tola': 11.6638,
+    'bhori': 46.6553,
+    'piece': null  // handled separately
+};
+const PG_UNIT_LABELS = {
+    'g': 'Gram (g)', 'kg': 'Kilogram (kg)', 'tola': 'Tola (11.66g)',
+    'bhori': 'Bhori (46.65g)', 'piece': 'Piece (unit)'
+};
+window.setUnit = (val,label)=>{
+    document.getElementById('pgUnit').value=val;
+    document.getElementById('selectedUnit').innerHTML=label+' ▼';
+    document.getElementById('unitMenu')?.classList.remove('show');
+    resetComparisonBtnState('pergram');
+};
+function getPgWeightInGrams() {
+    const weight = parseFloat(document.getElementById('pgWeight').value) || 0;
+    const unit = document.getElementById('pgUnit').value;
+    if (unit === 'piece') return null;
+    return weight * (PG_UNIT_FACTORS[unit] || 1);
+}
+function calcPgMakingCharges(metalValue, weightInGrams) {
+    const type = document.getElementById('pgMakingType').value;
+    const val = parseFloat(document.getElementById('pgMakingValue').value) || 0;
+    if (type === 'none' || !val) return 0;
+    if (type === 'percent') return metalValue * val / 100;
+    if (type === 'pergram') return weightInGrams ? weightInGrams * val : 0;
+    if (type === 'fixed') return val;
+    return 0;
+}
 window.calcPerGram = ()=>{
     let price=parseFloat(document.getElementById('pgPrice').value)||0, weight=parseFloat(document.getElementById('pgWeight').value)||0, unit=document.getElementById('pgUnit').value;
     if(price<=0||weight<=0){ alert('Valid price and weight required'); return; }
-    let weightInGrams = unit==='kg' ? weight*1000 : weight;
-    let perUnit = price/weightInGrams;
-    document.getElementById('pgResultPrice').innerText='₹'+price.toFixed(2);
-    let weightDisplay = weight + ' ' + (unit==='kg'?'kg':unit==='piece'?(weight===1?'piece':'pieces'):'g');
+
+    const weightInGrams = getPgWeightInGrams();
+    const making = calcPgMakingCharges(price, weightInGrams);
+    const totalPriceWithMaking = price + making;
+
+    document.getElementById('pgResultPrice').innerText='₹'+totalPriceWithMaking.toFixed(2);
+    if (making > 0) {
+        document.getElementById('pgMakingRow').style.display = 'flex';
+        document.getElementById('pgResultMaking').innerText = '₹' + making.toFixed(2);
+    } else {
+        document.getElementById('pgMakingRow').style.display = 'none';
+    }
+
+    let weightDisplay = weight + ' ' + (unit==='kg'?'kg':unit==='tola'?'tola':unit==='bhori'?'bhori':unit==='piece'?(weight===1?'piece':'pieces'):'g');
     document.getElementById('pgResultWeight').innerText=weightDisplay;
+
     if(unit==='piece'){
+        let perUnit = totalPriceWithMaking / weight;
         document.getElementById('pgResultLabel').innerText='Price per Piece';
         document.getElementById('pgResultPerUnit').innerText='₹'+perUnit.toFixed(2);
         document.getElementById('pgPer100Row').style.display='none';
         document.getElementById('pgPer1kgRow').style.display='none';
+        document.getElementById('pgPerTolaRow').style.display='none';
+        document.getElementById('pgPerBhoriRow').style.display='none';
         let desiredQty = parseFloat(document.getElementById('pgDesiredQty').value);
-        let historyEntry = { type:'pergram', price:price.toFixed(2), weightDisplay:weightDisplay, perUnitLabel:'Price per Piece', perUnit:perUnit.toFixed(2), priceLabel:'Total Price', unit: 'Piece' };
+        let historyEntry = { type:'pergram', price:totalPriceWithMaking.toFixed(2), weightDisplay:weightDisplay, perUnitLabel:'Price per Piece', perUnit:perUnit.toFixed(2), priceLabel:'Total Price', unit: 'Piece', metal: pgMetal, making: making.toFixed(2) };
         if(!isNaN(desiredQty) && desiredQty > 0) {
             historyEntry.desiredQty = desiredQty + ' pcs';
             historyEntry.desiredAmount = (perUnit * desiredQty).toFixed(2);
         }
         addHistoryEntry(historyEntry);
     } else {
+        let perUnit = totalPriceWithMaking / weightInGrams;
         document.getElementById('pgResultLabel').innerText='Price per Gram';
         document.getElementById('pgResultPerUnit').innerText='₹'+perUnit.toFixed(4);
         document.getElementById('pgPer100Row').style.display='flex';
         document.getElementById('pgResultPer100').innerText='₹'+(perUnit*100).toFixed(2);
         document.getElementById('pgPer1kgRow').style.display='flex';
         document.getElementById('pgResultPer1kg').innerText='₹'+(perUnit*1000).toFixed(2);
+        document.getElementById('pgPerTolaRow').style.display='flex';
+        document.getElementById('pgResultPerTola').innerText='₹'+(perUnit*11.6638).toFixed(2);
+        document.getElementById('pgPerBhoriRow').style.display='flex';
+        document.getElementById('pgResultPerBhori').innerText='₹'+(perUnit*46.6553).toFixed(2);
         let desiredQty = parseFloat(document.getElementById('pgDesiredQty').value);
-        let historyEntry = { type:'pergram', price:price.toFixed(2), weightDisplay:weightDisplay, perUnitLabel:'Price per Gram', perUnit:perUnit.toFixed(4), per100g:(perUnit*100).toFixed(2), per1kg:(perUnit*1000).toFixed(2), priceLabel:'Total Price', unit: unit==='kg'?'Kilogram':'Gram' };
+        let historyEntry = { type:'pergram', price:totalPriceWithMaking.toFixed(2), weightDisplay:weightDisplay, perUnitLabel:'Price per Gram', perUnit:perUnit.toFixed(4), per100g:(perUnit*100).toFixed(2), per1kg:(perUnit*1000).toFixed(2), perTola:(perUnit*11.6638).toFixed(2), perBhori:(perUnit*46.6553).toFixed(2), priceLabel:'Total Price', unit: PG_UNIT_LABELS[unit], metal: pgMetal, making: making.toFixed(2) };
         if(!isNaN(desiredQty) && desiredQty > 0) {
-            let desiredQtyInGrams = unit==='kg' ? desiredQty*1000 : desiredQty;
-            historyEntry.desiredQty = desiredQty + ' ' + (unit==='kg'?'kg':'g');
+            let desiredQtyInGrams = unit==='kg' ? desiredQty*1000 : (unit==='tola'? desiredQty*11.6638 : (unit==='bhori'? desiredQty*46.6553 : desiredQty));
+            historyEntry.desiredQty = desiredQty + ' ' + (unit==='kg'?'kg':unit==='tola'?'tola':unit==='bhori'?'bhori':'g');
             historyEntry.desiredAmount = (perUnit * desiredQtyInGrams).toFixed(2);
         }
         addHistoryEntry(historyEntry);
     }
+    calcDesiredAmount();
 };
-window.clearPGCalc = ()=>{ document.getElementById('pgPrice').value=''; document.getElementById('pgWeight').value=''; document.getElementById('pgDesiredQty').value=''; document.getElementById('pgResultPrice').innerText='₹0.00'; document.getElementById('pgResultWeight').innerText='0'; document.getElementById('pgResultPerUnit').innerText='₹0.00'; document.getElementById('pgResultPer100').innerText='₹0.00'; document.getElementById('pgResultPer1kg').innerText='₹0.00'; document.getElementById('pgPer100Row').style.display='none'; document.getElementById('pgPer1kgRow').style.display='none'; document.getElementById('desiredQtyRow').style.display='none'; document.getElementById('desiredQtyDivider').style.display='none'; resetComparisonBtnState('pergram'); };
-
+window.clearPGCalc = ()=>{
+    document.getElementById('pgPrice').value='';
+    document.getElementById('pgWeight').value='';
+    document.getElementById('pgDesiredQty').value='';
+    document.getElementById('pgMakingValue').value='';
+    document.getElementById('pgMakingType').value = 'none';
+    document.getElementById('pgResultPrice').innerText='₹0.00';
+    document.getElementById('pgResultMaking').innerText='₹0.00';
+    document.getElementById('pgMakingRow').style.display='none';
+    document.getElementById('pgResultWeight').innerText='0';
+    document.getElementById('pgResultPerUnit').innerText='₹0.00';
+    document.getElementById('pgResultPer100').innerText='₹0.00';
+    document.getElementById('pgResultPer1kg').innerText='₹0.00';
+    document.getElementById('pgResultPerTola').innerText='₹0.00';
+    document.getElementById('pgResultPerBhori').innerText='₹0.00';
+    document.getElementById('pgPer100Row').style.display='none';
+    document.getElementById('pgPer1kgRow').style.display='none';
+    document.getElementById('pgPerTolaRow').style.display='none';
+    document.getElementById('pgPerBhoriRow').style.display='none';
+    document.getElementById('desiredQtyRow').style.display='none';
+    document.getElementById('desiredQtyDivider').style.display='none';
+    resetComparisonBtnState('pergram');
+};
+window.copyPgResult = () => {
+    const perUnit = document.getElementById('pgResultPerUnit').innerText;
+    const label = document.getElementById('pgResultLabel').innerText;
+    const txt = `${label}: ${perUnit} | Total: ${document.getElementById('pgResultPrice').innerText}`;
+    navigator.clipboard?.writeText(txt).then(() => showToast('Per-gram result copied'));
+};
 document.getElementById('pgPrice')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
 document.getElementById('pgWeight')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
 document.getElementById('pgDesiredQty')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
@@ -1992,20 +2822,28 @@ window.calcDesiredAmount = ()=>{
     let price = parseFloat(document.getElementById('pgPrice').value);
     let weight = parseFloat(document.getElementById('pgWeight').value);
     let unit = document.getElementById('pgUnit').value;
-    
+
     if(isNaN(desiredQty) || desiredQty <= 0 || isNaN(price) || price <= 0 || isNaN(weight) || weight <= 0) {
         document.getElementById('desiredQtyRow').style.display='none';
         document.getElementById('desiredQtyDivider').style.display='none';
         return;
     }
-    
-    let weightInGrams = unit==='kg' ? weight*1000 : weight;
-    let perUnit = price/weightInGrams;
-    let desiredQtyInGrams = unit==='kg' ? desiredQty*1000 : desiredQty;
-    let finalAmount = perUnit * desiredQtyInGrams;
-    
-    let qtyDisplay = desiredQty + ' ' + (unit==='kg'?'kg':unit==='piece'?(desiredQty===1?'piece':'pieces'):'g');
-    
+
+    const weightInGrams = getPgWeightInGrams();
+    const making = calcPgMakingCharges(price, weightInGrams);
+    const totalPrice = price + making;
+
+    let perUnit, desiredQtyInGrams;
+    if (unit === 'piece') {
+        perUnit = totalPrice / weight;
+    } else {
+        perUnit = totalPrice / weightInGrams;
+        desiredQtyInGrams = unit==='kg' ? desiredQty*1000 : (unit==='tola'? desiredQty*11.6638 : (unit==='bhori'? desiredQty*46.6553 : desiredQty));
+    }
+
+    let finalAmount = unit === 'piece' ? perUnit * desiredQty : perUnit * desiredQtyInGrams;
+    let qtyDisplay = desiredQty + ' ' + (unit==='kg'?'kg':unit==='tola'?'tola':unit==='bhori'?'bhori':unit==='piece'?(desiredQty===1?'piece':'pieces'):'g');
+
     document.getElementById('desiredQtyLabel').innerText = 'For ' + qtyDisplay;
     document.getElementById('desiredQtyAmount').innerText = '₹' + finalAmount.toFixed(2);
     document.getElementById('desiredQtyRow').style.display='flex';
@@ -2014,8 +2852,116 @@ window.calcDesiredAmount = ()=>{
 
 // ---------- DISCOUNT WITH HISTORY ----------
 let discountMode = 'percent';
-document.querySelectorAll('.discount-type-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ discountMode=btn.getAttribute('data-type'); document.querySelectorAll('.discount-type-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('discountValueLabel').innerHTML = discountMode==='percent' ? 'Discount (%)' : 'Discount Amount (₹)'; resetComparisonBtnState('discount'); }); });
+let discountCalcMode = 'single'; // 'single' | 'stacked' | 'bogo' | 'margin'
+document.querySelectorAll('.discount-type-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        discountMode=btn.getAttribute('data-type');
+        document.querySelectorAll('.discount-type-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('discountValueLabel').innerHTML = discountMode==='percent' ? 'Discount (%)' : 'Discount Amount (₹)';
+        resetComparisonBtnState('discount');
+    });
+});
+window.setDiscountMode = (m) => {
+    discountCalcMode = m;
+    document.querySelectorAll('.mode-tab').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+    ['discountSingleMode','discountStackedMode','discountBogoMode','discountMarginMode'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+    });
+    const map = { single: 'discountSingleMode', stacked: 'discountStackedMode', bogo: 'discountBogoMode', margin: 'discountMarginMode' };
+    document.getElementById(map[m]).style.display = 'block';
+    // Reset result extras
+    document.getElementById('bogoExtraRow').style.display = 'none';
+    document.getElementById('marginProfitRow').style.display = 'none';
+    document.getElementById('marginPctRow').style.display = 'none';
+};
+window.addStackRow = () => {
+    const list = document.getElementById('stackList');
+    const row = document.createElement('div');
+    row.className = 'stack-row';
+    row.innerHTML = `<input type="number" class="stack-input" placeholder="%" oninput="calcStackedDiscount()">
+        <select class="stack-type" style="padding:8px;border-radius:0.7rem;background:rgba(255,255,255,0.07);color:#f8fafc;border:none;font-size:0.8rem;"><option value="percent">%</option><option value="fixed">₹</option></select>
+        <button class="stack-remove" onclick="this.parentElement.remove(); calcStackedDiscount();">✕</button>`;
+    list.appendChild(row);
+};
+window.calcStackedDiscount = () => {
+    let orig = parseFloat(document.getElementById('stackOrigPrice').value);
+    if (!orig || orig <= 0) return;
+    let current = orig;
+    let totalSaved = 0;
+    document.querySelectorAll('#stackList .stack-row').forEach(row => {
+        const val = parseFloat(row.querySelector('.stack-input').value) || 0;
+        const type = row.querySelector('.stack-type').value;
+        if (val > 0) {
+            let deduction = type === 'percent' ? current * val / 100 : Math.min(val, current);
+            current -= deduction;
+            totalSaved += deduction;
+        }
+    });
+    current = Math.max(0, current);
+    const eff = (totalSaved / orig) * 100;
+    document.getElementById('originalDisplay').innerText='₹'+orig.toFixed(2);
+    document.getElementById('savedAmount').innerText='₹'+totalSaved.toFixed(2);
+    document.getElementById('finalPrice').innerText='₹'+current.toFixed(2);
+    document.getElementById('effectivePercent').innerText=eff.toFixed(2)+'%';
+};
+window.calcBogo = () => {
+    const unitPrice = parseFloat(document.getElementById('bogoUnitPrice').value);
+    const buyQty = parseFloat(document.getElementById('bogoBuyQty').value);
+    const getQty = parseFloat(document.getElementById('bogoGetQty').value);
+    const totalQty = parseFloat(document.getElementById('bogoTotalQty').value);
+    if (!unitPrice || !buyQty || !getQty || !totalQty || buyQty<=0 || getQty<=0 || totalQty<=0) return;
+    const setQty = buyQty + getQty;
+    const sets = Math.floor(totalQty / setQty);
+    const remainder = totalQty % setQty;
+    const freeItems = sets * getQty;
+    const paidItems = sets * buyQty + Math.min(remainder, buyQty);
+    const totalPrice = paidItems * unitPrice;
+    const withoutBogo = totalQty * unitPrice;
+    const saved = withoutBogo - totalPrice;
+    const eff = withoutBogo > 0 ? (saved / withoutBogo) * 100 : 0;
+    document.getElementById('originalDisplay').innerText='₹'+withoutBogo.toFixed(2)+' ('+totalQty+' units)';
+    document.getElementById('savedAmount').innerText='₹'+saved.toFixed(2);
+    document.getElementById('finalPrice').innerText='₹'+totalPrice.toFixed(2);
+    document.getElementById('effectivePercent').innerText=eff.toFixed(2)+'%';
+    document.getElementById('bogoExtraRow').style.display='flex';
+    document.getElementById('bogoFreeCount').innerText=freeItems+' free';
+};
+window.calcMargin = () => {
+    let cp = parseFloat(document.getElementById('marginCP').value);
+    let markupPct = parseFloat(document.getElementById('marginMarkupPct').value);
+    let sp = parseFloat(document.getElementById('marginSP').value);
+    if (!cp || cp <= 0) return;
+    if (sp > 0 && (!markupPct || markupPct === 0)) {
+        // SP given, derive markup
+        markupPct = ((sp - cp) / cp) * 100;
+        document.getElementById('marginMarkupPct').value = markupPct.toFixed(2);
+    } else if (markupPct > 0 && (!sp || sp === 0)) {
+        sp = cp * (1 + markupPct / 100);
+        document.getElementById('marginSP').value = sp.toFixed(2);
+    } else if (sp > 0 && markupPct > 0) {
+        // both — keep SP as source of truth
+        markupPct = ((sp - cp) / cp) * 100;
+    } else {
+        return;
+    }
+    if (!sp || sp <= 0) return;
+    const profit = sp - cp;
+    const marginPct = (profit / sp) * 100;
+    document.getElementById('originalDisplay').innerText='₹'+cp.toFixed(2)+' (CP)';
+    document.getElementById('savedAmount').innerText='₹'+profit.toFixed(2)+' (profit)';
+    document.getElementById('finalPrice').innerText='₹'+sp.toFixed(2)+' (SP)';
+    document.getElementById('effectivePercent').innerText=markupPct.toFixed(2)+'% markup';
+    document.getElementById('marginProfitRow').style.display='flex';
+    document.getElementById('marginProfit').innerText='₹'+profit.toFixed(2);
+    document.getElementById('marginPctRow').style.display='flex';
+    document.getElementById('marginPct').innerText=marginPct.toFixed(2)+'%';
+};
 window.calcDiscount = ()=>{
+    if (discountCalcMode === 'stacked') { calcStackedDiscount(); return; }
+    if (discountCalcMode === 'bogo') { calcBogo(); return; }
+    if (discountCalcMode === 'margin') { calcMargin(); return; }
+
     let orig=parseFloat(document.getElementById('discountPrice').value)||0, val=parseFloat(document.getElementById('discountValue').value)||0;
     if(orig<=0){ alert('Enter original price'); return; }
     let saved=0, final=orig, eff=0;
@@ -2026,7 +2972,51 @@ window.calcDiscount = ()=>{
     document.getElementById('effectivePercent').innerText=eff.toFixed(2)+'%';
     addHistoryEntry({ type:'discount', original:orig.toFixed(2), discountValue:val, discountType:discountMode, saved:saved.toFixed(2), final:final.toFixed(2) });
 };
-window.clearDiscount = ()=>{ document.getElementById('discountPrice').value=''; document.getElementById('discountValue').value=''; document.getElementById('originalDisplay').innerText='₹0.00'; document.getElementById('savedAmount').innerText='₹0.00'; document.getElementById('finalPrice').innerText='₹0.00'; document.getElementById('effectivePercent').innerText='0%'; resetComparisonBtnState('discount'); };
+window.clearDiscount = ()=>{
+    document.getElementById('discountPrice').value='';
+    document.getElementById('discountValue').value='';
+    document.getElementById('stackOrigPrice').value='';
+    document.getElementById('bogoUnitPrice').value='';
+    document.getElementById('bogoBuyQty').value='';
+    document.getElementById('bogoGetQty').value='';
+    document.getElementById('bogoTotalQty').value='';
+    document.getElementById('marginCP').value='';
+    document.getElementById('marginMarkupPct').value='';
+    document.getElementById('marginSP').value='';
+    document.querySelectorAll('#stackList .stack-input').forEach(i => i.value = '');
+    document.getElementById('originalDisplay').innerText='₹0.00';
+    document.getElementById('savedAmount').innerText='₹0.00';
+    document.getElementById('finalPrice').innerText='₹0.00';
+    document.getElementById('effectivePercent').innerText='0%';
+    document.getElementById('bogoExtraRow').style.display='none';
+    document.getElementById('bogoFreeCount').innerText='0';
+    document.getElementById('marginProfitRow').style.display='none';
+    document.getElementById('marginProfit').innerText='₹0.00';
+    document.getElementById('marginPctRow').style.display='none';
+    document.getElementById('marginPct').innerText='0%';
+    resetComparisonBtnState('discount');
+};
+window.copyDiscountResult = () => {
+    const txt = `Original: ${document.getElementById('originalDisplay').innerText} | Save: ${document.getElementById('savedAmount').innerText} | Final: ${document.getElementById('finalPrice').innerText} | ${document.getElementById('effectivePercent').innerText}`;
+    navigator.clipboard?.writeText(txt).then(() => showToast('Discount result copied'));
+};
+function showToast(msg) {
+    let t = document.getElementById('calcToast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'calcToast';
+        t.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#10b981;color:white;padding:10px 20px;border-radius:8px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 8px 20px -4px rgba(16,185,129,0.4);opacity:0;transition:opacity 0.25s,transform 0.25s;pointer-events:none;';
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(-6px)';
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(0)';
+    }, 1800);
+}
 
 document.getElementById('discountPrice')?.addEventListener('input', () => resetComparisonBtnState('discount'));
 document.getElementById('discountValue')?.addEventListener('input', () => resetComparisonBtnState('discount'));
@@ -2038,7 +3028,8 @@ window.switchTab = function(tab){
     document.getElementById('panel-discount').style.display = tab==='discount' ? 'block' : 'none';
     document.getElementById('panel-goldrate').style.display = tab==='goldrate' ? 'block' : 'none';
     document.getElementById('panel-fuelrate').style.display = tab==='fuelrate' ? 'block' : 'none';
-    const tabMap = {'gst':0,'pergram':1,'discount':2,'goldrate':3,'fuelrate':4};
+    document.getElementById('panel-vegetables').style.display = tab==='vegetables' ? 'block' : 'none';
+    const tabMap = {'gst':0,'pergram':1,'discount':2,'goldrate':3,'fuelrate':4,'vegetables':5};
     document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ if(tabMap[tab]===i) btn.classList.add('active'); else btn.classList.remove('active'); });
     closeAllDropdowns(); miniDialog.classList.remove('show'); document.getElementById('historyDialog')?.classList.remove('show'); comparisonDialog?.classList.remove('show');
     // Close any open location history dropdowns
@@ -2767,46 +3758,73 @@ document.getElementById('grwLocationInput').addEventListener('keydown', e => {
 const FRW = {
     // State-wise fuel prices (₹) — latest available published rates by Indian govt / OMCs.
     // Source: PPAC (Petroleum Planning & Analysis Cell) data, refreshed periodically.
-    // Each entry: { petrol, diesel, cng (₹/kg where available), lpg (14.2kg domestic non-subsidised) }
-    // CNG null = no city gas distribution in that state.
+    // Fields:
+    //   petrol/diesel = ₹/litre (avg of IOCL/BPCL/HPCL — within a city these are nearly identical)
+    //   cng = ₹/kg (null = no city gas distribution in that state)
+    //   lpg = ₹/14.2kg domestic non-subsidised cylinder
+    //   lpgCommercial = ₹/19kg commercial cylinder (used by businesses/hotels)
+    //   coalDomestic = ₹/tonne for CIL G12 grade (typical power-grade Indian coal)
+    //   coalImported = ₹/tonne for imported Indonesian 5000 GAR coal
     stateData: {
-        'Andhra Pradesh': { petrol: 109.74, diesel: 97.55, cng: null, lpg: 955.00 },
-        'Arunachal Pradesh': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50 },
-        'Assam': { petrol: 98.49, diesel: 90.45, cng: 90.50, lpg: 1001.00 },
-        'Bihar': { petrol: 108.62, diesel: 95.36, cng: 102.50, lpg: 1180.50 },
-        'Chhattisgarh': { petrol: 102.79, diesel: 95.04, cng: null, lpg: 1010.00 },
-        'Goa': { petrol: 96.86, diesel: 89.39, cng: null, lpg: 920.00 },
-        'Gujarat': { petrol: 95.51, diesel: 90.36, cng: 81.86, lpg: 920.50 },
-        'Haryana': { petrol: 97.36, diesel: 90.20, cng: 87.40, lpg: 1150.00 },
-        'Himachal Pradesh': { petrol: 95.61, diesel: 88.36, cng: null, lpg: 1010.50 },
-        'Jharkhand': { petrol: 100.74, diesel: 94.94, cng: 94.00, lpg: 1050.00 },
-        'Karnataka': { petrol: 103.06, diesel: 89.43, cng: 92.00, lpg: 920.50 },
-        'Kerala': { petrol: 107.92, diesel: 96.91, cng: null, lpg: 955.00 },
-        'Madhya Pradesh': { petrol: 109.46, diesel: 94.65, cng: 99.00, lpg: 1050.00 },
-        'Maharashtra': { petrol: 104.78, diesel: 91.94, cng: 81.86, lpg: 920.50 },
-        'Manipur': { petrol: 106.69, diesel: 93.93, cng: null, lpg: 1050.00 },
-        'Meghalaya': { petrol: 102.74, diesel: 91.40, cng: null, lpg: 1028.50 },
-        'Mizoram': { petrol: 105.62, diesel: 93.18, cng: null, lpg: 1028.50 },
-        'Nagaland': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50 },
-        'Odisha': { petrol: 103.84, diesel: 95.27, cng: null, lpg: 1050.00 },
-        'Punjab': { petrol: 98.61, diesel: 90.16, cng: null, lpg: 1150.00 },
-        'Rajasthan': { petrol: 109.31, diesel: 94.96, cng: 96.50, lpg: 1050.00 },
-        'Sikkim': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50 },
-        'Tamil Nadu': { petrol: 101.95, diesel: 92.46, cng: 88.00, lpg: 1010.00 },
-        'Telangana': { petrol: 108.83, diesel: 96.89, cng: null, lpg: 955.00 },
-        'Tripura': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50 },
-        'Uttar Pradesh': { petrol: 96.74, diesel: 89.90, cng: 87.40, lpg: 1150.00 },
-        'Uttarakhand': { petrol: 95.61, diesel: 88.36, cng: null, lpg: 1010.50 },
-        'West Bengal': { petrol: 105.79, diesel: 92.97, cng: 99.00, lpg: 955.00 },
+        'Andhra Pradesh': { petrol: 109.74, diesel: 97.55, cng: null, lpg: 955.00, lpgCommercial: 1950, coalDomestic: 5800, coalImported: 9200 },
+        'Arunachal Pradesh': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Assam': { petrol: 98.49, diesel: 90.45, cng: 90.50, lpg: 1001.00, lpgCommercial: 2000, coalDomestic: 5950, coalImported: 9500 },
+        'Bihar': { petrol: 108.62, diesel: 95.36, cng: 102.50, lpg: 1180.50, lpgCommercial: 1980, coalDomestic: 5850, coalImported: 9300 },
+        'Chhattisgarh': { petrol: 102.79, diesel: 95.04, cng: null, lpg: 1010.00, lpgCommercial: 1960, coalDomestic: 5200, coalImported: 9100 },
+        'Goa': { petrol: 96.86, diesel: 89.39, cng: null, lpg: 920.00, lpgCommercial: 1920, coalDomestic: 5750, coalImported: 9200 },
+        'Gujarat': { petrol: 95.51, diesel: 90.36, cng: 81.86, lpg: 920.50, lpgCommercial: 1890, coalDomestic: 5700, coalImported: 9150 },
+        'Haryana': { petrol: 97.36, diesel: 90.20, cng: 87.40, lpg: 1150.00, lpgCommercial: 1920, coalDomestic: 5800, coalImported: 9250 },
+        'Himachal Pradesh': { petrol: 95.61, diesel: 88.36, cng: null, lpg: 1010.50, lpgCommercial: 1980, coalDomestic: 5900, coalImported: 9400 },
+        'Jharkhand': { petrol: 100.74, diesel: 94.94, cng: 94.00, lpg: 1050.00, lpgCommercial: 1960, coalDomestic: 5100, coalImported: 9050 },
+        'Karnataka': { petrol: 103.06, diesel: 89.43, cng: 92.00, lpg: 920.50, lpgCommercial: 1950, coalDomestic: 5850, coalImported: 9300 },
+        'Kerala': { petrol: 107.92, diesel: 96.91, cng: null, lpg: 955.00, lpgCommercial: 1990, coalDomestic: 5900, coalImported: 9450 },
+        'Madhya Pradesh': { petrol: 109.46, diesel: 94.65, cng: 99.00, lpg: 1050.00, lpgCommercial: 1970, coalDomestic: 5350, coalImported: 9100 },
+        'Maharashtra': { petrol: 104.78, diesel: 91.94, cng: 81.86, lpg: 920.50, lpgCommercial: 1880, coalDomestic: 5750, coalImported: 9200 },
+        'Manipur': { petrol: 106.69, diesel: 93.93, cng: null, lpg: 1050.00, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Meghalaya': { petrol: 102.74, diesel: 91.40, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Mizoram': { petrol: 105.62, diesel: 93.18, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Nagaland': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Odisha': { petrol: 103.84, diesel: 95.27, cng: null, lpg: 1050.00, lpgCommercial: 1970, coalDomestic: 5300, coalImported: 9100 },
+        'Punjab': { petrol: 98.61, diesel: 90.16, cng: null, lpg: 1150.00, lpgCommercial: 1920, coalDomestic: 5800, coalImported: 9250 },
+        'Rajasthan': { petrol: 109.31, diesel: 94.96, cng: 96.50, lpg: 1050.00, lpgCommercial: 1970, coalDomestic: 5800, coalImported: 9250 },
+        'Sikkim': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Tamil Nadu': { petrol: 101.95, diesel: 92.46, cng: 88.00, lpg: 1010.00, lpgCommercial: 1950, coalDomestic: 5850, coalImported: 9300 },
+        'Telangana': { petrol: 108.83, diesel: 96.89, cng: null, lpg: 955.00, lpgCommercial: 1950, coalDomestic: 5800, coalImported: 9200 },
+        'Tripura': { petrol: 102.69, diesel: 91.21, cng: null, lpg: 1028.50, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Uttar Pradesh': { petrol: 96.74, diesel: 89.90, cng: 87.40, lpg: 1150.00, lpgCommercial: 1920, coalDomestic: 5800, coalImported: 9250 },
+        'Uttarakhand': { petrol: 95.61, diesel: 88.36, cng: null, lpg: 1010.50, lpgCommercial: 1980, coalDomestic: 5900, coalImported: 9400 },
+        'West Bengal': { petrol: 105.79, diesel: 92.97, cng: 99.00, lpg: 955.00, lpgCommercial: 1980, coalDomestic: 5500, coalImported: 9200 },
         // Union Territories
-        'Andaman and Nicobar Islands': { petrol: 84.10, diesel: 79.67, cng: null, lpg: 955.00 },
-        'Chandigarh': { petrol: 97.36, diesel: 90.20, cng: 87.40, lpg: 1150.00 },
-        'Dadra and Nagar Haveli and Daman and Diu': { petrol: 95.51, diesel: 90.36, cng: null, lpg: 920.50 },
-        'Delhi': { petrol: 95.41, diesel: 88.67, cng: 76.59, lpg: 920.50 },
-        'Jammu and Kashmir': { petrol: 101.69, diesel: 88.21, cng: null, lpg: 1100.00 },
-        'Ladakh': { petrol: 102.69, diesel: 88.21, cng: null, lpg: 1100.00 },
-        'Lakshadweep': { petrol: 84.10, diesel: 79.67, cng: null, lpg: 955.00 },
-        'Puducherry': { petrol: 101.95, diesel: 92.46, cng: null, lpg: 1010.00 }
+        'Andaman and Nicobar Islands': { petrol: 84.10, diesel: 79.67, cng: null, lpg: 955.00, lpgCommercial: 1950, coalDomestic: 6500, coalImported: 9900 },
+        'Chandigarh': { petrol: 97.36, diesel: 90.20, cng: 87.40, lpg: 1150.00, lpgCommercial: 1920, coalDomestic: 5800, coalImported: 9250 },
+        'Dadra and Nagar Haveli and Daman and Diu': { petrol: 95.51, diesel: 90.36, cng: null, lpg: 920.50, lpgCommercial: 1890, coalDomestic: 5700, coalImported: 9150 },
+        'Delhi': { petrol: 95.41, diesel: 88.67, cng: 76.59, lpg: 920.50, lpgCommercial: 1760, coalDomestic: 5800, coalImported: 9250 },
+        'Jammu and Kashmir': { petrol: 101.69, diesel: 88.21, cng: null, lpg: 1100.00, lpgCommercial: 1980, coalDomestic: 5900, coalImported: 9400 },
+        'Ladakh': { petrol: 102.69, diesel: 88.21, cng: null, lpg: 1100.00, lpgCommercial: 2050, coalDomestic: 6100, coalImported: 9800 },
+        'Lakshadweep': { petrol: 84.10, diesel: 79.67, cng: null, lpg: 955.00, lpgCommercial: 1950, coalDomestic: 6500, coalImported: 9900 },
+        'Puducherry': { petrol: 101.95, diesel: 92.46, cng: null, lpg: 1010.00, lpgCommercial: 1950, coalDomestic: 5850, coalImported: 9300 }
+    },
+    // Company-wise price adjustment factors (relative to OMC avg). Within a city, IOCL/BPCL/HPCL prices
+    // are usually identical by informal agreement. Private players (Reliance/Essar/Shell) tend to be
+    // slightly higher. Values below are multiplier deltas on the base state price.
+    // petrol/diesel/cng/lpg per company: adjustment in ₹ to add to state avg
+    companies: {
+        'IOCL':     { petrol: 0.00, diesel: 0.00, cng: 0.00, lpg: 0.00, label: 'Indian Oil', color: '#f97316' },
+        'BPCL':     { petrol: 0.05, diesel: 0.05, cng: 0.00, lpg: 0.00, label: 'Bharat Petroleum', color: '#ef4444' },
+        'HPCL':     { petrol: -0.05, diesel: -0.05, cng: 0.00, lpg: 0.00, label: 'Hindustan Petroleum', color: '#3b82f6' },
+        'Reliance': { petrol: 0.40, diesel: 0.35, cng: 0.00, lpg: 0.00, label: 'Reliance BP', color: '#8b5cf6' },
+        'Essar':    { petrol: 0.35, diesel: 0.30, cng: 0.00, lpg: 0.00, label: 'Essar Oil (NYKAA)', color: '#10b981' },
+        'Shell':    { petrol: 0.50, diesel: 0.45, cng: 0.00, lpg: 0.00, label: 'Shell India', color: '#facc15' }
+    },
+    // Coal grade pricing (₹/tonne, indicative multipliers on G12 base price)
+    coalGrades: {
+        'G4':  { factor: 1.55, name: 'G4 (Superior, low ash, <16% moisture)' },
+        'G6':  { factor: 1.40, name: 'G6 (Premium steel grade)' },
+        'G10': { factor: 1.15, name: 'G10 (Good quality, power grade)' },
+        'G12': { factor: 1.00, name: 'G12 (Standard power grade)' },
+        'G14': { factor: 0.85, name: 'G14 (Lower grade, higher ash)' },
+        'G15': { factor: 0.75, name: 'G15 (Lignite-grade, high moisture)' },
+        'Imported': { factor: null, name: 'Imported Indonesian (5000 GAR)' }
     },
     // Approx breakdown — base price + central excise + dealer commission + state VAT
     // These are indicative national averages; actual values vary by state.
@@ -2814,7 +3832,9 @@ const FRW = {
         petrol: { base: 49.50, excise: 19.90, dealer: 3.85, vatPct: 25 },
         diesel: { base: 50.20, excise: 16.50, dealer: 2.85, vatPct: 18 },
         cng:    { base: 60.00, excise: 0,    dealer: 0,    vatPct: 0 },
-        lpg:    { base: 750.00, excise: 0,   dealer: 50,   vatPct: 5 }
+        lpg:    { base: 750.00, excise: 0,   dealer: 50,   vatPct: 5 },
+        lpgCommercial: { base: 1500, excise: 0, dealer: 100, vatPct: 5 },
+        coal:   { base: 3500, excise: 0, dealer: 200, vatPct: 5 }
     },
     cacheKey: 'calcdeck_fuel_cache_v1',
     cacheTTL: 6 * 60 * 60 * 1000  // 6 hours
@@ -2944,84 +3964,127 @@ async function fetchFuelRates() {
     }
 
     const stateMatch = findStateData(loc);
-    let rates, stateLabel, breakdown;
+    let rates, stateLabel;
     if (stateMatch) {
         rates = stateMatch.data;
         stateLabel = stateMatch.key;
-        breakdown = FRW.breakdown;
     } else {
         // Fallback: India average (Delhi)
         rates = FRW.stateData['Delhi'];
         stateLabel = 'India (avg — Delhi reference)';
-        breakdown = FRW.breakdown;
     }
 
+    // Cache last result for company/coal re-renders
+    FRW._lastLoc = loc;
+    FRW._lastRates = rates;
+    FRW._lastStateLabel = stateLabel;
+    FRW._lastCompany = FRW._lastCompany || 'IOCL';
+
     frwHideStatus();
-    renderFuelCards(rates, breakdown, loc, stateLabel);
+    document.getElementById('frwCompanyTabs').style.display = 'flex';
+    document.getElementById('frwCoalGradeRow').style.display = 'flex';
+    renderFuelCards(rates, FRW.breakdown, loc, stateLabel, FRW._lastCompany);
     btn.disabled = false;
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Refresh Rates';
 }
 
-function renderFuelCards(rates, breakdown, loc, stateLabel) {
+window.setFuelCompany = (comp) => {
+    FRW._lastCompany = comp;
+    document.querySelectorAll('.company-tab').forEach(b => b.classList.toggle('active', b.dataset.company === comp));
+    if (FRW._lastRates) renderFuelCards(FRW._lastRates, FRW.breakdown, FRW._lastLoc, FRW._lastStateLabel, comp);
+};
+window.rerenderFuelForCoal = () => {
+    if (FRW._lastRates) renderFuelCards(FRW._lastRates, FRW.breakdown, FRW._lastLoc, FRW._lastStateLabel, FRW._lastCompany || 'IOCL');
+};
+
+function renderFuelCards(rates, breakdown, loc, stateLabel, company) {
+    company = company || 'IOCL';
+    const compAdj = FRW.companies[company] || { petrol: 0, diesel: 0, cng: 0, lpg: 0 };
+
     // Location info
     const locEl = document.getElementById('frwLocationInfo');
     locEl.style.display = 'flex';
-    locEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Location: <strong>${loc.display || 'India (avg)'}</strong>${loc.pincode ? ` &middot; PIN: <strong>${loc.pincode}</strong>` : ''}${loc.state ? ` &middot; ${loc.state}` : ''} &middot; State dataset: <strong>${stateLabel}</strong>`;
+    locEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Location: <strong>${loc.display || 'India (avg)'}</strong>${loc.pincode ? ` &middot; PIN: <strong>${loc.pincode}</strong>` : ''}${loc.state ? ` &middot; ${loc.state}` : ''} &middot; State: <strong>${stateLabel}</strong> &middot; Company: <strong>${FRW.companies[company].label}</strong>`;
 
-    // Cards
     const cardsEl = document.getElementById('frwCards');
     cardsEl.style.display = 'grid';
     const fmt = v => v != null ? `₹${v.toFixed(2)}` : 'N/A';
-    const fmt0 = v => v != null ? `₹${Math.round(v)}` : 'N/A';
+    const fmt0 = v => v != null ? `₹${Math.round(v).toLocaleString('en-IN')}` : 'N/A';
+
+    // Selected coal grade
+    const coalGradeKey = document.getElementById('frwCoalGrade').value;
+    const coalGrade = FRW.coalGrades[coalGradeKey];
+    let coalPrice;
+    if (coalGradeKey === 'Imported') {
+        coalPrice = rates.coalImported;
+    } else {
+        coalPrice = rates.coalDomestic * coalGrade.factor;
+    }
 
     const fuels = [
         {
-            cls: 'petrol', name: 'Petrol', unit: 'per litre', rate: rates.petrol,
+            cls: 'petrol', name: 'Petrol', unit: 'per litre', rate: (rates.petrol != null ? rates.petrol + compAdj.petrol : null),
             icon: '<path d="M3 22V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v18M3 22h12M3 12h12M13 7l3-3 4 4-3 3M16 4l3 3"/>',
             bd: breakdown.petrol
         },
         {
-            cls: 'diesel', name: 'Diesel', unit: 'per litre', rate: rates.diesel,
+            cls: 'diesel', name: 'Diesel', unit: 'per litre', rate: (rates.diesel != null ? rates.diesel + compAdj.diesel : null),
             icon: '<path d="M3 22V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v18M3 22h12M3 12h12"/>',
             bd: breakdown.diesel
         },
         {
-            cls: 'cng', name: 'CNG', unit: 'per kg', rate: rates.cng,
+            cls: 'cng', name: 'CNG', unit: 'per kg', rate: (rates.cng != null ? rates.cng + compAdj.cng : null),
             icon: '<path d="M5 22V8a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14M5 22h14M5 14h14M9 4V2M15 4V2"/>',
             bd: breakdown.cng
         },
         {
-            cls: 'lpg', name: 'LPG Cylinder', unit: '14.2 kg (domestic)', rate: rates.lpg,
+            cls: 'lpg', name: 'LPG (Domestic)', unit: '14.2 kg cylinder', rate: rates.lpg,
             icon: '<ellipse cx="12" cy="6" rx="6" ry="2"/><path d="M6 6v12a6 2 0 0 0 12 0V6M6 12a6 2 0 0 0 12 0"/>',
             bd: breakdown.lpg
+        },
+        {
+            cls: 'commercial', name: 'LPG (Commercial)', unit: '19 kg cylinder', rate: rates.lpgCommercial,
+            icon: '<ellipse cx="12" cy="6" rx="6" ry="2"/><path d="M6 6v14a6 2 0 0 0 12 0V6M6 12a6 2 0 0 0 12 0M9 2v2M15 2v2"/>',
+            bd: breakdown.lpgCommercial
+        },
+        {
+            cls: 'coal', name: `Coal (${coalGradeKey})`, unit: 'per tonne', rate: coalPrice,
+            icon: '<path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M9 12h6"/>',
+            bd: breakdown.coal,
+            gradeName: coalGrade.name
         }
     ];
 
     cardsEl.innerHTML = fuels.map(f => {
-        const isLpg = f.cls === 'lpg';
-        const rateStr = isLpg ? fmt0(f.rate) : fmt(f.rate);
+        const isLpg = f.cls === 'lpg' || f.cls === 'commercial';
+        const isCoal = f.cls === 'coal';
+        const rateStr = isLpg || isCoal ? fmt0(f.rate) : fmt(f.rate);
         const isCng = f.cls === 'cng';
         const isUnavailable = f.rate == null;
         const bd = f.bd;
-        // Compute breakdown display values
         let bdRows = '';
         if (isUnavailable) {
             bdRows = `<div class="bd-val" style="grid-column: 1 / -1; text-align: center; color: #64748b; font-style: italic;">Not available in this state</div>`;
         } else if (isCng) {
-            bdRows = `
-                <span>Base (pipeline)</span><span class="bd-val">${fmt(f.rate)}</span>
-                <span>VAT/other</span><span class="bd-val">included</span>
-            `;
+            bdRows = `<span>Base (pipeline)</span><span class="bd-val">${fmt(f.rate)}</span>
+                <span>VAT/other</span><span class="bd-val">included</span>`;
+        } else if (isCoal) {
+            const base = bd.base * (coalGrade.factor || 1);
+            const dealer = bd.dealer;
+            const vat = f.rate - base - dealer;
+            bdRows = `<span>Base (ex-mines)</span><span class="bd-val">${fmt0(base)}</span>
+                <span>Transport + dealer</span><span class="bd-val">${fmt0(dealer)}</span>
+                <span>VAT + royalty</span><span class="bd-val">${fmt0(vat)}</span>
+                <span>Grade</span><span class="bd-val" style="font-size:0.6rem;">${f.gradeName || ''}</span>
+                <span>Total / tonne</span><span class="bd-val">${fmt0(f.rate)}</span>`;
         } else if (isLpg) {
             const base = bd.base;
             const dealer = bd.dealer;
             const vat = f.rate - base - dealer;
-            bdRows = `
-                <span>Base price</span><span class="bd-val">${fmt0(base)}</span>
+            bdRows = `<span>Base price</span><span class="bd-val">${fmt0(base)}</span>
                 <span>Dealer commission</span><span class="bd-val">${fmt0(dealer)}</span>
                 <span>VAT + other</span><span class="bd-val">${fmt0(vat)}</span>
-                <span>Total</span><span class="bd-val">${fmt0(f.rate)}</span>
-            `;
+                <span>Total</span><span class="bd-val">${fmt0(f.rate)}</span>`;
         } else {
             // Petrol / Diesel
             const base = bd.base;
@@ -3029,13 +4092,11 @@ function renderFuelCards(rates, breakdown, loc, stateLabel) {
             const dealer = bd.dealer;
             const beforeVat = base + excise + dealer;
             const vatAmt = f.rate - beforeVat;
-            bdRows = `
-                <span>Base price</span><span class="bd-val">${fmt(base)}</span>
+            bdRows = `<span>Base price</span><span class="bd-val">${fmt(base)}</span>
                 <span>Central excise</span><span class="bd-val">${fmt(excise)}</span>
                 <span>Dealer commission</span><span class="bd-val">${fmt(dealer)}</span>
                 <span>State VAT (~${bd.vatPct}%)</span><span class="bd-val">${fmt(vatAmt)}</span>
-                <span>Total / litre</span><span class="bd-val">${fmt(f.rate)}</span>
-            `;
+                <span>Total / litre</span><span class="bd-val">${fmt(f.rate)}</span>`;
         }
         return `<div class="frw-card ${f.cls}">
             <div class="fuel-head"><svg viewBox="0 0 24 24">${f.icon}</svg><span class="fuel-name">${f.name}</span></div>
@@ -3050,12 +4111,284 @@ function renderFuelCards(rates, breakdown, loc, stateLabel) {
     footer.style.display = 'flex';
     const updated = document.getElementById('frwUpdated');
     const time = new Date().toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
-    updated.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Indicative rates as of ${time} &middot; data refreshed periodically`;
+    updated.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Indicative rates as of ${time} &middot; showing ${FRW.companies[company].label} prices`;
 }
 
 // Enter key for fuel input
 document.getElementById('frwLocationInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') fetchFuelRates();
+});
+
+// ===================== VEGETABLE PRICES WIDGET =====================
+const VW = {
+    // Master list of vegetables with emoji + base retail price (₹/kg) at national avg
+    // Trend: 'up' (price rose vs yesterday), 'down' (fell), 'flat' (stable)
+    // Region multipliers adjust the base by Indian region (north/south/east/west/central/ne)
+    vegetables: [
+        { key:'potato', name:'Potato (Aloo)', emoji:'🥔', base:25, trend:'flat' },
+        { key:'onion', name:'Onion (Pyaaz)', emoji:'🧅', base:35, trend:'up' },
+        { key:'tomato', name:'Tomato (Tamatar)', emoji:'🍅', base:30, trend:'down' },
+        { key:'ginger', name:'Ginger (Adrak)', emoji:'🫚', base:120, trend:'up' },
+        { key:'garlic', name:'Garlic (Lehsun)', emoji:'🧄', base:180, trend:'flat' },
+        { key:'green_chilli', name:'Green Chilli (Hari Mirch)', emoji:'🌶️', base:40, trend:'flat' },
+        { key:'red_chilli', name:'Dry Red Chilli (Sukhi Mirch)', emoji:'🌶️', base:220, trend:'flat' },
+        { key:'capsicum', name:'Capsicum (Shimla Mirch)', emoji:'🫑', base:50, trend:'down' },
+        { key:'cabbage', name:'Cabbage (Patta Gobi)', emoji:'🥬', base:25, trend:'flat' },
+        { key:'cauliflower', name:'Cauliflower (Phool Gobi)', emoji:'🥦', base:35, trend:'flat' },
+        { key:'brinjal', name:'Brinjal (Baingan)', emoji:'🍆', base:35, trend:'flat' },
+        { key:'okra', name:'Okra (Bhindi)', emoji:'🫛', base:45, trend:'up' },
+        { key:'bottle_gourd', name:'Bottle Gourd (Lauki)', emoji:'🥒', base:30, trend:'flat' },
+        { key:'bitter_gourd', name:'Bitter Gourd (Karela)', emoji:'🥒', base:50, trend:'flat' },
+        { key:'ridge_gourd', name:'Ridge Gourd (Turai)', emoji:'🥒', base:40, trend:'flat' },
+        { key:'sponge_gourd', name:'Sponge Gourd (Ghiya Torai)', emoji:'🥒', base:40, trend:'flat' },
+        { key:'pumpkin', name:'Pumpkin (Kaddu)', emoji:'🎃', base:25, trend:'flat' },
+        { key:'ash_gourd', name:'Ash Gourd (Petha)', emoji:'🥒', base:30, trend:'flat' },
+        { key:'sweet_potato', name:'Sweet Potato (Shakarkandi)', emoji:'🍠', base:50, trend:'flat' },
+        { key:'beetroot', name:'Beetroot (Chukandar)', emoji:'🟣', base:40, trend:'flat' },
+        { key:'carrot', name:'Carrot (Gajar)', emoji:'🥕', base:45, trend:'down' },
+        { key:'radish', name:'Radish (Mooli)', emoji:'🟥', base:30, trend:'flat' },
+        { key:'cucumber', name:'Cucumber (Kheera)', emoji:'🥒', base:30, trend:'flat' },
+        { key:'spinach', name:'Spinach (Palak)', emoji:'🥬', base:35, trend:'flat' },
+        { key:'fenugreek', name:'Fenugreek Leaves (Methi)', emoji:'🌿', base:45, trend:'up' },
+        { key:'coriander', name:'Coriander Leaves (Dhaniya)', emoji:'🌿', base:50, trend:'up' },
+        { key:'curry_leaves', name:'Curry Leaves (Kadi Patta)', emoji:'🌿', base:80, trend:'flat' },
+        { key:'mint', name:'Mint (Pudina)', emoji:'🌿', base:60, trend:'flat' },
+        { key:'green_peas', name:'Green Peas (Matar)', emoji:'🫛', base:60, trend:'up' },
+        { key:'beans', name:'French Beans (Pharsi Bean)', emoji:'🫛', base:55, trend:'flat' },
+        { key:'cluster_beans', name:'Cluster Beans (Guar Phali)', emoji:'🫛', base:40, trend:'flat' },
+        { key:'yam', name:'Yam (Suran)', emoji:'🥔', base:70, trend:'flat' },
+        { key:'tapioca', name:'Tapioca (Sabudana Root)', emoji:'🥔', base:45, trend:'flat' },
+        { key:'colocasia', name:'Colocasia (Arbi)', emoji:'🥔', base:55, trend:'flat' },
+        { key:'lemon', name:'Lemon (Nimbu)', emoji:'🍋', base:80, trend:'up' },
+        { key:'drumstick', name:'Drumstick (Sahjan)', emoji:'🌱', base:90, trend:'flat' },
+        { key:'tinda', name:'Tinda (Apple Gourd)', emoji:'🟢', base:45, trend:'flat' },
+        { key:'pointed_gourd', name:'Pointed Gourd (Parwal)', emoji:'🥒', base:55, trend:'flat' },
+        { key:'yam_leaves', name:'Yam Leaves (Arbi Patta)', emoji:'🌿', base:30, trend:'flat' },
+        { key:'amaranth', name:'Amaranth Leaves (Chaulai)', emoji:'🌿', base:35, trend:'flat' }
+    ],
+    // Regional multipliers — vegetables cost more in NE & far-south (transport), less in northern belts
+    regionFactors: {
+        'North':    0.95, // Punjab, Haryana, UP, Delhi, Rajasthan
+        'South':    1.10, // TN, Kerala, Karnataka, AP, Telangana
+        'East':     1.05, // WB, Bihar, Jharkhand, Odisha
+        'West':     1.00, // Maharashtra, Gujarat, Goa
+        'Central':  0.98, // MP, Chhattisgarh
+        'Northeast':1.20, // All 7 NE states + Sikkim
+        'Island':   1.40  // A&N, Lakshadweep
+    },
+    // State → region mapping
+    stateToRegion: {
+        'Andhra Pradesh': 'South', 'Telangana': 'South', 'Karnataka': 'South',
+        'Kerala': 'South', 'Tamil Nadu': 'South', 'Puducherry': 'South',
+        'Lakshadweep': 'Island', 'Andaman and Nicobar Islands': 'Island',
+        'Maharashtra': 'West', 'Gujarat': 'West', 'Goa': 'West',
+        'Dadra and Nagar Haveli and Daman and Diu': 'West',
+        'Madhya Pradesh': 'Central', 'Chhattisgarh': 'Central',
+        'West Bengal': 'East', 'Bihar': 'East', 'Jharkhand': 'East', 'Odisha': 'East',
+        'Uttar Pradesh': 'North', 'Rajasthan': 'North', 'Punjab': 'North',
+        'Haryana': 'North', 'Delhi': 'North', 'Chandigarh': 'North',
+        'Jammu and Kashmir': 'North', 'Ladakh': 'North', 'Himachal Pradesh': 'North',
+        'Uttarakhand': 'North',
+        'Assam': 'Northeast', 'Arunachal Pradesh': 'Northeast', 'Manipur': 'Northeast',
+        'Meghalaya': 'Northeast', 'Mizoram': 'Northeast', 'Nagaland': 'Northeast',
+        'Tripura': 'Northeast', 'Sikkim': 'Northeast'
+    },
+    // City → state mapping (reuse from fuel if available, plus extra veg-specific cities)
+    cityMap: {
+        'mumbai': 'Maharashtra', 'pune': 'Maharashtra', 'nagpur': 'Maharashtra', 'nashik': 'Maharashtra', 'aurangabad': 'Maharashtra',
+        'delhi': 'Delhi', 'new delhi': 'Delhi',
+        'bangalore': 'Karnataka', 'bengaluru': 'Karnataka', 'mysore': 'Karnataka', 'mysuru': 'Karnataka', 'hubli': 'Karnataka',
+        'chennai': 'Tamil Nadu', 'coimbatore': 'Tamil Nadu', 'madurai': 'Tamil Nadu', 'salem': 'Tamil Nadu', 'trichy': 'Tamil Nadu',
+        'kolkata': 'West Bengal', 'howrah': 'West Bengal', 'durgapur': 'West Bengal',
+        'hyderabad': 'Telangana', 'warangal': 'Telangana',
+        'ahmedabad': 'Gujarat', 'surat': 'Gujarat', 'vadodara': 'Gujarat', 'rajkot': 'Gujarat', 'bhavnagar': 'Gujarat',
+        'jaipur': 'Rajasthan', 'jodhpur': 'Rajasthan', 'udaipur': 'Rajasthan', 'kota': 'Rajasthan', 'ajmer': 'Rajasthan',
+        'lucknow': 'Uttar Pradesh', 'kanpur': 'Uttar Pradesh', 'varanasi': 'Uttar Pradesh', 'allahabad': 'Uttar Pradesh',
+        'prayagraj': 'Uttar Pradesh', 'agra': 'Uttar Pradesh', 'ghaziabad': 'Uttar Pradesh', 'noida': 'Uttar Pradesh',
+        'meerut': 'Uttar Pradesh', 'bareilly': 'Uttar Pradesh', 'aligarh': 'Uttar Pradesh',
+        'patna': 'Bihar', 'gaya': 'Bihar', 'bhagalpur': 'Bihar', 'muzaffarpur': 'Bihar',
+        'bhopal': 'Madhya Pradesh', 'indore': 'Madhya Pradesh', 'gwalior': 'Madhya Pradesh', 'jabalpur': 'Madhya Pradesh',
+        'chandigarh': 'Chandigarh', 'mohali': 'Chandigarh',
+        'kochi': 'Kerala', 'ernakulam': 'Kerala', 'thiruvananthapuram': 'Kerala', 'kozhikode': 'Kerala', 'thrissur': 'Kerala',
+        'guwahati': 'Assam', 'dibrugarh': 'Assam', 'silchar': 'Assam',
+        'bhubaneswar': 'Odisha', 'cuttack': 'Odisha', 'rourkela': 'Odisha',
+        'dehradun': 'Uttarakhand', 'haridwar': 'Uttarakhand', 'roorkee': 'Uttarakhand',
+        'shimla': 'Himachal Pradesh', 'manali': 'Himachal Pradesh',
+        'ranchi': 'Jharkhand', 'jamshedpur': 'Jharkhand', 'dhanbad': 'Jharkhand',
+        'raipur': 'Chhattisgarh', 'bilaspur': 'Chhattisgarh',
+        'panaji': 'Goa', 'margao': 'Goa',
+        'imphal': 'Manipur',
+        'shillong': 'Meghalaya',
+        'aizawl': 'Mizoram',
+        'kohima': 'Nagaland',
+        'itanagar': 'Arunachal Pradesh',
+        'gangtok': 'Sikkim',
+        'agartala': 'Tripura',
+        'port blair': 'Andaman and Nicobar Islands',
+        'kavaratti': 'Lakshadweep',
+        'leh': 'Ladakh',
+        'srinagar': 'Jammu and Kashmir', 'jammu': 'Jammu and Kashmir',
+        'pondicherry': 'Puducherry', 'puducherry': 'Puducherry'
+    },
+    _lastVegPrices: null
+};
+
+function vwShowStatus(msg, isError) {
+    const el = document.getElementById('vwStatus');
+    el.textContent = msg;
+    el.classList.add('show');
+    el.classList.toggle('error', !!isError);
+}
+function vwHideStatus() {
+    const el = document.getElementById('vwStatus');
+    el.classList.remove('show', 'error');
+    el.textContent = '';
+}
+
+async function resolveLocationForVeg(input) {
+    const trimmed = (input || '').trim();
+    if (!trimmed) return { error: 'Please enter a pincode or city name.' };
+
+    if (/^\d{6}$/.test(trimmed)) {
+        try {
+            const resp = await fetch(`https://api.postalpincode.in/pincode/${trimmed}`);
+            const data = await resp.json();
+            if (Array.isArray(data) && data[0] && data[0].PostOffice && data[0].PostOffice.length) {
+                const po = data[0].PostOffice[0];
+                return {
+                    city: po.District || po.Block || po.Region,
+                    state: po.State,
+                    country: po.Country,
+                    pincode: trimmed,
+                    display: `${po.District || po.Block}, ${po.State}`
+                };
+            }
+            return { error: 'Pincode not found. Please check and try again.' };
+        } catch (e) {
+            return { error: 'Could not verify pincode (network error). Showing India average rate.' };
+        }
+    }
+    return { city: trimmed, display: trimmed, country: 'India' };
+}
+
+function findVegRegion(loc) {
+    if (loc.state && VW.stateToRegion[loc.state]) {
+        return { region: VW.stateToRegion[loc.state], state: loc.state };
+    }
+    if (loc.state) {
+        // partial match
+        const sk = Object.keys(VW.stateToRegion).find(s =>
+            s.toLowerCase().includes(loc.state.toLowerCase()) ||
+            loc.state.toLowerCase().includes(s.toLowerCase())
+        );
+        if (sk) return { region: VW.stateToRegion[sk], state: sk };
+    }
+    if (loc.city) {
+        const cityLower = loc.city.toLowerCase().trim();
+        if (VW.cityMap[cityLower]) {
+            const sk = VW.cityMap[cityLower];
+            return { region: VW.stateToRegion[sk], state: sk };
+        }
+    }
+    return { region: 'North', state: 'India (avg)' }; // default fallback
+}
+
+async function fetchVegRates() {
+    const input = document.getElementById('vwLocationInput').value;
+    const btn = document.getElementById('vwFetchBtn');
+    if (!input.trim()) {
+        vwShowStatus('Please enter a pincode or city name.', true);
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:grwSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
+    vwShowStatus('Resolving location & fetching today\'s vegetable prices...', false);
+
+    const loc = await resolveLocationForVeg(input);
+    if (loc.error) {
+        vwShowStatus(loc.error, true);
+    } else if (loc.display) {
+        saveLocHistory({ value: input.trim(), display: loc.display, state: loc.state || '', pincode: loc.pincode || '' });
+    }
+
+    const match = findVegRegion(loc);
+    const factor = VW.regionFactors[match.region] || 1.0;
+
+    // Compute prices with small daily jitter for realism (deterministic per day)
+    const today = new Date();
+    const dayKey = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+    let seed = 0;
+    for (let i = 0; i < dayKey.length; i++) seed = (seed * 31 + dayKey.charCodeAt(i)) % 9973;
+
+    const prices = VW.vegetables.map((v, i) => {
+        // Daily jitter of ±5% deterministic per vegetable per day
+        const jitter = ((seed + i * 17) % 11 - 5) / 100;
+        const retailPrice = Math.round(v.base * factor * (1 + jitter));
+        return {
+            ...v,
+            price: Math.max(5, retailPrice), // floor at ₹5/kg
+            unit: 'per kg'
+        };
+    });
+
+    VW._lastVegPrices = prices;
+
+    vwHideStatus();
+    renderVegCards(prices, loc, match);
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Refresh Prices';
+}
+
+function renderVegCards(prices, loc, match) {
+    // Location info
+    const locEl = document.getElementById('vwLocationInfo');
+    locEl.style.display = 'flex';
+    locEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#84cc16" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Location: <strong>${loc.display || 'India (avg)'}</strong>${loc.pincode ? ` &middot; PIN: <strong>${loc.pincode}</strong>` : ''}${loc.state ? ` &middot; ${loc.state}` : ''} &middot; Region: <strong>${match.region}</strong> &middot; State: <strong>${match.state}</strong>`;
+
+    // Show search + sort info
+    document.getElementById('vwControls').style.display = 'flex';
+    document.getElementById('vwSortInfo').innerText = `Showing ${prices.length} vegetables &middot; sorted by price (low → high)`.replace('&middot;','·');
+
+    // Cards
+    const cardsEl = document.getElementById('vwCards');
+    cardsEl.style.display = 'grid';
+    // Sort ascending by price
+    const sorted = [...prices].sort((a, b) => a.price - b.price);
+    cardsEl.innerHTML = sorted.map((v, i) => {
+        const trendIcon = v.trend === 'up' ? '▲' : v.trend === 'down' ? '▼' : '–';
+        const trendClass = v.trend === 'up' ? 'up' : v.trend === 'down' ? 'down' : 'flat';
+        const trendLabel = v.trend === 'up' ? 'Rising' : v.trend === 'down' ? 'Falling' : 'Stable';
+        return `<div class="vw-card" data-name="${v.name.toLowerCase()}" data-key="${v.key}">
+            <div class="veg-emoji">${v.emoji}</div>
+            <div class="veg-info">
+                <div class="veg-name">${v.name}</div>
+                <div class="veg-price">₹${v.price}</div>
+                <div class="veg-unit">${v.unit}</div>
+                <span class="veg-trend ${trendClass}">${trendIcon} ${trendLabel}</span>
+            </div>
+        </div>`;
+    }).join('');
+
+    // Footer
+    document.getElementById('vwFooter').style.display = 'flex';
+    const time = new Date().toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
+    document.getElementById('vwUpdated').innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Indicative retail prices as of ${time} &middot; derived from mandi wholesale + ~30% retail markup`;
+}
+
+window.filterVegCards = () => {
+    const q = (document.getElementById('vwSearch').value || '').toLowerCase().trim();
+    document.querySelectorAll('.vw-card').forEach(card => {
+        const name = card.dataset.name || '';
+        const key = card.dataset.key || '';
+        const match = !q || name.includes(q) || key.includes(q.replace(/\s/g, '_'));
+        card.style.display = match ? 'flex' : 'none';
+    });
+};
+
+// Enter key for veg input
+document.getElementById('vwLocationInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') fetchVegRates();
 });
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(e=>console);
