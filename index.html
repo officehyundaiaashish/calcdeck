@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,14 +50,51 @@ body {
     position: relative;
     width: 100%;
     max-width: 1000px;
-    background: rgba(18, 25, 45, 0.95);
+    background: linear-gradient(165deg, rgba(18, 25, 45, 0.96) 0%, rgba(15, 22, 41, 0.96) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 2rem;
     padding: 1.8rem 1.8rem 1.5rem;
     color: #f1f5f9;
-    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 25px 45px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(56, 189, 248, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
     transition: all 0.3s ease;
+}
+
+/* top toolbar */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 2px 14px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+}
+.top-bar .brand-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+.top-bar .brand-mini .brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+.top-bar .icon-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* header area */
@@ -65,7 +103,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 2.8rem;
+    margin-top: 0.8rem;
     margin-bottom: 1.2rem;
     position: relative;
 }
@@ -95,13 +133,12 @@ body.light-mode h1 {
 
 /* icon buttons */
 .icon-btn, .comparison-btn {
-    position: absolute;
-    top: 1.4rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.8rem;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,47 +150,55 @@ body.light-mode h1 {
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(129, 140, 248, 0.18));
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #fff;
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px -6px rgba(56, 189, 248, 0.4);
 }
 
-#themeToggleBtn { left: 1.5rem; }
-#openCalculatorBtn { right: 1.2rem; }
-#openHistoryBtn { right: 3.8rem; }
-#openComparisonBtn { right: 6.4rem; }
+.icon-btn:active { transform: translateY(0); }
 
 /* tab switcher */
 .tab-switcher {
     display: flex;
-    gap: 12px;
+    gap: 6px;
     margin: 1rem 0 1.8rem 0;
     background: rgba(255, 255, 255, 0.04);
-    border-radius: 24px;
-    padding: 8px;
-    backdrop-filter: blur(4px);
+    border-radius: 18px;
+    padding: 6px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+    overflow-x: auto;
+    scrollbar-width: none;
 }
+.tab-switcher::-webkit-scrollbar { display: none; }
 .tab-btn {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 4px;
-    padding: 10px 8px;
+    padding: 10px 10px;
     border: none;
-    border-radius: 44px;
+    border-radius: 14px;
     font-weight: 600;
     font-size: 0.85rem;
     background: transparent;
-    color: #cbd5e1;
+    color: #94a3b8;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
     outline: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    position: relative;
+    white-space: nowrap;
+    min-width: 78px;
 }
 .tab-btn svg {
     width: 20px;
@@ -161,20 +206,34 @@ body.light-mode h1 {
     stroke: currentColor;
     stroke-width: 1.8;
     fill: none;
+    transition: transform 0.25s ease;
 }
 .tab-btn span {
     font-size: 0.7rem;
     letter-spacing: 0.3px;
     line-height: 1;
 }
-.tab-btn.active {
-    background: #1e293b;
-    color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
 .tab-btn:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.08);
     color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.05);
+}
+.tab-btn:hover:not(.active) svg { transform: translateY(-1px); }
+.tab-btn.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #38bdf8 0%, #6366f1 55%, #a855f7 100%);
+    box-shadow:
+        0 8px 22px -6px rgba(99, 102, 241, 0.55),
+        0 2px 6px rgba(56, 189, 248, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.tab-btn.active svg { transform: scale(1.06); }
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
 }
 
 /* two column responsive */
@@ -190,6 +249,15 @@ body.light-mode h1 {
         gap: 1.8rem;
         align-items: start;
     }
+}
+
+/* tab panel entrance animation */
+.tab-panel {
+    animation: panelIn 0.32s cubic-bezier(0.2, 0.9, 0.4, 1.05);
+}
+@keyframes panelIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .row {
@@ -543,8 +611,8 @@ body.light-mode .gst-menu, body.light-mode .unit-menu { background: #ffffff; bor
 body.light-mode .gst-menu div, body.light-mode .unit-menu div { color: #1e293b; }
 body.light-mode .result { background: rgba(0,0,0,0.02);}
 body.light-mode .total, body.light-mode .pg-total { color: #0284c7; }
-body.light-mode .tab-btn.active { background: #e2e8f0; color: #0f172a; box-shadow: none;}
-body.light-mode .icon-btn { background: rgba(0,0,0,0.06); color: #1e293b; }
+body.light-mode .tab-btn.active { background: linear-gradient(135deg, #0284c7 0%, #4f46e5 55%, #9333ea 100%); color: #fff; box-shadow: 0 8px 22px -6px rgba(79, 70, 229, 0.45), 0 2px 6px rgba(2, 132, 199, 0.3);}
+body.light-mode .icon-btn { background: rgba(0,0,0,0.05); color: #1e293b; border-color: rgba(0,0,0,0.06); }
 body.light-mode .mini-calculator-dialog, body.light-mode .history-dialog {
     background: #f8fafc;
     border: 1px solid rgba(0,0,0,0.1);
@@ -845,10 +913,11 @@ body.light-mode .tooltip-box::after,
 body.light-mode #openComparisonBtn {
     background: rgba(0, 0, 0, 0.06);
     color: #1e293b;
-    right: 7.2rem;
 }
 body.light-mode #openComparisonBtn:hover {
-    background: rgba(0, 0, 0, 0.12);
+    background: rgba(2, 132, 199, 0.12);
+    border-color: rgba(2, 132, 199, 0.3);
+    color: #0284c7;
 }
 body.light-mode #openComparisonBtn.has-items {
     background: rgba(2, 132, 199, 0.2);
@@ -906,11 +975,9 @@ body.light-mode .history-share-btn:hover {
 .footer { display: none; }
 @media (max-width: 640px) {
     .card { padding: 1.2rem; }
-    .icon-btn { top: 1rem; width: 36px; height: 36px; }
-    #themeToggleBtn { left: 1rem; }
-    #openCalculatorBtn { right: 1rem; }
-    #openHistoryBtn { right: 3.6rem; }
-    #openComparisonBtn { right: 6.2rem; }
+    .icon-btn { width: 38px; height: 38px; }
+    .top-bar .brand-mini { font-size: 0.62rem; letter-spacing: 0.6px; }
+    .top-bar .icon-group { gap: 6px; }
     .tab-btn span { font-size: 0.6rem; }
     .tab-btn svg { margin: 0; }
     .tab-btn { padding: 8px 0; }
@@ -1650,6 +1717,191 @@ body.light-mode .fuel-rate-widget .frw-card .fuel-breakdown .bd-val { color: #47
 body.light-mode .fuel-rate-widget .frw-updated { color: #64748b; }
 body.light-mode .fuel-rate-widget .frw-disclaimer { color: #64748b; }
 
+/* ===================== COAL GRADE CUSTOM DROPDOWN ===================== */
+.coal-selector { position: relative; }
+.coal-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-radius: 1.2rem;
+    background: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.2));
+    color: #f8fafc;
+    border: 1px solid rgba(34,197,94,0.18);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.18s;
+    text-align: left;
+}
+.coal-btn:hover {
+    border-color: rgba(34,197,94,0.45);
+    background: linear-gradient(135deg, rgba(34,197,94,0.10), rgba(0,0,0,0.25));
+}
+.coal-btn .coal-btn-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coal-btn .coal-caret { transition: transform 0.2s ease; color: #94a3b8; flex-shrink: 0; }
+.coal-btn[aria-expanded="true"] .coal-caret { transform: rotate(180deg); color: #4ade80; }
+
+.coal-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #1f2937, #374151);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+.coal-swatch[data-tier="G4"]  { background: linear-gradient(135deg, #d4d4d8, #71717a); }
+.coal-swatch[data-tier="G6"]  { background: linear-gradient(135deg, #a8a29e, #57534e); }
+.coal-swatch[data-tier="G10"] { background: linear-gradient(135deg, #78716c, #44403c); }
+.coal-swatch[data-tier="G12"] { background: linear-gradient(135deg, #57534e, #292524); }
+.coal-swatch[data-tier="G14"] { background: linear-gradient(135deg, #44403c, #1c1917); }
+.coal-swatch[data-tier="G15"] { background: linear-gradient(135deg, #a16207, #713f12); }
+.coal-swatch[data-tier="Imported"] { background: linear-gradient(135deg, #b45309, #78350f); }
+
+.coal-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: #0f172a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 1.2rem;
+    z-index: 250;
+    box-shadow: 0 24px 50px -16px rgba(0,0,0,0.7);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    max-height: 420px;
+}
+.coal-menu.show { display: flex; animation: coalMenuIn 0.18s ease; }
+@keyframes coalMenuIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.coal-menu-search {
+    padding: 10px 12px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+}
+.coal-menu-search input {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 0.7rem;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #f8fafc;
+    font-size: 0.82rem;
+    outline: none;
+    transition: 0.15s;
+}
+.coal-menu-search input:focus {
+    border-color: rgba(34,197,94,0.4);
+    box-shadow: 0 0 0 2px rgba(34,197,94,0.18);
+}
+.coal-menu-list {
+    overflow-y: auto;
+    padding: 6px;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+.coal-menu-list::-webkit-scrollbar { width: 6px; }
+.coal-menu-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+
+.coal-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: 0.15s;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+}
+.coal-option:hover {
+    background: rgba(34,197,94,0.10);
+    border-color: rgba(34,197,94,0.2);
+}
+.coal-option.active {
+    background: linear-gradient(135deg, rgba(34,197,94,0.18), rgba(16,185,129,0.10));
+    border-color: rgba(34,197,94,0.45);
+}
+.coal-option .coal-swatch { margin-top: 3px; }
+.coal-option-body { flex: 1; min-width: 0; }
+.coal-option-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.coal-option-desc {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    line-height: 1.35;
+}
+.coal-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(34,197,94,0.18);
+    color: #4ade80;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.coal-tag.alt { background: rgba(245,158,11,0.18); color: #fbbf24; }
+.coal-menu-footer {
+    padding: 8px 12px;
+    font-size: 0.66rem;
+    color: #64748b;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    letter-spacing: 0.3px;
+}
+
+body.light-mode .coal-btn {
+    background: rgba(255,255,255,0.85);
+    color: #1e293b;
+    border-color: rgba(5,150,105,0.25);
+}
+body.light-mode .coal-btn:hover {
+    border-color: rgba(5,150,105,0.5);
+    background: rgba(16,185,129,0.06);
+}
+body.light-mode .coal-menu {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
+    box-shadow: 0 24px 50px -16px rgba(0,0,0,0.25);
+}
+body.light-mode .coal-menu-search { background: rgba(0,0,0,0.02); border-bottom-color: rgba(0,0,0,0.06); }
+body.light-mode .coal-menu-search input {
+    background: rgba(0,0,0,0.04);
+    color: #1e293b;
+    border-color: rgba(0,0,0,0.08);
+}
+body.light-mode .coal-menu-search input:focus {
+    border-color: rgba(5,150,105,0.4);
+    box-shadow: 0 0 0 2px rgba(5,150,105,0.18);
+}
+body.light-mode .coal-option:hover {
+    background: rgba(5,150,105,0.08);
+    border-color: rgba(5,150,105,0.2);
+}
+body.light-mode .coal-option.active {
+    background: linear-gradient(135deg, rgba(5,150,105,0.15), rgba(16,185,129,0.08));
+    border-color: rgba(5,150,105,0.4);
+}
+body.light-mode .coal-option-title { color: #0f172a; }
+body.light-mode .coal-option-desc { color: #64748b; }
+body.light-mode .coal-menu-footer { background: rgba(0,0,0,0.02); border-top-color: rgba(0,0,0,0.06); color: #94a3b8; }
+
 /* ===================== CALCULATOR ENHANCEMENTS ===================== */
 .preset-row {
     display: flex;
@@ -1748,23 +2000,28 @@ body.light-mode .gst-split-row .split-val { color: #0284c7; }
     background: rgba(255,255,255,0.06);
     color: #cbd5e1;
     border: 1px solid rgba(255,255,255,0.1);
-    padding: 8px;
-    border-radius: 0.7rem;
+    padding: 9px 6px;
+    border-radius: 0.8rem;
     font-size: 0.72rem;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.15s;
+    transition: 0.18s;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3px;
 }
-.metal-btn .metal-symbol { font-size: 1rem; font-weight: 800; }
-.metal-btn:hover { background: rgba(251,191,36,0.1); color: #fbbf24; border-color: rgba(251,191,36,0.3); }
-.metal-btn.active { background: rgba(251,191,36,0.15); color: #fbbf24; border-color: #fbbf24; }
+.metal-btn .metal-symbol { font-size: 1.05rem; font-weight: 800; line-height: 1; }
+.metal-btn:hover { background: rgba(56,189,248,0.1); color: #7dd3fc; border-color: rgba(56,189,248,0.3); transform: translateY(-1px); }
+.metal-btn.active {
+    background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(129,140,248,0.18));
+    color: #fff;
+    border-color: rgba(56,189,248,0.55);
+    box-shadow: 0 4px 14px -4px rgba(99,102,241,0.45);
+}
 body.light-mode .metal-btn { background: rgba(0,0,0,0.04); color: #475569; border-color: rgba(0,0,0,0.1); }
-body.light-mode .metal-btn:hover { background: rgba(217,119,6,0.1); color: #b45309; border-color: rgba(217,119,6,0.3); }
-body.light-mode .metal-btn.active { background: rgba(217,119,6,0.15); color: #b45309; border-color: #d97706; }
+body.light-mode .metal-btn:hover { background: rgba(2,132,199,0.1); color: #0284c7; border-color: rgba(2,132,199,0.3); }
+body.light-mode .metal-btn.active { background: linear-gradient(135deg, rgba(2,132,199,0.18), rgba(79,70,229,0.18)); color: #0f172a; border-color: rgba(2,132,199,0.55); }
 
 .making-charges-row {
     display: flex;
@@ -1984,6 +2241,38 @@ body.light-mode .company-tab.active { background: rgba(5,150,105,0.15); color: #
     margin-bottom: 0.9rem;
     flex-wrap: wrap;
 }
+.veg-widget .vw-segment-tabs {
+    display: flex;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(132,204,22,0.18);
+    border-radius: 0.9rem;
+    padding: 4px;
+    gap: 4px;
+    width: 100%;
+    margin-bottom: 4px;
+}
+.veg-widget .vw-seg-btn {
+    flex: 1;
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.18s;
+    white-space: nowrap;
+}
+.veg-widget .vw-seg-btn:hover:not(.active) {
+    background: rgba(132,204,22,0.08);
+    color: #d9f99d;
+}
+.veg-widget .vw-seg-btn.active {
+    background: linear-gradient(135deg, #84cc16, #4d7c0f);
+    color: #0f172a;
+    box-shadow: 0 4px 14px -4px rgba(132,204,22,0.55);
+}
 .veg-widget .vw-search {
     flex: 1;
     min-width: 200px;
@@ -2003,26 +2292,37 @@ body.light-mode .veg-widget .vw-search input { background: rgba(0,0,0,0.04); col
 .veg-widget .vw-sort-info {
     font-size: 0.72rem;
     color: #64748b;
+    width: 100%;
 }
 .veg-widget .vw-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
     margin-bottom: 0.8rem;
 }
 .veg-widget .vw-card {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(160deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.18) 100%);
+    border: 1px solid rgba(132,204,22,0.18);
     border-radius: 1rem;
     padding: 12px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     transition: 0.2s;
     position: relative;
     overflow: hidden;
 }
-.veg-widget .vw-card:hover { transform: translateY(-2px); border-color: rgba(132,204,22,0.4); }
+.veg-widget .vw-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, #84cc16, #4d7c0f);
+    opacity: 0.7;
+}
+.veg-widget .vw-card.fruit::before { background: linear-gradient(180deg, #fb923c, #c2410c); }
+.veg-widget .vw-card:hover { transform: translateY(-2px); border-color: rgba(132,204,22,0.55); box-shadow: 0 10px 20px -10px rgba(132,204,22,0.25); }
+.veg-widget .vw-card.fruit:hover { border-color: rgba(251,146,60,0.55); box-shadow: 0 10px 20px -10px rgba(251,146,60,0.25); }
 .veg-widget .vw-card .veg-emoji {
     font-size: 1.8rem;
     width: 42px;
@@ -2030,38 +2330,78 @@ body.light-mode .veg-widget .vw-search input { background: rgba(0,0,0,0.04); col
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(132,204,22,0.1);
+    background: rgba(132,204,22,0.12);
     border-radius: 50%;
     flex-shrink: 0;
 }
+.veg-widget .vw-card.fruit .veg-emoji { background: rgba(251,146,60,0.12); }
 .veg-widget .vw-card .veg-info { flex: 1; min-width: 0; }
 .veg-widget .vw-card .veg-name {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: #f1f5f9;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin-bottom: 4px;
+    line-height: 1.25;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    /* Full visibility — no truncation */
+    white-space: normal;
 }
-.veg-widget .vw-card .veg-price {
-    font-size: 1.1rem;
+.veg-widget .vw-card .veg-name .hindi {
+    color: #d9f99d;
     font-weight: 800;
-    color: #84cc16;
+}
+.veg-widget .vw-card.fruit .veg-name .hindi { color: #fed7aa; }
+.veg-widget .vw-card .veg-name .english {
+    color: #94a3b8;
+    font-weight: 500;
+    font-size: 0.78rem;
+}
+.veg-widget .vw-card .veg-price-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+.veg-widget .vw-card .veg-price-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.5rem;
+    padding: 4px 8px;
+    flex: 1;
+    min-width: 70px;
+}
+.veg-widget .vw-card .veg-price-block .price-label {
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #94a3b8;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+.veg-widget .vw-card .veg-price-block .price-val {
+    font-size: 0.95rem;
+    font-weight: 800;
     line-height: 1;
 }
-.veg-widget .vw-card .veg-unit {
-    font-size: 0.65rem;
+.veg-widget .vw-card .veg-price-block .price-unit {
+    font-size: 0.55rem;
     color: #94a3b8;
-    margin-top: 2px;
+    margin-top: 1px;
 }
+.veg-widget .vw-card .veg-price-block.wholesale .price-val { color: #a3e635; }
+.veg-widget .vw-card .veg-price-block.retail .price-val { color: #fb923c; }
+.veg-widget .vw-card.fruit .veg-price-block.wholesale .price-val { color: #fdba74; }
+.veg-widget .vw-card.fruit .veg-price-block.retail .price-val { color: #fca5a5; }
 .veg-widget .vw-card .veg-trend {
     font-size: 0.6rem;
-    padding: 2px 6px;
+    padding: 2px 8px;
     border-radius: 999px;
     font-weight: 700;
-    margin-top: 4px;
-    display: inline-block;
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
 }
 .veg-widget .vw-card .veg-trend.up { background: rgba(239,68,68,0.15); color: #f87171; }
 .veg-widget .vw-card .veg-trend.down { background: rgba(34,197,94,0.15); color: #4ade80; }
@@ -2109,10 +2449,23 @@ body.light-mode .veg-widget .vw-location-info { color: #475569; }
 body.light-mode .veg-widget .vw-location-info strong { color: #4d7c0f; }
 body.light-mode .veg-widget .vw-status { background: rgba(0,0,0,0.04); color: #475569; }
 body.light-mode .veg-widget .vw-status.error { background: rgba(220,38,38,0.08); color: #b91c1c; border-color: rgba(220,38,38,0.25); }
-body.light-mode .veg-widget .vw-card { background: rgba(255,255,255,0.75); border-color: rgba(0,0,0,0.08); }
+body.light-mode .veg-widget .vw-card { background: rgba(255,255,255,0.85); border-color: rgba(101,163,13,0.18); }
+body.light-mode .veg-widget .vw-card.fruit { border-color: rgba(194,65,12,0.18); }
 body.light-mode .veg-widget .vw-card .veg-name { color: #0f172a; }
-body.light-mode .veg-widget .vw-card .veg-price { color: #4d7c0f; }
-body.light-mode .veg-widget .vw-card .veg-unit { color: #64748b; }
+body.light-mode .veg-widget .vw-card .veg-name .hindi { color: #4d7c0f; }
+body.light-mode .veg-widget .vw-card.fruit .veg-name .hindi { color: #c2410c; }
+body.light-mode .veg-widget .vw-card .veg-name .english { color: #64748b; }
+body.light-mode .veg-widget .vw-card .veg-price-block { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.06); }
+body.light-mode .veg-widget .vw-card .veg-price-block .price-label { color: #64748b; }
+body.light-mode .veg-widget .vw-card .veg-price-block .price-unit { color: #64748b; }
+body.light-mode .veg-widget .vw-card .veg-price-block.wholesale .price-val { color: #4d7c0f; }
+body.light-mode .veg-widget .vw-card .veg-price-block.retail .price-val { color: #c2410c; }
+body.light-mode .veg-widget .vw-card.fruit .veg-price-block.wholesale .price-val { color: #c2410c; }
+body.light-mode .veg-widget .vw-card.fruit .veg-price-block.retail .price-val { color: #b91c1c; }
+body.light-mode .veg-widget .vw-segment-tabs { background: rgba(0,0,0,0.04); border-color: rgba(101,163,13,0.2); }
+body.light-mode .veg-widget .vw-seg-btn { color: #475569; }
+body.light-mode .veg-widget .vw-seg-btn:hover:not(.active) { background: rgba(101,163,13,0.08); color: #4d7c0f; }
+body.light-mode .veg-widget .vw-seg-btn.active { background: linear-gradient(135deg, #84cc16, #4d7c0f); color: #fff; }
 body.light-mode .veg-widget .vw-updated { color: #64748b; }
 body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
 
@@ -2126,21 +2479,26 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
 <body>
 
 <div class="card">
-    <!-- icon buttons -->
-    <button id="themeToggleBtn" class="icon-btn" aria-label="Theme">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-        </svg>
-    </button>
-    <button id="openCalculatorBtn" class="icon-btn" aria-label="Calculator">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 10h8"/><path d="M8 14h8"/><path d="M8 18h8"/></svg>
-    </button>
-    <button id="openHistoryBtn" class="icon-btn" aria-label="History">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
-    </button>
-    <button id="openComparisonBtn" class="icon-btn" aria-label="Comparison" data-count="0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6M15 18v-8M3 21h18"/></svg>
-    </button>
+    <!-- top toolbar -->
+    <div class="top-bar">
+        <div class="brand-mini"><span class="brand-dot"></span><span>CalcDeck · Suite</span></div>
+        <div class="icon-group">
+            <button id="themeToggleBtn" class="icon-btn" aria-label="Theme" title="Toggle theme">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                </svg>
+            </button>
+            <button id="openCalculatorBtn" class="icon-btn" aria-label="Calculator" title="Mini calculator">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 10h8"/><path d="M8 14h8"/><path d="M8 18h8"/></svg>
+            </button>
+            <button id="openHistoryBtn" class="icon-btn" aria-label="History" title="Calculation history">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+            </button>
+            <button id="openComparisonBtn" class="icon-btn" aria-label="Comparison" data-count="0" title="Saved comparisons">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6M15 18v-8M3 21h18"/></svg>
+            </button>
+        </div>
+    </div>
 
     <div class="header-area">
         <h1>CalcDeck</h1>
@@ -2195,7 +2553,7 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
         <button class="tab-btn" onclick="switchTab('discount')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 15l6-6"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg><span>Discount</span></button>
         <button class="tab-btn" onclick="switchTab('goldrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg><span>Gold Rate</span></button>
         <button class="tab-btn" onclick="switchTab('fuelrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 22V10l5-3v15M10 22V7l5-2v17M15 22V5l6 3v14"/></svg><span>Fuel Rate</span></button>
-        <button class="tab-btn" onclick="switchTab('vegetables')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg><span>Vegetables</span></button>
+        <button class="tab-btn" onclick="switchTab('vegetables')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg><span>Veg &amp; Fruits</span></button>
     </div>
 
     <!-- Panel 1: GST -->
@@ -2244,10 +2602,11 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
         <div class="two-columns">
             <div>
                 <div class="pg-metal-toggle">
-                    <button class="metal-btn active" data-metal="gold" onclick="setPgMetal('gold')"><span class="metal-symbol">Au</span><span>Gold</span></button>
-                    <button class="metal-btn" data-metal="silver" onclick="setPgMetal('silver')"><span class="metal-symbol">Ag</span><span>Silver</span></button>
-                    <button class="metal-btn" data-metal="copper" onclick="setPgMetal('copper')"><span class="metal-symbol">Cu</span><span>Copper</span></button>
-                    <button class="metal-btn" data-metal="bronze" onclick="setPgMetal('bronze')"><span class="metal-symbol">Bz</span><span>Bronze</span></button>
+                    <button class="metal-btn active" data-metal="general" onclick="setPgMetal('general')"><span class="metal-symbol">§</span><span>General</span></button>
+                    <button class="metal-btn" data-metal="jewellery" onclick="setPgMetal('jewellery')"><span class="metal-symbol">Au</span><span>Jewellery</span></button>
+                    <button class="metal-btn" data-metal="grocery" onclick="setPgMetal('grocery')"><span class="metal-symbol">⚖</span><span>Grocery</span></button>
+                    <button class="metal-btn" data-metal="spices" onclick="setPgMetal('spices')"><span class="metal-symbol">🌶</span><span>Spices</span></button>
+                    <button class="metal-btn" data-metal="cloth" onclick="setPgMetal('cloth')"><span class="metal-symbol">▦</span><span>Cloth</span></button>
                     <button class="metal-btn" data-metal="other" onclick="setPgMetal('other')"><span class="metal-symbol">··</span><span>Other</span></button>
                 </div>
                 <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg> Total Price (₹)<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Enter the total price of the item.</span></span></label><input type="number" id="pgPrice" placeholder="e.g. 250"></div>
@@ -2265,11 +2624,11 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
                     </div>
                 </div>
                 <div class="row"><label>📏 Unit<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box">Select the unit of measurement for accurate per-unit calculation.</span></span></label><div class="unit-selector" id="unitSelector"><button class="unit-btn" id="selectedUnit">Gram (g) ▼</button><div class="unit-menu" id="unitMenu"><div onclick="setUnit('g','Gram (g)')">Gram (g)</div><div onclick="setUnit('kg','Kilogram (kg)')">Kilogram (kg)</div><div onclick="setUnit('tola','Tola (11.66g)')">Tola (11.66g)</div><div onclick="setUnit('bhori','Bhori (11.66×4g)')">Bhori (46.65g)</div><div onclick="setUnit('piece','Piece (unit)')">Piece (unit)</div></div><input type="hidden" id="pgUnit" value="g"></div></div>
-                <div class="row"><label>🔨 Making Charges<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Jewellers charge making charges either as a % of metal value or as a fixed per-gram rate. This is added on top of the base price.</span></span></label>
+                <div class="row"><label>🔨 Making / Processing Charges<span class="tooltip-wrapper"><span class="tooltip-icon">?</span><span class="tooltip-box multi-line">Add making charges (jewellery), processing fees, packaging, or any surcharge. Applied either as % of base value, per-gram rate, or fixed total.</span></span></label>
                     <div class="making-charges-row">
                         <div><select id="pgMakingType" onchange="resetComparisonBtnState('pergram')" style="width:100%;padding:13px 16px;border-radius:1.2rem;background:rgba(255,255,255,0.07);color:#f8fafc;border:none;font-size:0.9rem;">
                             <option value="none">No making charges</option>
-                            <option value="percent">% of metal value</option>
+                            <option value="percent">% of base value</option>
                             <option value="pergram">₹ per gram</option>
                             <option value="fixed">₹ fixed total</option>
                         </select></div>
@@ -2468,19 +2827,75 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
                 <button class="company-tab" data-company="Shell" onclick="setFuelCompany('Shell')">Shell</button>
             </div>
 
-            <!-- Coal grade selector -->
+            <!-- Coal grade selector (custom dropdown) -->
             <div class="frw-input-row" id="frwCoalGradeRow" style="display:none; margin-bottom:0.8rem;">
-                <div style="flex:1; min-width:200px;">
+                <div style="flex:1; min-width:240px;">
                     <label>Coal Grade</label>
-                    <select id="frwCoalGrade" onchange="rerenderFuelForCoal()" style="width:100%;padding:13px 16px;border-radius:1.2rem;background:rgba(0,0,0,0.25);color:#f8fafc;border:1px solid rgba(34,197,94,0.15);font-size:0.9rem;">
-                        <option value="G4">G4 — Superior (low ash, premium steel)</option>
-                        <option value="G6">G6 — Premium steel grade</option>
-                        <option value="G10">G10 — Good quality power grade</option>
-                        <option value="G12" selected>G12 — Standard power grade (most common)</option>
-                        <option value="G14">G14 — Lower grade (higher ash)</option>
-                        <option value="G15">G15 — Lignite grade (high moisture)</option>
-                        <option value="Imported">Imported Indonesian (5000 GAR)</option>
-                    </select>
+                    <div class="coal-selector" id="coalSelector">
+                        <button type="button" class="coal-btn" id="selectedCoalGrade" onclick="toggleCoalMenu(event)">
+                            <span class="coal-swatch" data-tier="G12"></span>
+                            <span class="coal-btn-label">G12 — Standard power grade</span>
+                            <svg class="coal-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="coal-menu" id="coalMenu">
+                            <div class="coal-menu-search">
+                                <input type="text" id="coalMenuSearch" placeholder="Search coal grades..." oninput="filterCoalMenu()">
+                            </div>
+                            <div class="coal-menu-list" id="coalMenuList">
+                                <div class="coal-option" data-value="G4" data-tier="G4" data-search="g4 superior low ash premium steel" onclick="setCoalGrade('G4')">
+                                    <span class="coal-swatch" data-tier="G4"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G4</div>
+                                        <div class="coal-option-desc">Superior · low ash · &lt;16% moisture · premium steel grade</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option" data-value="G6" data-tier="G6" data-search="g6 premium steel grade" onclick="setCoalGrade('G6')">
+                                    <span class="coal-swatch" data-tier="G6"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G6</div>
+                                        <div class="coal-option-desc">Premium steel grade</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option" data-value="G10" data-tier="G10" data-search="g10 good quality power grade" onclick="setCoalGrade('G10')">
+                                    <span class="coal-swatch" data-tier="G10"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G10</div>
+                                        <div class="coal-option-desc">Good quality · power grade</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option active" data-value="G12" data-tier="G12" data-search="g12 standard power grade common" onclick="setCoalGrade('G12')">
+                                    <span class="coal-swatch" data-tier="G12"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G12 <span class="coal-tag">Most common</span></div>
+                                        <div class="coal-option-desc">Standard power grade</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option" data-value="G14" data-tier="G14" data-search="g14 lower grade higher ash" onclick="setCoalGrade('G14')">
+                                    <span class="coal-swatch" data-tier="G14"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G14</div>
+                                        <div class="coal-option-desc">Lower grade · higher ash content</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option" data-value="G15" data-tier="G15" data-search="g15 lignite high moisture" onclick="setCoalGrade('G15')">
+                                    <span class="coal-swatch" data-tier="G15"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">G15</div>
+                                        <div class="coal-option-desc">Lignite grade · high moisture</div>
+                                    </div>
+                                </div>
+                                <div class="coal-option" data-value="Imported" data-tier="Imported" data-search="imported indonesian 5000 gar" onclick="setCoalGrade('Imported')">
+                                    <span class="coal-swatch" data-tier="Imported"></span>
+                                    <div class="coal-option-body">
+                                        <div class="coal-option-title">Imported <span class="coal-tag alt">Indonesia</span></div>
+                                        <div class="coal-option-desc">Indonesian · 5000 GAR</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="coal-menu-footer">Coal India Ltd grading system · indicative factors</div>
+                        </div>
+                        <input type="hidden" id="frwCoalGrade" value="G12">
+                    </div>
                 </div>
             </div>
 
@@ -2494,13 +2909,13 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
         </div>
     </div>
 
-    <!-- Panel 6: Vegetables -->
+    <!-- Panel 6: Vegetables & Fruits -->
     <div id="panel-vegetables" class="tab-panel" style="display:none">
         <div class="veg-widget" id="vegWidget">
             <div class="vw-header">
                 <div class="vw-title">
                     <svg viewBox="0 0 24 24"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg>
-                    Vegetable Prices by Location
+                    Sabzi &amp; Fal Prices by Location
                 </div>
                 <span class="vw-live-pill"><span class="pulse"></span> Daily Mandi</span>
             </div>
@@ -2526,8 +2941,13 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
             <div class="vw-status" id="vwStatus"></div>
 
             <div class="vw-controls" id="vwControls" style="display:none">
+                <div class="vw-segment-tabs">
+                    <button class="vw-seg-btn active" data-seg="all" onclick="setVegSegment('all')">All</button>
+                    <button class="vw-seg-btn" data-seg="vegetable" onclick="setVegSegment('vegetable')">🥬 Vegetables</button>
+                    <button class="vw-seg-btn" data-seg="fruit" onclick="setVegSegment('fruit')">🍎 Fruits</button>
+                </div>
                 <div class="vw-search">
-                    <input type="text" id="vwSearch" placeholder="🔍 Search vegetables (e.g. onion, tomato, potato)..." oninput="filterVegCards()">
+                    <input type="text" id="vwSearch" placeholder="🔍 Search by Hindi or English name (e.g. aloo, onion, seb, apple)..." oninput="filterVegCards()">
                 </div>
                 <div class="vw-sort-info" id="vwSortInfo"></div>
             </div>
@@ -2538,7 +2958,7 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
                 <span class="vw-updated" id="vwUpdated"></span>
             </div>
 
-            <div class="vw-disclaimer">Prices derived from major mandi (APMC) wholesale rates + typical retail markup (~30%). Trend arrows compare today's price vs yesterday's indicative. For indication only — actual shop prices may vary by vendor and locality.</div>
+            <div class="vw-disclaimer">Wholesale = mandi (APMC) rate. Customer = retail price (wholesale + ~30% markup + transport/handling). Trend arrows compare today vs yesterday. For indication only — actual shop prices vary by vendor and locality.</div>
         </div>
     </div>
 </div>
@@ -2684,7 +3104,7 @@ amountInput?.addEventListener('input', () => resetComparisonBtnState('gst'));
 document.getElementById('manualGSTInput')?.addEventListener('input', () => resetComparisonBtnState('gst'));
 
 // ---------- PER GRAM WITH FIXED HISTORY (no duplicate, no undefined) ----------
-let pgMetal = 'gold';
+let pgMetal = 'general';
 window.setPgMetal = (m) => {
     pgMetal = m;
     document.querySelectorAll('.metal-btn').forEach(b => b.classList.toggle('active', b.dataset.metal === m));
@@ -3997,6 +4417,66 @@ window.rerenderFuelForCoal = () => {
     if (FRW._lastRates) renderFuelCards(FRW._lastRates, FRW.breakdown, FRW._lastLoc, FRW._lastStateLabel, FRW._lastCompany || 'IOCL');
 };
 
+// ---------- COAL GRADE CUSTOM DROPDOWN ----------
+const COAL_GRADE_LABELS = {
+    'G4':  'G4 — Superior · low ash · premium steel',
+    'G6':  'G6 — Premium steel grade',
+    'G10': 'G10 — Good quality · power grade',
+    'G12': 'G12 — Standard power grade',
+    'G14': 'G14 — Lower grade · higher ash',
+    'G15': 'G15 — Lignite · high moisture',
+    'Imported': 'Imported — Indonesian · 5000 GAR'
+};
+window.toggleCoalMenu = (e) => {
+    e?.stopPropagation();
+    const menu = document.getElementById('coalMenu');
+    const btn = document.getElementById('selectedCoalGrade');
+    const willShow = !menu.classList.contains('show');
+    menu.classList.toggle('show', willShow);
+    btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+    if (willShow) {
+        // close other dropdowns
+        document.getElementById('gstMenu')?.classList.remove('show');
+        document.getElementById('unitMenu')?.classList.remove('show');
+        document.getElementById('coalMenuSearch').value = '';
+        filterCoalMenu();
+        setTimeout(() => document.getElementById('coalMenuSearch').focus(), 50);
+    }
+};
+window.setCoalGrade = (val) => {
+    document.getElementById('frwCoalGrade').value = val;
+    document.querySelectorAll('.coal-option').forEach(o => o.classList.toggle('active', o.dataset.value === val));
+    // update trigger button
+    const btn = document.getElementById('selectedCoalGrade');
+    const activeOpt = document.querySelector(`.coal-option[data-value="${val}"]`);
+    if (activeOpt) {
+        btn.querySelector('.coal-swatch').setAttribute('data-tier', activeOpt.dataset.tier);
+        btn.querySelector('.coal-btn-label').innerText = COAL_GRADE_LABELS[val] || val;
+    }
+    // close menu
+    document.getElementById('coalMenu').classList.remove('show');
+    btn.setAttribute('aria-expanded', 'false');
+    rerenderFuelForCoal();
+};
+window.filterCoalMenu = () => {
+    const q = (document.getElementById('coalMenuSearch').value || '').toLowerCase().trim();
+    document.querySelectorAll('.coal-option').forEach(opt => {
+        const search = (opt.dataset.search || '') + ' ' + (opt.dataset.value || '').toLowerCase();
+        opt.style.display = !q || search.includes(q) ? 'flex' : 'none';
+    });
+};
+document.addEventListener('click', (e) => {
+    const selector = document.getElementById('coalSelector');
+    if (selector && !selector.contains(e.target)) {
+        const menu = document.getElementById('coalMenu');
+        const btn = document.getElementById('selectedCoalGrade');
+        if (menu.classList.contains('show')) {
+            menu.classList.remove('show');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    }
+});
+
 function renderFuelCards(rates, breakdown, loc, stateLabel, company) {
     company = company || 'IOCL';
     const compAdj = FRW.companies[company] || { petrol: 0, diesel: 0, cng: 0, lpg: 0 };
@@ -4121,50 +4601,108 @@ document.getElementById('frwLocationInput').addEventListener('keydown', e => {
 
 // ===================== VEGETABLE PRICES WIDGET =====================
 const VW = {
-    // Master list of vegetables with emoji + base retail price (₹/kg) at national avg
+    // Master list — Hindi name first, English in parentheses (fully visible, no truncation)
+    // segment: 'vegetable' | 'fruit'
+    // base = national-average retail price (₹/kg); wholesale is derived as retail / 1.30 (since retail = wholesale + ~30%)
     // Trend: 'up' (price rose vs yesterday), 'down' (fell), 'flat' (stable)
     // Region multipliers adjust the base by Indian region (north/south/east/west/central/ne)
     vegetables: [
-        { key:'potato', name:'Potato (Aloo)', emoji:'🥔', base:25, trend:'flat' },
-        { key:'onion', name:'Onion (Pyaaz)', emoji:'🧅', base:35, trend:'up' },
-        { key:'tomato', name:'Tomato (Tamatar)', emoji:'🍅', base:30, trend:'down' },
-        { key:'ginger', name:'Ginger (Adrak)', emoji:'🫚', base:120, trend:'up' },
-        { key:'garlic', name:'Garlic (Lehsun)', emoji:'🧄', base:180, trend:'flat' },
-        { key:'green_chilli', name:'Green Chilli (Hari Mirch)', emoji:'🌶️', base:40, trend:'flat' },
-        { key:'red_chilli', name:'Dry Red Chilli (Sukhi Mirch)', emoji:'🌶️', base:220, trend:'flat' },
-        { key:'capsicum', name:'Capsicum (Shimla Mirch)', emoji:'🫑', base:50, trend:'down' },
-        { key:'cabbage', name:'Cabbage (Patta Gobi)', emoji:'🥬', base:25, trend:'flat' },
-        { key:'cauliflower', name:'Cauliflower (Phool Gobi)', emoji:'🥦', base:35, trend:'flat' },
-        { key:'brinjal', name:'Brinjal (Baingan)', emoji:'🍆', base:35, trend:'flat' },
-        { key:'okra', name:'Okra (Bhindi)', emoji:'🫛', base:45, trend:'up' },
-        { key:'bottle_gourd', name:'Bottle Gourd (Lauki)', emoji:'🥒', base:30, trend:'flat' },
-        { key:'bitter_gourd', name:'Bitter Gourd (Karela)', emoji:'🥒', base:50, trend:'flat' },
-        { key:'ridge_gourd', name:'Ridge Gourd (Turai)', emoji:'🥒', base:40, trend:'flat' },
-        { key:'sponge_gourd', name:'Sponge Gourd (Ghiya Torai)', emoji:'🥒', base:40, trend:'flat' },
-        { key:'pumpkin', name:'Pumpkin (Kaddu)', emoji:'🎃', base:25, trend:'flat' },
-        { key:'ash_gourd', name:'Ash Gourd (Petha)', emoji:'🥒', base:30, trend:'flat' },
-        { key:'sweet_potato', name:'Sweet Potato (Shakarkandi)', emoji:'🍠', base:50, trend:'flat' },
-        { key:'beetroot', name:'Beetroot (Chukandar)', emoji:'🟣', base:40, trend:'flat' },
-        { key:'carrot', name:'Carrot (Gajar)', emoji:'🥕', base:45, trend:'down' },
-        { key:'radish', name:'Radish (Mooli)', emoji:'🟥', base:30, trend:'flat' },
-        { key:'cucumber', name:'Cucumber (Kheera)', emoji:'🥒', base:30, trend:'flat' },
-        { key:'spinach', name:'Spinach (Palak)', emoji:'🥬', base:35, trend:'flat' },
-        { key:'fenugreek', name:'Fenugreek Leaves (Methi)', emoji:'🌿', base:45, trend:'up' },
-        { key:'coriander', name:'Coriander Leaves (Dhaniya)', emoji:'🌿', base:50, trend:'up' },
-        { key:'curry_leaves', name:'Curry Leaves (Kadi Patta)', emoji:'🌿', base:80, trend:'flat' },
-        { key:'mint', name:'Mint (Pudina)', emoji:'🌿', base:60, trend:'flat' },
-        { key:'green_peas', name:'Green Peas (Matar)', emoji:'🫛', base:60, trend:'up' },
-        { key:'beans', name:'French Beans (Pharsi Bean)', emoji:'🫛', base:55, trend:'flat' },
-        { key:'cluster_beans', name:'Cluster Beans (Guar Phali)', emoji:'🫛', base:40, trend:'flat' },
-        { key:'yam', name:'Yam (Suran)', emoji:'🥔', base:70, trend:'flat' },
-        { key:'tapioca', name:'Tapioca (Sabudana Root)', emoji:'🥔', base:45, trend:'flat' },
-        { key:'colocasia', name:'Colocasia (Arbi)', emoji:'🥔', base:55, trend:'flat' },
-        { key:'lemon', name:'Lemon (Nimbu)', emoji:'🍋', base:80, trend:'up' },
-        { key:'drumstick', name:'Drumstick (Sahjan)', emoji:'🌱', base:90, trend:'flat' },
-        { key:'tinda', name:'Tinda (Apple Gourd)', emoji:'🟢', base:45, trend:'flat' },
-        { key:'pointed_gourd', name:'Pointed Gourd (Parwal)', emoji:'🥒', base:55, trend:'flat' },
-        { key:'yam_leaves', name:'Yam Leaves (Arbi Patta)', emoji:'🌿', base:30, trend:'flat' },
-        { key:'amaranth', name:'Amaranth Leaves (Chaulai)', emoji:'🌿', base:35, trend:'flat' }
+        // ---------- Vegetables ----------
+        { key:'potato',        hindi:'Aloo',          english:'Potato',           emoji:'🥔', base:25,  trend:'flat', segment:'vegetable' },
+        { key:'onion',         hindi:'Pyaaz',         english:'Onion',            emoji:'🧅', base:35,  trend:'up',   segment:'vegetable' },
+        { key:'tomato',        hindi:'Tamatar',       english:'Tomato',           emoji:'🍅', base:30,  trend:'down', segment:'vegetable' },
+        { key:'ginger',        hindi:'Adrak',         english:'Ginger',           emoji:'🫚', base:120, trend:'up',   segment:'vegetable' },
+        { key:'garlic',        hindi:'Lehsun',        english:'Garlic',           emoji:'🧄', base:180, trend:'flat', segment:'vegetable' },
+        { key:'green_chilli',  hindi:'Hari Mirch',    english:'Green Chilli',     emoji:'🌶️', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'red_chilli',    hindi:'Sukhi Mirch',   english:'Dry Red Chilli',   emoji:'🌶️', base:220, trend:'flat', segment:'vegetable' },
+        { key:'capsicum',      hindi:'Shimla Mirch',  english:'Capsicum',         emoji:'🫑', base:50,  trend:'down', segment:'vegetable' },
+        { key:'cabbage',       hindi:'Patta Gobi',    english:'Cabbage',          emoji:'🥬', base:25,  trend:'flat', segment:'vegetable' },
+        { key:'cauliflower',   hindi:'Phool Gobi',    english:'Cauliflower',      emoji:'🥦', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'brinjal',       hindi:'Baingan',       english:'Brinjal',          emoji:'🍆', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'okra',          hindi:'Bhindi',        english:'Okra (Lady Finger)', emoji:'🫛', base:45, trend:'up',  segment:'vegetable' },
+        { key:'bottle_gourd',  hindi:'Lauki',         english:'Bottle Gourd',     emoji:'🥒', base:30,  trend:'flat', segment:'vegetable' },
+        { key:'bitter_gourd',  hindi:'Karela',        english:'Bitter Gourd',     emoji:'🥒', base:50,  trend:'flat', segment:'vegetable' },
+        { key:'ridge_gourd',   hindi:'Turai',         english:'Ridge Gourd',      emoji:'🥒', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'sponge_gourd',  hindi:'Ghiya Torai',   english:'Sponge Gourd',     emoji:'🥒', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'pumpkin',       hindi:'Kaddu',         english:'Pumpkin',          emoji:'🎃', base:25,  trend:'flat', segment:'vegetable' },
+        { key:'ash_gourd',     hindi:'Petha',         english:'Ash Gourd',        emoji:'🥒', base:30,  trend:'flat', segment:'vegetable' },
+        { key:'sweet_potato',  hindi:'Shakarkandi',   english:'Sweet Potato',     emoji:'🍠', base:50,  trend:'flat', segment:'vegetable' },
+        { key:'beetroot',      hindi:'Chukandar',     english:'Beetroot',         emoji:'🟣', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'carrot',        hindi:'Gajar',         english:'Carrot',           emoji:'🥕', base:45,  trend:'down', segment:'vegetable' },
+        { key:'radish',        hindi:'Mooli',         english:'Radish',           emoji:'🟥', base:30,  trend:'flat', segment:'vegetable' },
+        { key:'cucumber',      hindi:'Kheera',        english:'Cucumber',         emoji:'🥒', base:30,  trend:'flat', segment:'vegetable' },
+        { key:'spinach',       hindi:'Palak',         english:'Spinach',          emoji:'🥬', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'fenugreek',     hindi:'Methi',         english:'Fenugreek Leaves', emoji:'🌿', base:45,  trend:'up',   segment:'vegetable' },
+        { key:'coriander',     hindi:'Dhaniya',       english:'Coriander Leaves', emoji:'🌿', base:50,  trend:'up',   segment:'vegetable' },
+        { key:'curry_leaves',  hindi:'Kadi Patta',    english:'Curry Leaves',     emoji:'🌿', base:80,  trend:'flat', segment:'vegetable' },
+        { key:'mint',          hindi:'Pudina',        english:'Mint',             emoji:'🌿', base:60,  trend:'flat', segment:'vegetable' },
+        { key:'green_peas',    hindi:'Matar',         english:'Green Peas',       emoji:'🫛', base:60,  trend:'up',   segment:'vegetable' },
+        { key:'beans',         hindi:'Pharsi Bean',   english:'French Beans',     emoji:'🫛', base:55,  trend:'flat', segment:'vegetable' },
+        { key:'cluster_beans', hindi:'Guar Phali',    english:'Cluster Beans',    emoji:'🫛', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'yam',           hindi:'Suran',         english:'Yam (Elephant Foot)', emoji:'🥔', base:70, trend:'flat', segment:'vegetable' },
+        { key:'tapioca',       hindi:'Sabudana Root', english:'Tapioca',          emoji:'🥔', base:45,  trend:'flat', segment:'vegetable' },
+        { key:'colocasia',     hindi:'Arbi',          english:'Colocasia (Taro)', emoji:'🥔', base:55,  trend:'flat', segment:'vegetable' },
+        { key:'lemon',         hindi:'Nimbu',         english:'Lemon',            emoji:'🍋', base:80,  trend:'up',   segment:'vegetable' },
+        { key:'drumstick',     hindi:'Sahjan',        english:'Drumstick',        emoji:'🌱', base:90,  trend:'flat', segment:'vegetable' },
+        { key:'tinda',         hindi:'Tinda',         english:'Apple Gourd',      emoji:'🟢', base:45,  trend:'flat', segment:'vegetable' },
+        { key:'pointed_gourd', hindi:'Parwal',        english:'Pointed Gourd',    emoji:'🥒', base:55,  trend:'flat', segment:'vegetable' },
+        { key:'yam_leaves',    hindi:'Arbi Patta',    english:'Yam Leaves',       emoji:'🌿', base:30,  trend:'flat', segment:'vegetable' },
+        { key:'amaranth',      hindi:'Chaulai',       english:'Amaranth Leaves',  emoji:'🌿', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'corn',          hindi:'Bhutta',        english:'Corn (Makai)',     emoji:'🌽', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'baby_corn',     hindi:'Baby Makai',    english:'Baby Corn',        emoji:'🌽', base:90,  trend:'flat', segment:'vegetable' },
+        { key:'raw_banana',    hindi:'Kacha Kela',    english:'Raw Banana',       emoji:'🍌', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'plantain_flower', hindi:'Kela Phool',  english:'Plantain Flower',  emoji:'🌸', base:60,  trend:'flat', segment:'vegetable' },
+        { key:'plantain_stem', hindi:'Kela Danda',    english:'Plantain Stem',    emoji:'🌿', base:45,  trend:'flat', segment:'vegetable' },
+        { key:'knol_khol',     hindi:'Knol Khol',     english:'Kohlrabi',         emoji:'🥬', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'turnip',        hindi:'Shalgam',       english:'Turnip',           emoji:'🥔', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'lotus_stem',    hindi:'Kamal Kakdi',   english:'Lotus Stem',       emoji:'🌿', base:80,  trend:'flat', segment:'vegetable' },
+        { key:'fennel_bulb',   hindi:'Saunf',         english:'Fennel Bulb',      emoji:'🌿', base:120, trend:'flat', segment:'vegetable' },
+        { key:'spring_onion',  hindi:'Hara Pyaaz',    english:'Spring Onion',     emoji:'🧅', base:55,  trend:'flat', segment:'vegetable' },
+        { key:'colocasia_stem', hindi:'Arbi Danda',   english:'Colocasia Stem',   emoji:'🌿', base:50,  trend:'flat', segment:'vegetable' },
+        { key:'mustard_greens', hindi:'Sarson Saag',  english:'Mustard Greens',   emoji:'🥬', base:40,  trend:'flat', segment:'vegetable' },
+        { key:'chow_chow',     hindi:'Chow Chow',     english:'Chayote',          emoji:'🥒', base:35,  trend:'flat', segment:'vegetable' },
+        { key:'breadfruit',    hindi:'Bakri Chaj',    english:'Breadfruit',       emoji:'🟢', base:90,  trend:'flat', segment:'vegetable' },
+        { key:'water_chestnut', hindi:'Singhara',     english:'Water Chestnut',   emoji:'🟤', base:80,  trend:'up',   segment:'vegetable' },
+        { key:'lotus_root',    hindi:'Kamal Kakdi Root', english:'Lotus Root',    emoji:'🥔', base:120, trend:'flat', segment:'vegetable' },
+
+        // ---------- Fruits ----------
+        { key:'mango',         hindi:'Aam',           english:'Mango (Alphonso)', emoji:'🥭', base:80,  trend:'up',   segment:'fruit' },
+        { key:'banana',        hindi:'Kela',          english:'Banana',           emoji:'🍌', base:50,  trend:'flat', segment:'fruit' },
+        { key:'apple',         hindi:'Seb',           english:'Apple',            emoji:'🍎', base:120, trend:'down', segment:'fruit' },
+        { key:'orange',        hindi:'Santra',        english:'Orange',           emoji:'🍊', base:60,  trend:'flat', segment:'fruit' },
+        { key:'mosambi',       hindi:'Mosambi',       english:'Sweet Lime',       emoji:'🍋', base:55,  trend:'flat', segment:'fruit' },
+        { key:'guava',         hindi:'Amrood',        english:'Guava',            emoji:'🍐', base:50,  trend:'flat', segment:'fruit' },
+        { key:'papaya',        hindi:'Papita',        english:'Papaya',           emoji:'🟠', base:40,  trend:'flat', segment:'fruit' },
+        { key:'pomegranate',   hindi:'Anar',          english:'Pomegranate',      emoji:'🍎', base:130, trend:'up',   segment:'fruit' },
+        { key:'grapes',        hindi:'Angoor',        english:'Grapes',           emoji:'🍇', base:90,  trend:'flat', segment:'fruit' },
+        { key:'watermelon',    hindi:'Tarbooz',       english:'Watermelon',       emoji:'🍉', base:25,  trend:'down', segment:'fruit' },
+        { key:'pineapple',     hindi:'Ananas',        english:'Pineapple',        emoji:'🍍', base:50,  trend:'flat', segment:'fruit' },
+        { key:'lychee',        hindi:'Litchi',        english:'Lychee',           emoji:'🍒', base:110, trend:'up',   segment:'fruit' },
+        { key:'muskmelon',     hindi:'Kharbuja',      english:'Muskmelon',        emoji:'🍈', base:35,  trend:'flat', segment:'fruit' },
+        { key:'strawberry',    hindi:'Strawberry',    english:'Strawberry',       emoji:'🍓', base:220, trend:'flat', segment:'fruit' },
+        { key:'coconut',       hindi:'Nariyal',       english:'Coconut',          emoji:'🥥', base:45,  trend:'flat', segment:'fruit' },
+        { key:'chikoo',        hindi:'Chikoo',        english:'Sapodilla',        emoji:'🟤', base:60,  trend:'flat', segment:'fruit' },
+        { key:'jackfruit',     hindi:'Kathal',        english:'Jackfruit',        emoji:'🍈', base:50,  trend:'flat', segment:'fruit' },
+        { key:'amla',          hindi:'Amla',          english:'Indian Gooseberry', emoji:'🟢', base:60, trend:'flat', segment:'fruit' },
+        { key:'tamarind',      hindi:'Imli',          english:'Tamarind',         emoji:'🟤', base:120, trend:'flat', segment:'fruit' },
+        { key:'wood_apple',    hindi:'Bael',          english:'Wood Apple',       emoji:'🟤', base:55,  trend:'flat', segment:'fruit' },
+        { key:'jamun',         hindi:'Jamun',         english:'Black Plum',       emoji:'🟣', base:90,  trend:'up',   segment:'fruit' },
+        { key:'phalsa',        hindi:'Phalsa',        english:'Indian Sherbet Berry', emoji:'🟣', base:80, trend:'flat', segment:'fruit' },
+        { key:'karonda',       hindi:'Karonda',       english:'Carissa',          emoji:'🟣', base:60,  trend:'flat', segment:'fruit' },
+        { key:'ber',           hindi:'Ber',           english:'Indian Jujube',    emoji:'🔴', base:60,  trend:'flat', segment:'fruit' },
+        { key:'custard_apple', hindi:'Sitaphal',      english:'Custard Apple',    emoji:'🟢', base:120, trend:'up',   segment:'fruit' },
+        { key:'langsat',       hindi:'Lanson',        english:'Langsat',          emoji:'🟡', base:100, trend:'flat', segment:'fruit' },
+        { key:'dragon_fruit',  hindi:'Dragon Fruit',  english:'Dragon Fruit',     emoji:'🐉', base:160, trend:'flat', segment:'fruit' },
+        { key:'pear',          hindi:'Nashpati',      english:'Pear',             emoji:'🍐', base:90,  trend:'flat', segment:'fruit' },
+        { key:'plum',          hindi:'Alubukhara',    english:'Plum',             emoji:'🟣', base:80,  trend:'flat', segment:'fruit' },
+        { key:'peach',         hindi:'Aadoo',         english:'Peach',            emoji:'🍑', base:100, trend:'flat', segment:'fruit' },
+        { key:'apricot',       hindi:'Khubani',       english:'Apricot',          emoji:'🟠', base:220, trend:'flat', segment:'fruit' },
+        { key:'kiwi',          hindi:'Kiwi',          english:'Kiwi',             emoji:'🟤', base:200, trend:'flat', segment:'fruit' },
+        { key:'fig',           hindi:'Anjeer',        english:'Fig',              emoji:'🟤', base:300, trend:'up',   segment:'fruit' },
+        { key:'cherimoya',     hindi:'Hanuphal',      english:'Cherimoya',        emoji:'🟢', base:140, trend:'flat', segment:'fruit' },
+        { key:'bignay',        hindi:'Bignay',        english:'Bignay',           emoji:'🔴', base:90,  trend:'flat', segment:'fruit' },
+        { key:'loquat',        hindi:'Loquat',        english:'Loquat',           emoji:'🟠', base:110, trend:'flat', segment:'fruit' },
+        { key:'mulberry',      hindi:'Shehtoot',      english:'Mulberry',         emoji:'🟣', base:80,  trend:'flat', segment:'fruit' }
     ],
     // Regional multipliers — vegetables cost more in NE & far-south (transport), less in northern belts
     regionFactors: {
@@ -4303,7 +4841,7 @@ async function fetchVegRates() {
 
     btn.disabled = true;
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:grwSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
-    vwShowStatus('Resolving location & fetching today\'s vegetable prices...', false);
+    vwShowStatus('Resolving location & fetching today\'s mandi prices...', false);
 
     const loc = await resolveLocationForVeg(input);
     if (loc.error) {
@@ -4321,13 +4859,22 @@ async function fetchVegRates() {
     let seed = 0;
     for (let i = 0; i < dayKey.length; i++) seed = (seed * 31 + dayKey.charCodeAt(i)) % 9973;
 
+    // retail = mandi wholesale × 1.30 (typical 30% retail markup)
+    const RETAIL_MARKUP = 1.30;
     const prices = VW.vegetables.map((v, i) => {
-        // Daily jitter of ±5% deterministic per vegetable per day
+        // Daily jitter of ±5% deterministic per item per day
         const jitter = ((seed + i * 17) % 11 - 5) / 100;
         const retailPrice = Math.round(v.base * factor * (1 + jitter));
+        const retail = Math.max(5, retailPrice);
+        const wholesale = Math.max(3, Math.round(retail / RETAIL_MARKUP));
         return {
             ...v,
-            price: Math.max(5, retailPrice), // floor at ₹5/kg
+            name: v.hindi + ' (' + v.english + ')',  // backward-compat for share / history
+            hindi: v.hindi,
+            english: v.english,
+            retail,
+            wholesale,
+            price: retail,                           // alias for legacy code
             unit: 'per kg'
         };
     });
@@ -4340,6 +4887,14 @@ async function fetchVegRates() {
     btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Refresh Prices';
 }
 
+// Segment filter state — 'all' | 'vegetable' | 'fruit'
+let vwSegment = 'all';
+window.setVegSegment = (seg) => {
+    vwSegment = seg;
+    document.querySelectorAll('.vw-seg-btn').forEach(b => b.classList.toggle('active', b.dataset.seg === seg));
+    filterVegCards();
+};
+
 function renderVegCards(prices, loc, match) {
     // Location info
     const locEl = document.getElementById('vwLocationInfo');
@@ -4348,23 +4903,37 @@ function renderVegCards(prices, loc, match) {
 
     // Show search + sort info
     document.getElementById('vwControls').style.display = 'flex';
-    document.getElementById('vwSortInfo').innerText = `Showing ${prices.length} vegetables &middot; sorted by price (low → high)`.replace('&middot;','·');
+    const vegCount = prices.filter(p => p.segment === 'vegetable').length;
+    const fruitCount = prices.filter(p => p.segment === 'fruit').length;
+    document.getElementById('vwSortInfo').innerHTML = `Total: <strong>${prices.length}</strong> items &middot; ${vegCount} vegetables + ${fruitCount} fruits &middot; sorted by retail price (low → high)`;
 
     // Cards
     const cardsEl = document.getElementById('vwCards');
     cardsEl.style.display = 'grid';
-    // Sort ascending by price
-    const sorted = [...prices].sort((a, b) => a.price - b.price);
+    // Sort ascending by retail price
+    const sorted = [...prices].sort((a, b) => a.retail - b.retail);
     cardsEl.innerHTML = sorted.map((v, i) => {
         const trendIcon = v.trend === 'up' ? '▲' : v.trend === 'down' ? '▼' : '–';
         const trendClass = v.trend === 'up' ? 'up' : v.trend === 'down' ? 'down' : 'flat';
         const trendLabel = v.trend === 'up' ? 'Rising' : v.trend === 'down' ? 'Falling' : 'Stable';
-        return `<div class="vw-card" data-name="${v.name.toLowerCase()}" data-key="${v.key}">
+        const segClass = v.segment === 'fruit' ? 'fruit' : '';
+        const searchBlob = (v.hindi + ' ' + v.english + ' ' + v.key).toLowerCase();
+        return `<div class="vw-card ${segClass}" data-name="${searchBlob}" data-key="${v.key}" data-segment="${v.segment}">
             <div class="veg-emoji">${v.emoji}</div>
             <div class="veg-info">
-                <div class="veg-name">${v.name}</div>
-                <div class="veg-price">₹${v.price}</div>
-                <div class="veg-unit">${v.unit}</div>
+                <div class="veg-name"><span class="hindi">${v.hindi}</span> <span class="english">(${v.english})</span></div>
+                <div class="veg-price-row">
+                    <div class="veg-price-block wholesale">
+                        <div class="price-label">Wholesale</div>
+                        <div class="price-val">₹${v.wholesale}</div>
+                        <div class="price-unit">${v.unit}</div>
+                    </div>
+                    <div class="veg-price-block retail">
+                        <div class="price-label">Customer</div>
+                        <div class="price-val">₹${v.retail}</div>
+                        <div class="price-unit">${v.unit}</div>
+                    </div>
+                </div>
                 <span class="veg-trend ${trendClass}">${trendIcon} ${trendLabel}</span>
             </div>
         </div>`;
@@ -4373,7 +4942,10 @@ function renderVegCards(prices, loc, match) {
     // Footer
     document.getElementById('vwFooter').style.display = 'flex';
     const time = new Date().toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
-    document.getElementById('vwUpdated').innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Indicative retail prices as of ${time} &middot; derived from mandi wholesale + ~30% retail markup`;
+    document.getElementById('vwUpdated').innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Indicative prices as of ${time} &middot; Wholesale = mandi rate · Customer = retail price (wholesale + ~30% markup)`;
+
+    // Apply current segment filter
+    filterVegCards();
 }
 
 window.filterVegCards = () => {
@@ -4381,8 +4953,10 @@ window.filterVegCards = () => {
     document.querySelectorAll('.vw-card').forEach(card => {
         const name = card.dataset.name || '';
         const key = card.dataset.key || '';
-        const match = !q || name.includes(q) || key.includes(q.replace(/\s/g, '_'));
-        card.style.display = match ? 'flex' : 'none';
+        const seg = card.dataset.segment || '';
+        const segOk = vwSegment === 'all' || seg === vwSegment;
+        const qOk = !q || name.includes(q) || key.includes(q.replace(/\s/g, '_'));
+        card.style.display = (segOk && qOk) ? 'flex' : 'none';
     });
 };
 
