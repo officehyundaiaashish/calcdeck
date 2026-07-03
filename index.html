@@ -2905,6 +2905,75 @@ body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,1
     .tab-btn span { font-size: 0.55rem; }
     .tab-btn svg { width: 15px; height: 15px; }
 }
+
+/* Custom number input stepper */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.stepper-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.stepper-wrapper input[type="number"] {
+    flex: 1;
+    padding-right: 50px;
+}
+.stepper-btn-group {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 2;
+}
+.amount-input-wrapper .stepper-btn-group {
+    right: 40px;
+}
+.amount-input-wrapper input[type="number"] {
+    padding-right: 90px;
+}
+.stepper-btn {
+    width: 10px;
+    height: 10px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    color: #f8fafc;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+.stepper-btn:hover {
+    background: rgba(56,189,248,0.3);
+    color: #fff;
+}
+.stepper-btn:active {
+    transform: scale(0.9);
+}
+body.light-mode .stepper-btn {
+    background: rgba(0,0,0,0.06);
+    color: #1e293b;
+}
+body.light-mode .stepper-btn:hover {
+    background: rgba(2,132,199,0.15);
+    color: #0284c7;
+}
 </style>
 </head>
 <body>
@@ -5754,6 +5823,88 @@ window.filterVegCards = () => {
 document.getElementById('vwLocationInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') fetchVegRates();
 });
+
+// ---------- CUSTOM STEPPER ENHANCEMENT ----------
+function enhanceNumberInputs() {
+    const inputs = document.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+        if (input.dataset.stepperEnhanced) return;
+        input.dataset.stepperEnhanced = 'true';
+
+        const wrapper = input.closest('.amount-input-wrapper');
+        if (wrapper) {
+            // Already has wrapper (clear button) - add stepper group inside
+            const group = document.createElement('div');
+            group.className = 'stepper-btn-group';
+            const up = document.createElement('button');
+            up.className = 'stepper-btn';
+            up.innerHTML = '▲';
+            up.type = 'button';
+            up.addEventListener('click', (e) => {
+                e.preventDefault();
+                stepValue(input, 1);
+            });
+            const down = document.createElement('button');
+            down.className = 'stepper-btn';
+            down.innerHTML = '▼';
+            down.type = 'button';
+            down.addEventListener('click', (e) => {
+                e.preventDefault();
+                stepValue(input, -1);
+            });
+            group.appendChild(up);
+            group.appendChild(down);
+            wrapper.appendChild(group);
+            input.style.paddingRight = '90px';
+        } else {
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = 'stepper-wrapper';
+            input.parentNode.insertBefore(wrapperDiv, input);
+            wrapperDiv.appendChild(input);
+            const group = document.createElement('div');
+            group.className = 'stepper-btn-group';
+            const up = document.createElement('button');
+            up.className = 'stepper-btn';
+            up.innerHTML = '▲';
+            up.type = 'button';
+            up.addEventListener('click', (e) => {
+                e.preventDefault();
+                stepValue(input, 1);
+            });
+            const down = document.createElement('button');
+            down.className = 'stepper-btn';
+            down.innerHTML = '▼';
+            down.type = 'button';
+            down.addEventListener('click', (e) => {
+                e.preventDefault();
+                stepValue(input, -1);
+            });
+            group.appendChild(up);
+            group.appendChild(down);
+            wrapperDiv.appendChild(group);
+            input.style.paddingRight = '50px';
+        }
+    });
+}
+
+function stepValue(input, delta) {
+    let val = parseFloat(input.value) || 0;
+    let step = parseFloat(input.step) || 1;
+    let min = parseFloat(input.min);
+    let max = parseFloat(input.max);
+    let newVal = val + delta * step;
+    if (!isNaN(min) && newVal < min) newVal = min;
+    if (!isNaN(max) && newVal > max) newVal = max;
+    input.value = newVal;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+// Run enhancement when DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceNumberInputs);
+} else {
+    enhanceNumberInputs();
+}
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(e=>console);
 </script>
