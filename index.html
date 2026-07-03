@@ -2938,6 +2938,7 @@ input[type="number"] {
     flex-direction: column;
     gap: 2px;
     z-index: 2;
+    opacity: 0.6;
 }
 .amount-input-wrapper .stepper-btn-group {
     right: 40px;
@@ -2949,8 +2950,8 @@ input[type="number"] {
     width: 10px;
     height: 10px;
     border: none;
-    background: rgba(255,255,255,0.1);
-    border-radius: 4px;
+    background: transparent;
+    border-radius: 0;
     color: #f8fafc;
     font-size: 12px;
     font-weight: 700;
@@ -2963,19 +2964,22 @@ input[type="number"] {
     padding: 0;
 }
 .stepper-btn:hover {
-    background: rgba(56,189,248,0.3);
     color: #fff;
+    opacity: 1;
 }
 .stepper-btn:active {
     transform: scale(0.9);
 }
 body.light-mode .stepper-btn {
-    background: rgba(0,0,0,0.06);
     color: #1e293b;
 }
 body.light-mode .stepper-btn:hover {
-    background: rgba(2,132,199,0.15);
     color: #0284c7;
+}
+/* Auto-hide stepper when input empty */
+input[type="number"]:not(:focus):placeholder-shown + .stepper-btn-group,
+.stepper-btn-group:has(+ input[type="number"]:placeholder-shown) {
+    display: none;
 }
 </style>
 </head>
@@ -5843,6 +5847,9 @@ function enhanceNumberInputs() {
             up.className = 'stepper-btn';
             up.innerHTML = '▲';
             up.type = 'button';
+            up.style.background = 'transparent';
+            up.style.border = 'none';
+            up.style.boxShadow = 'none';
             up.addEventListener('click', (e) => {
                 e.preventDefault();
                 stepValue(input, 1);
@@ -5851,6 +5858,9 @@ function enhanceNumberInputs() {
             down.className = 'stepper-btn';
             down.innerHTML = '▼';
             down.type = 'button';
+            down.style.background = 'transparent';
+            down.style.border = 'none';
+            down.style.boxShadow = 'none';
             down.addEventListener('click', (e) => {
                 e.preventDefault();
                 stepValue(input, -1);
