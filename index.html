@@ -319,84 +319,6 @@ input:focus {
     background: rgba(255, 255, 255, 0.12);
     box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
 }
-
-/* Hide ugly default browser spin arrows on number inputs - modern clean look */
-input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none !important;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Modernize number input arrows (remove ugly default spin buttons) */
-input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-    appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none;
-}
-
-/* Modern up/down spinner arrows for number inputs */
-input[type="number"] {
-    appearance: textfield;
-    -moz-appearance: textfield;
-    -webkit-appearance: textfield;
-}
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-}
-/* Modern up/down arrows — positioned to the right of the field
-   Down arrow (▼) on top = two triangles with gray on the upper side
-   Up arrow (▲) on bottom = two triangles with gray on the lower side */
-input[type="number"] {
-    background-image:
-        /* Down arrow (▼) — top half */
-        linear-gradient(45deg, transparent 50%, #94a3b8 50%),
-        linear-gradient(135deg, transparent 50%, #94a3b8 50%),
-        /* Up arrow (▲) — bottom half */
-        linear-gradient(45deg, #94a3b8 50%, transparent 50%),
-        linear-gradient(135deg, transparent 50%, #94a3b8 50%);
-    background-position:
-        calc(100% - 18px) 30%,
-        calc(100% - 13px) 30%,
-        calc(100% - 18px) 70%,
-        calc(100% - 13px) 70%;
-    background-size: 5px 5px, 5px 5px, 5px 5px, 5px 5px;
-    background-repeat: no-repeat;
-    padding-right: 34px;
-    transition: all 0.2s;
-}
-input[type="number"]:hover {
-    background-image:
-        /* Down arrow (▼) — top half */
-        linear-gradient(45deg, transparent 50%, #38bdf8 50%),
-        linear-gradient(135deg, transparent 50%, #38bdf8 50%),
-        /* Up arrow (▲) — bottom half */
-        linear-gradient(45deg, #38bdf8 50%, transparent 50%),
-        linear-gradient(135deg, transparent 50%, #38bdf8 50%);
-}
-input[type="number"]:focus {
-    background-image:
-        /* Down arrow (▼) — top half */
-        linear-gradient(45deg, transparent 50%, #38bdf8 50%),
-        linear-gradient(135deg, transparent 50%, #38bdf8 50%),
-        /* Up arrow (▲) — bottom half */
-        linear-gradient(45deg, #38bdf8 50%, transparent 50%),
-        linear-gradient(135deg, transparent 50%, #38bdf8 50%);
-}
 .amount-input-wrapper {
     position: relative;
 }
@@ -709,26 +631,6 @@ body.light-mode .card {
 body.light-mode input, body.light-mode .gst-btn, body.light-mode .unit-btn {
     background: rgba(0,0,0,0.04);
     color: #0f172a;
-}
-
-/* Light mode spin arrow removal */
-body.light-mode input[type="number"] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-body.light-mode input[type="number"]::-webkit-outer-spin-button,
-body.light-mode input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none !important;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Light mode number input arrows */
-body.light-mode input[type="number"]::-webkit-outer-spin-button,
-body.light-mode input[type="number"]::-webkit-inner-spin-button {
-    display: none;
 }
 body.light-mode .gst-menu, body.light-mode .unit-menu { background: #ffffff; border: 1px solid #ddd; }
 body.light-mode .gst-menu div, body.light-mode .unit-menu div { color: #1e293b; }
