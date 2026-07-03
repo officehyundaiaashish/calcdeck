@@ -320,6 +320,31 @@ input:focus {
     background: rgba(255, 255, 255, 0.12);
     box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
 }
+/* Suppress browser autofill, Google Password Manager, Google Pay & payment-manager detection on ALL inputs globally */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-internal-autofill-selected,
+input:-internal-autofill-previewed {
+    -webkit-box-shadow: 0 0 0 1000px rgba(15, 22, 41, 0.07) inset !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    caret-color: #f8fafc !important;
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+    animation: none !important;
+}
+body.light-mode input:-webkit-autofill,
+body.light-mode input:-webkit-autofill:hover,
+body.light-mode input:-webkit-autofill:focus,
+body.light-mode input:-webkit-autofill:active,
+body.light-mode input:-internal-autofill-selected,
+body.light-mode input:-internal-autofill-previewed {
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.85) inset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+}
 .amount-input-wrapper {
     position: relative;
 }
@@ -5962,6 +5987,43 @@ if (document.readyState === 'loading') {
 }
 
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(e=>console);
+
+// ---------- DISABLE GOOGLE PASSWORD MANAGER, PAYMENT MANAGER & AUTOFILL GLOBALLY ----------
+// Aggressively prevent Google Password Manager, Google Pay, and any payment/autofill manager
+// from triggering on any input field across the app (phone-safe).
+function disableGlobalAutofill() {
+    const allInputs = document.querySelectorAll('input, select, textarea');
+    allInputs.forEach(el => {
+        // Core browser-level suppression
+        el.setAttribute('autocomplete', 'off');
+        el.setAttribute('data-form-type', 'other');
+        // Third-party password-manager suppression signals
+        el.setAttribute('data-lpignore', 'true');
+        el.setAttribute('data-1p-ignore', 'true');
+        el.setAttribute('data-bwignore', '');
+        el.setAttribute('data-protonpass-ignore', 'true');
+        el.setAttribute('data-dashlane-ignore', 'true');
+        // Text-related suppression only on text-entry elements
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.setAttribute('autocorrect', 'off');
+            el.setAttribute('autocapitalize', 'off');
+            el.setAttribute('spellcheck', 'false');
+        }
+    });
+}
+
+// Run on initial load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', disableGlobalAutofill);
+} else {
+    disableGlobalAutofill();
+}
+
+// Watch for dynamically added inputs (e.g., discount stack rows, history items)
+const autofillObserver = new MutationObserver(() => {
+    disableGlobalAutofill();
+});
+autofillObserver.observe(document.documentElement, { childList: true, subtree: true });
 </script>
 </body>
 </html>
