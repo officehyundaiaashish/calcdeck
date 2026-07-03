@@ -388,6 +388,7 @@ hr {
     z-index: 210;
     border: 1px solid rgba(255,255,255,0.08);
     backdrop-filter: blur(12px);
+    max-height: 110px; /* show ~2 items */
 }
 .gst-menu.show, .unit-menu.show { display: block; }
 .gst-menu div, .unit-menu div {
@@ -1317,7 +1318,7 @@ body.light-mode .gold-rate-widget .grw-disclaimer { color: #64748b; }
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 1rem;
     z-index: 220;
-    max-height: 280px;
+    max-height: 110px; /* show ~2 items */
     overflow-y: auto;
     display: none;
     box-shadow: 0 12px 28px -8px black;
@@ -1764,6 +1765,7 @@ body.light-mode .fuel-rate-widget .frw-disclaimer { color: #64748b; }
     flex: 1;
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.18) transparent;
+    max-height: 110px; /* show ~2 items */
 }
 .fancy-menu-list::-webkit-scrollbar { width: 6px; }
 .fancy-menu-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
@@ -2005,6 +2007,7 @@ body.light-mode .fancy-menu-footer {
     flex: 1;
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.18) transparent;
+    max-height: 110px; /* show ~2 items */
 }
 .coal-menu-list::-webkit-scrollbar { width: 6px; }
 .coal-menu-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
