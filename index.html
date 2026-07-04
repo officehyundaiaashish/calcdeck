@@ -295,13 +295,14 @@
         /* tab panel entrance animation */
 
         .tab-panel {
-            animation: panelIn 0.32s cubic-bezier(0.2, 0.9, 0.4, 1.05);
+            animation: panelIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
         }
 
         @keyframes panelIn {
             from {
                 opacity: 0;
-                transform: translateY(6px);
+                transform: translateY(12px);
             }
 
             to {
@@ -563,9 +564,10 @@
             z-index: 1000;
             padding: 14px;
             opacity: 0;
-            transform: scale(0.92);
+            transform: scale(0.95) translateY(4px);
             pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
             box-shadow: 0 20px 35px -10px black;
             height: fit-content;
             max-height: 90vh;
@@ -1032,10 +1034,12 @@
             z-index: 1000;
             padding: 14px;
             opacity: 0;
-            transform: scale(0.92);
+            transform: scale(0.95) translateY(4px);
             pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
             box-shadow: 0 20px 35px -10px black;
+
         }
 
         .comparison-dialog.show {
