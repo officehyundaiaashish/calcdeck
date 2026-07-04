@@ -10,8 +10,8 @@
     <link rel="apple-touch-icon" href="./icon.png">
     <link rel="icon" type="image/png" href="./icon.png">
     <!-- Status bar adapts to system theme on Android Chrome -->
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1528">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef2ff">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
         rel="stylesheet">
@@ -2453,15 +2453,15 @@
                                 <circle cx="17.5" cy="17.5" r="2.5" />
                             </svg> Amount (₹)</label>
                         <div class="amount-input-wrapper"><input type="number" id="amount"
-                                placeholder="Enter amount"><button id="clearAmountBtn"
+                                placeholder="Enter amount"><button type="button" id="clearAmountBtn"
                                 class="clear-input-btn">✕</button></div>
                         <div class="preset-row">
-                            <button class="preset-chip" onclick="setGstAmount(100)">₹100</button>
-                            <button class="preset-chip" onclick="setGstAmount(500)">₹500</button>
-                            <button class="preset-chip" onclick="setGstAmount(1000)">₹1,000</button>
-                            <button class="preset-chip" onclick="setGstAmount(5000)">₹5,000</button>
-                            <button class="preset-chip" onclick="setGstAmount(10000)">₹10,000</button>
-                            <button class="preset-chip" onclick="setGstAmount(50000)">₹50,000</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(100)">₹100</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(500)">₹500</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(1000)">₹1,000</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(5000)">₹5,000</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(10000)">₹10,000</button>
+                            <button type="button" class="preset-chip" onclick="setGstAmount(50000)">₹50,000</button>
                         </div>
                     </div>
                     <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -2547,14 +2547,14 @@
                     <div class="row">
                         <label>Tax Type (for split view)</label>
                         <div class="split-toggle">
-                            <button class="split-btn active" data-split="intra" onclick="setGstSplit('intra')">CGST +
+                            <button type="button" class="split-btn active" data-split="intra" onclick="setGstSplit('intra')">CGST +
                                 SGST</button>
-                            <button class="split-btn" data-split="inter" onclick="setGstSplit('inter')">IGST</button>
+                            <button type="button" class="split-btn" data-split="inter" onclick="setGstSplit('inter')">IGST</button>
                         </div>
                     </div>
-                    <div class="action-btns"><button class="action add" onclick="addGST()">Add GST</button><button
-                            class="action remove" onclick="removeGST()">Remove GST</button></div>
-                    <button class="add-to-comparison-btn" id="addGSTToComparison" onclick="addToComparison('gst')"><svg
+                    <div class="action-btns"><button type="button" class="action add" onclick="addGST()">Add GST</button><button
+                            type="button" class="action remove" onclick="removeGST()">Remove GST</button></div>
+                    <button type="button" class="add-to-comparison-btn" id="addGSTToComparison" onclick="addToComparison('gst')"><svg
                             width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2">
                             <path d="M12 5v14M5 12h14" />
@@ -2574,7 +2574,7 @@
                         <div class="result-item"><span>Total (incl. GST)</span><span class="total"
                                 id="total">₹0.00</span></div>
                         <div class="result-actions">
-                            <button class="copy-btn" onclick="copyGstResult()"><svg viewBox="0 0 24 24">
+                            <button type="button" class="copy-btn" onclick="copyGstResult()"><svg viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                                 </svg> Copy</button>
@@ -2693,10 +2693,10 @@
                                     d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
                             </svg> Desired Quantity</label><input type="number" id="pgDesiredQty" placeholder="e.g. 150"
                             oninput="calcDesiredAmount()"></div>
-                    <div class="action-btns"><button class="action add"
-                            onclick="calcPerGram()">Calculate</button><button class="action secondary"
+                    <div class="action-btns"><button type="button" class="action add"
+                            onclick="calcPerGram()">Calculate</button><button type="button" class="action secondary"
                             onclick="clearPGCalc()">Clear</button></div>
-                    <button class="add-to-comparison-btn" id="addPGToComparison"
+                    <button type="button" class="add-to-comparison-btn" id="addPGToComparison"
                         onclick="addToComparison('pergram')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2">
                             <path d="M12 5v14M5 12h14" />
@@ -2719,7 +2719,7 @@
                     <div id="desiredQtyRow" class="result-item" style="display:none"><span id="desiredQtyLabel">For
                             0g</span><span class="total" id="desiredQtyAmount">₹0.00</span></div>
                     <div class="result-actions">
-                        <button class="copy-btn" onclick="copyPgResult()"><svg viewBox="0 0 24 24">
+                        <button type="button" class="copy-btn" onclick="copyPgResult()"><svg viewBox="0 0 24 24">
                                 <rect x="9" y="9" width="13" height="13" rx="2" />
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                             </svg> Copy</button>
@@ -2734,12 +2734,12 @@
                 <div class="two-columns">
                 <div>
                     <div class="mode-tabs">
-                        <button class="mode-tab active" data-mode="single" onclick="setDiscountMode('single')">Single
+                        <button type="button" class="mode-tab active" data-mode="single" onclick="setDiscountMode('single')">Single
                             Discount</button>
-                        <button class="mode-tab" data-mode="stacked" onclick="setDiscountMode('stacked')">Stacked
+                        <button type="button" class="mode-tab" data-mode="stacked" onclick="setDiscountMode('stacked')">Stacked
                             Discounts</button>
-                        <button class="mode-tab" data-mode="bogo" onclick="setDiscountMode('bogo')">Buy X Get Y</button>
-                        <button class="mode-tab" data-mode="margin" onclick="setDiscountMode('margin')">Markup /
+                        <button type="button" class="mode-tab" data-mode="bogo" onclick="setDiscountMode('bogo')">Buy X Get Y</button>
+                        <button type="button" class="mode-tab" data-mode="margin" onclick="setDiscountMode('margin')">Markup /
                             Margin</button>
                     </div>
 
@@ -2752,8 +2752,8 @@
                                 </svg> Original Price (₹)</label><input type="number" id="discountPrice"
                                 placeholder="0.00"></div>
                         <div class="row"><label>Discount Type</label>
-                            <div class="discount-group"><button data-type="percent" class="discount-type-btn active">%
-                                    Percentage</button><button data-type="fixed" class="discount-type-btn">₹
+                            <div class="discount-group"><button type="button" data-type="percent" class="discount-type-btn active">%
+                                    Percentage</button><button type="button" data-type="fixed" class="discount-type-btn">₹
                                     Fixed</button></div>
                         </div>
                         <div class="row"><label id="discountValueLabel">Discount (%)</label><input type="number"
@@ -2790,7 +2790,7 @@
                                         onclick="this.parentElement.remove(); calcStackedDiscount();">✕</button>
                                 </div>
                             </div>
-                            <button class="preset-chip" onclick="addStackRow()" style="margin-top:6px;">+ Add another
+                            <button type="button" class="preset-chip" onclick="addStackRow()" style="margin-top:6px;">+ Add another
                                 discount</button>
                         </div>
                     </div>
@@ -2823,9 +2823,9 @@
                             + Markup % OR Cost Price + Selling Price — the other values will auto-fill.</div>
                     </div>
 
-                    <div class="action-btns"><button class="action add" onclick="calcDiscount()">Apply</button><button
-                            class="action secondary" onclick="clearDiscount()">Reset</button></div>
-                    <button class="add-to-comparison-btn" id="addDiscountToComparison"
+                    <div class="action-btns"><button type="button" class="action add" onclick="calcDiscount()">Apply</button><button
+                            type="button" class="action secondary" onclick="clearDiscount()">Reset</button></div>
+                    <button type="button" class="add-to-comparison-btn" id="addDiscountToComparison"
                         onclick="addToComparison('discount')"><svg width="16" height="16" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 5v14M5 12h14" />
@@ -2846,7 +2846,7 @@
                     <div id="marginPctRow" class="result-item" style="display:none"><span>Margin % (on SP)</span><span
                             id="marginPct">0%</span></div>
                     <div class="result-actions">
-                        <button class="copy-btn" onclick="copyDiscountResult()"><svg viewBox="0 0 24 24">
+                        <button type="button" class="copy-btn" onclick="copyDiscountResult()"><svg viewBox="0 0 24 24">
                                 <rect x="9" y="9" width="13" height="13" rx="2" />
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                             </svg> Copy</button>
@@ -3989,8 +3989,8 @@
             if (!darkMeta || !lightMeta) return;
             function apply() {
                 const isLight = document.body.classList.contains('light-mode');
-                darkMeta.content = isLight ? '#ffffff' : '#0f172a';
-                lightMeta.content = isLight ? '#ffffff' : '#0f172a';
+                darkMeta.content = isLight ? '#eef2ff' : '#0b1528';
+                lightMeta.content = isLight ? '#eef2ff' : '#0b1528';
             }
             // Observe class changes on body (light-mode toggle)
             new MutationObserver(apply).observe(document.body, { attributes: true, attributeFilter: ['class'] });
