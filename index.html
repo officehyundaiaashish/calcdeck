@@ -283,6 +283,13 @@ body.light-mode h1 {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+}
+@keyframes rateSpin {
+    to { transform: rotate(360deg); }
+}
 
 .row {
     margin-bottom: 1.2rem;
@@ -703,14 +710,10 @@ body.light-mode .tab-switcher .tab-divider { background: linear-gradient(180deg,
 body.light-mode .fuel-rate-widget .frw-card .rate-change.pos { background: rgba(220,38,38,0.10); color: #b91c1c; }
 body.light-mode .fuel-rate-widget .frw-card .rate-change.neg { background: rgba(21,128,61,0.10); color: #15803d; }
 body.light-mode .fuel-rate-widget .frw-card .rate-change.flat { background: rgba(71,85,105,0.10); color: #475569; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.pos { background: rgba(220,38,38,0.10); color: #b91c1c; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.neg { background: rgba(21,128,61,0.10); color: #15803d; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.flat { background: rgba(71,85,105,0.10); color: #475569; }
 body.light-mode .veg-widget .vw-card .veg-change.pos { background: rgba(220,38,38,0.10); color: #b91c1c; }
 body.light-mode .veg-widget .vw-card .veg-change.neg { background: rgba(21,128,61,0.10); color: #15803d; }
 body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,105,0.10); color: #475569; }
 body.light-mode .fuel-rate-widget .frw-card .rate-change { font-size: 0.62rem; }
-body.light-mode .gold-rate-widget .grw-card .rate-change { font-size: 0.6rem; }
 body.light-mode .veg-widget .vw-card .veg-change { font-size: 0.6rem; }
 body.light-mode .icon-btn { background: rgba(0,0,0,0.05); color: #1e293b; border-color: rgba(0,0,0,0.06); }
 body.light-mode .mini-calculator-dialog, body.light-mode .history-dialog {
@@ -981,369 +984,6 @@ body.light-mode .history-share-btn:hover {
     .mini-calculator-dialog, .history-dialog { right: 0.8rem; width: 260px; top: 70px; }
 }
 
-/* ===================== LIVE GOLD RATE WIDGET ===================== */
-.gold-rate-widget {
-    background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.04) 100%);
-    border: 1px solid rgba(251,191,36,0.25);
-    border-radius: 1.5rem;
-    padding: 1.2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 24px -10px rgba(251,191,36,0.15);
-}
-.gold-rate-widget .grw-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 0.9rem;
-    flex-wrap: wrap;
-}
-.gold-rate-widget .grw-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #fbbf24;
-    letter-spacing: 0.3px;
-}
-.gold-rate-widget .grw-title svg {
-    width: 22px;
-    height: 22px;
-    stroke: #fbbf24;
-    fill: none;
-    stroke-width: 1.8;
-}
-.gold-rate-widget .grw-live-pill {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(34,197,94,0.15);
-    color: #4ade80;
-    border: 1px solid rgba(34,197,94,0.3);
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-.gold-rate-widget .grw-live-pill .pulse {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #4ade80;
-    animation: grwPulse 1.4s infinite;
-}
-@keyframes grwPulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.4); }
-}
-.gold-rate-widget .grw-input-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 0.9rem;
-    flex-wrap: wrap;
-}
-.gold-rate-widget .grw-input-row > div { flex: 1; min-width: 140px; }
-.gold-rate-widget .grw-input-row label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #cbd5e1;
-    margin-bottom: 6px;
-    opacity: 0.9;
-}
-.gold-rate-widget .grw-input-row input {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(251,191,36,0.15);
-}
-.gold-rate-widget .grw-input-row input:focus {
-    box-shadow: 0 0 0 2px rgba(251,191,36,0.35);
-}
-.gold-rate-widget .grw-fetch-btn {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #1a1a1a;
-    font-weight: 700;
-    padding: 13px 18px;
-    border: none;
-    border-radius: 1.2rem;
-    cursor: pointer;
-    align-self: flex-end;
-    letter-spacing: 0.3px;
-    transition: 0.2s;
-    box-shadow: 0 4px 14px -2px rgba(245,158,11,0.4);
-    white-space: nowrap;
-}
-.gold-rate-widget .grw-fetch-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
-.gold-rate-widget .grw-fetch-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-.gold-rate-widget .grw-location-info {
-    font-size: 0.75rem;
-    color: #cbd5e1;
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-.gold-rate-widget .grw-location-info strong { color: #fbbf24; font-weight: 600; }
-.gold-rate-widget .grw-status {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    padding: 8px 12px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 0.7rem;
-    margin-bottom: 0.8rem;
-    display: none;
-}
-.gold-rate-widget .grw-status.show { display: block; }
-.gold-rate-widget .grw-status.error { color: #fca5a5; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); }
-.gold-rate-widget .grw-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin-bottom: 0.8rem;
-}
-.gold-rate-widget .grw-card {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 1rem;
-    padding: 12px;
-    text-align: center;
-    transition: 0.2s;
-    cursor: pointer;
-    position: relative;
-}
-.gold-rate-widget .grw-card:hover {
-    border-color: rgba(251,191,36,0.4);
-    transform: translateY(-2px);
-    background: rgba(251,191,36,0.05);
-}
-.gold-rate-widget .grw-card.selected {
-    border-color: #fbbf24;
-    background: rgba(251,191,36,0.1);
-    box-shadow: 0 0 0 2px rgba(251,191,36,0.3);
-}
-.gold-rate-widget .grw-card .carat {
-    font-size: 0.7rem;
-    color: #fbbf24;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px dashed rgba(251,191,36,0.2);
-}
-.gold-rate-widget .grw-card .rate-block {
-    padding: 6px 0;
-    margin-bottom: 4px;
-}
-.gold-rate-widget .grw-card .rate-block + .rate-block {
-    border-top: 1px dashed rgba(255,255,255,0.1);
-    margin-top: 4px;
-    padding-top: 8px;
-}
-.gold-rate-widget .grw-card .rate-block .rate-label {
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    display: inline-block;
-}
-.gold-rate-widget .grw-card .rate-ex .rate-label {
-    background: rgba(148,163,184,0.15);
-    color: #cbd5e1;
-}
-.gold-rate-widget .grw-card .rate-inc .rate-label {
-    background: rgba(251,191,36,0.15);
-    color: #fbbf24;
-}
-.gold-rate-widget .grw-card .rate-block .rate {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #f1f5f9;
-    line-height: 1.1;
-    margin-bottom: 2px;
-}
-.gold-rate-widget .grw-card .rate-inc .rate { color: #fbbf24; }
-.gold-rate-widget .grw-card .rate-block .per {
-    font-size: 0.6rem;
-    color: #94a3b8;
-    letter-spacing: 0.3px;
-}
-.gold-rate-widget .grw-card .rate-block .per10g {
-    font-size: 0.65rem;
-    color: #cbd5e1;
-    margin-top: 3px;
-}
-.gold-rate-widget .grw-card .gst-line {
-    font-size: 0.62rem;
-    color: #94a3b8;
-    margin-top: 6px;
-    padding-top: 6px;
-    border-top: 1px dashed rgba(255,255,255,0.08);
-    font-style: italic;
-}
-/* view toggle */
-.gold-rate-widget .grw-view-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0.9rem;
-    flex-wrap: wrap;
-    background: rgba(0,0,0,0.2);
-    padding: 6px 10px;
-    border-radius: 999px;
-    width: fit-content;
-}
-.gold-rate-widget .grw-toggle-label {
-    font-size: 0.7rem;
-    color: #cbd5e1;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-right: 4px;
-}
-.gold-rate-widget .grw-toggle-btn {
-    background: transparent;
-    color: #cbd5e1;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.gold-rate-widget .grw-toggle-btn:hover { background: rgba(255,255,255,0.06); }
-.gold-rate-widget .grw-toggle-btn.active {
-    background: #fbbf24;
-    color: #0f172a;
-}
-.gold-rate-widget .grw-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 6px;
-}
-.gold-rate-widget .grw-updated {
-    font-size: 0.7rem;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.gold-rate-widget .grw-use-btn {
-    background: #fbbf24;
-    color: #0f172a;
-    font-weight: 700;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 0.8rem;
-    cursor: pointer;
-    font-size: 0.8rem;
-    display: none;
-    align-items: center;
-    gap: 6px;
-    transition: 0.2s;
-}
-.gold-rate-widget .grw-use-btn.show { display: inline-flex; }
-.gold-rate-widget .grw-use-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
-.gold-rate-widget .grw-use-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; }
-.gold-rate-widget .grw-disclaimer {
-    font-size: 0.65rem;
-    color: #64748b;
-    margin-top: 8px;
-    line-height: 1.4;
-    font-style: italic;
-}
-body.light-mode .gold-rate-widget {
-    background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(217,119,6,0.06) 100%);
-    border-color: rgba(217,119,6,0.35);
-    box-shadow: 0 8px 24px -10px rgba(217,119,6,0.25);
-}
-body.light-mode .gold-rate-widget .grw-title { color: #b45309; }
-body.light-mode .gold-rate-widget .grw-title svg { stroke: #b45309; }
-body.light-mode .gold-rate-widget .grw-input-row label { color: #475569; }
-body.light-mode .gold-rate-widget .grw-input-row input {
-    background: rgba(255,255,255,0.85) !important;
-    color: #1e293b !important;
-    border-color: rgba(217,119,6,0.3);
-}
-body.light-mode .gold-rate-widget .grw-input-row input::placeholder { color: #94a3b8; }
-body.light-mode .gold-rate-widget .grw-fetch-btn {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    color: #1a1a1a;
-}
-body.light-mode .gold-rate-widget .grw-location-info { color: #475569; }
-body.light-mode .gold-rate-widget .grw-location-info strong { color: #b45309; }
-body.light-mode .gold-rate-widget .grw-status {
-    background: rgba(0,0,0,0.04);
-    color: #475569;
-}
-body.light-mode .gold-rate-widget .grw-status.error {
-    background: rgba(220,38,38,0.08);
-    color: #b91c1c;
-    border-color: rgba(220,38,38,0.25);
-}
-body.light-mode .gold-rate-widget .grw-view-toggle {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(0,0,0,0.08);
-}
-body.light-mode .gold-rate-widget .grw-toggle-label { color: #475569; }
-body.light-mode .gold-rate-widget .grw-toggle-btn { color: #475569; }
-body.light-mode .gold-rate-widget .grw-toggle-btn:hover { background: rgba(0,0,0,0.06); }
-body.light-mode .gold-rate-widget .grw-toggle-btn.active {
-    background: #d97706;
-    color: #ffffff;
-}
-body.light-mode .gold-rate-widget .grw-card {
-    background: rgba(255,255,255,0.75);
-    border-color: rgba(0,0,0,0.08);
-}
-body.light-mode .gold-rate-widget .grw-card:hover {
-    border-color: rgba(217,119,6,0.45);
-    background: rgba(245,158,11,0.08);
-}
-body.light-mode .gold-rate-widget .grw-card.selected {
-    border-color: #d97706;
-    background: rgba(245,158,11,0.12);
-    box-shadow: 0 0 0 2px rgba(217,119,6,0.35);
-}
-body.light-mode .gold-rate-widget .grw-card .carat {
-    color: #b45309;
-    border-bottom-color: rgba(217,119,6,0.25);
-}
-body.light-mode .gold-rate-widget .grw-card .rate-block + .rate-block {
-    border-top-color: rgba(0,0,0,0.1);
-}
-body.light-mode .gold-rate-widget .grw-card .rate-ex .rate-label {
-    background: rgba(71,85,105,0.12);
-    color: #475569;
-}
-body.light-mode .gold-rate-widget .grw-card .rate-inc .rate-label {
-    background: rgba(217,119,6,0.15);
-    color: #b45309;
-}
-body.light-mode .gold-rate-widget .grw-card .rate-block .rate { color: #0f172a; }
-body.light-mode .gold-rate-widget .grw-card .rate-inc .rate { color: #b45309; }
-body.light-mode .gold-rate-widget .grw-card .rate-block .per { color: #64748b; }
-body.light-mode .gold-rate-widget .grw-card .rate-block .per10g { color: #475569; }
-body.light-mode .gold-rate-widget .grw-card .gst-line {
-    color: #64748b;
-    border-top-color: rgba(0,0,0,0.1);
-}
-body.light-mode .gold-rate-widget .grw-updated { color: #64748b; }
-body.light-mode .gold-rate-widget .grw-use-btn {
-    background: #d97706;
-    color: #ffffff;
-}
-body.light-mode .gold-rate-widget .grw-use-btn:hover { filter: brightness(1.05); }
-body.light-mode .gold-rate-widget .grw-disclaimer { color: #64748b; }
 
 /* ===================== LOCATION HISTORY COMBOBOX ===================== */
 .loc-combobox { position: relative; }
@@ -1525,7 +1165,7 @@ body.light-mode .loc-history-empty { color: #94a3b8; }
     height: 6px;
     border-radius: 50%;
     background: #4ade80;
-    animation: grwPulse 1.4s infinite;
+    animation: livePulse 1.4s infinite;
 }
 .fuel-rate-widget .frw-input-row {
     display: flex;
@@ -2394,7 +2034,7 @@ body.light-mode .company-tab.active { background: rgba(5,150,105,0.15); color: #
     height: 6px;
     border-radius: 50%;
     background: #22c55e;
-    animation: grwPulse 1.4s infinite;
+    animation: livePulse 1.4s infinite;
 }
 .veg-widget .vw-input-row {
     display: flex;
@@ -2709,22 +2349,7 @@ body.light-mode .veg-widget .vw-disclaimer { color: #64748b; }
 .fuel-rate-widget .frw-card.commercial .fuel-name, .fuel-rate-widget .frw-card.commercial .fuel-head svg { color: #fbbf24; }
 
 /* ===================== RATE-CHANGE BADGES (shared) ===================== */
-/* Gold rate change badge */
-.gold-rate-widget .grw-card .rate-change {
-    display: inline-block;
-    margin-top: 6px;
-    padding: 3px 8px;
-    border-radius: 999px;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-}
-.gold-rate-widget .grw-card .rate-change.pos { background: rgba(239,68,68,0.18); color: #fca5a5; }
-.gold-rate-widget .grw-card .rate-change.neg { background: rgba(34,197,94,0.18); color: #86efac; }
-.gold-rate-widget .grw-card .rate-change.flat { background: rgba(148,163,184,0.18); color: #94a3b8; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.pos { background: rgba(220,38,38,0.10); color: #b91c1c; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.neg { background: rgba(21,128,61,0.10); color: #15803d; }
-body.light-mode .gold-rate-widget .grw-card .rate-change.flat { background: rgba(71,85,105,0.10); color: #475569; }
+
 
 /* Fuel rate change badge */
 .fuel-rate-widget .frw-card .rate-change {
@@ -2822,39 +2447,31 @@ body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,1
     .result-item { margin: 7px 0; font-size: 0.85rem; }
     .total, .pg-total, .discount-saved { font-size: 1.2rem; }
 
-    /* Gold rate widget — compact */
-    .gold-rate-widget,
+    /* Rate widgets — compact */
     .fuel-rate-widget,
     .veg-widget {
         padding: 0.7rem;
         border-radius: 1rem;
         margin-bottom: 0.7rem;
     }
-    .gold-rate-widget .grw-header,
     .fuel-rate-widget .frw-header,
     .veg-widget .vw-header { margin-bottom: 0.6rem; gap: 6px; }
-    .gold-rate-widget .grw-title,
     .fuel-rate-widget .frw-title,
     .veg-widget .vw-title { font-size: 0.88rem; gap: 6px; }
-    .gold-rate-widget .grw-title svg,
     .fuel-rate-widget .frw-title svg,
     .veg-widget .vw-title svg { width: 18px; height: 18px; }
-    .gold-rate-widget .grw-live-pill,
     .fuel-rate-widget .frw-live-pill,
     .veg-widget .vw-live-pill { font-size: 0.55rem; padding: 3px 8px; }
 
     /* Input row — stack on mobile, tighter */
-    .gold-rate-widget .grw-input-row,
     .fuel-rate-widget .frw-input-row,
     .veg-widget .vw-input-row {
         flex-direction: column;
         gap: 6px;
         margin-bottom: 0.6rem;
     }
-    .gold-rate-widget .grw-input-row > div,
     .fuel-rate-widget .frw-input-row > div,
     .veg-widget .vw-input-row > div { min-width: 100%; }
-    .gold-rate-widget .grw-fetch-btn,
     .fuel-rate-widget .frw-fetch-btn,
     .veg-widget .vw-fetch-btn {
         width: 100%;
@@ -2865,32 +2482,10 @@ body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,1
     }
 
     /* Location info — smaller text */
-    .gold-rate-widget .grw-location-info,
     .fuel-rate-widget .frw-location-info,
     .veg-widget .vw-location-info { font-size: 0.65rem; margin-bottom: 0.5rem; }
 
-    /* View toggle — full width on mobile */
-    .gold-rate-widget .grw-view-toggle {
-        width: 100%;
-        justify-content: space-between;
-        padding: 4px 6px;
-    }
-    .gold-rate-widget .grw-toggle-btn { padding: 5px 8px; font-size: 0.65rem; flex: 1; text-align: center; }
 
-    /* Gold cards — 2 per row on mobile, smaller text */
-    .gold-rate-widget .grw-cards {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-    .gold-rate-widget .grw-card { padding: 8px 6px; border-radius: 0.7rem; }
-    .gold-rate-widget .grw-card .carat { font-size: 0.6rem; margin-bottom: 4px; padding-bottom: 4px; }
-    .gold-rate-widget .grw-card .rate-block { padding: 3px 0; }
-    .gold-rate-widget .grw-card .rate-block .rate-label { font-size: 0.5rem; padding: 1px 6px; }
-    .gold-rate-widget .grw-card .rate-block .rate { font-size: 0.85rem; }
-    .gold-rate-widget .grw-card .rate-block .per { font-size: 0.5rem; }
-    .gold-rate-widget .grw-card .rate-block .per10g { font-size: 0.55rem; }
-    .gold-rate-widget .grw-card .gst-line { font-size: 0.52rem; margin-top: 4px; padding-top: 4px; }
-    .gold-rate-widget .grw-card .rate-change { font-size: 0.52rem; padding: 2px 6px; margin-top: 4px; }
 
     /* Fuel cards — 2 per row on mobile */
     .fuel-rate-widget .frw-cards {
@@ -2932,16 +2527,10 @@ body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,1
     .veg-widget .vw-search input { padding: 8px 12px; font-size: 0.78rem; }
 
     /* Footer / disclaimer — smaller */
-    .gold-rate-widget .grw-updated,
     .fuel-rate-widget .frw-updated,
     .veg-widget .vw-updated { font-size: 0.6rem; }
-    .gold-rate-widget .grw-disclaimer,
     .fuel-rate-widget .frw-disclaimer,
     .veg-widget .vw-disclaimer { font-size: 0.55rem; margin-top: 6px; line-height: 1.35; }
-
-    /* Use-rate button — full width */
-    .gold-rate-widget .grw-footer { flex-direction: column; align-items: stretch; gap: 6px; }
-    .gold-rate-widget .grw-use-btn { width: 100%; justify-content: center; padding: 9px 12px; font-size: 0.78rem; }
 
     /* Discount mode tabs — wrap */
     .mode-tabs { flex-wrap: wrap; gap: 4px; }
@@ -2960,7 +2549,6 @@ body.light-mode .veg-widget .vw-card .veg-change.flat { background: rgba(71,85,1
 @media (max-width: 380px) {
     .card { padding: 0.7rem 0.55rem; border-radius: 1rem; }
     h1 { font-size: 1.4rem; }
-    .gold-rate-widget .grw-cards,
     .fuel-rate-widget .frw-cards { grid-template-columns: 1fr; }
     .veg-widget .vw-cards { grid-template-columns: 1fr; }
     .tab-btn span { font-size: 0.55rem; }
@@ -3117,7 +2705,6 @@ input[type="number"]:not(:focus):placeholder-shown + .stepper-btn-group,
         <button class="tab-btn tab-calc" onclick="switchTab('gst')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg><span>GST</span></button>
         <button class="tab-btn tab-calc" onclick="switchTab('discount')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 15l6-6"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg><span>Discount</span></button>
         <div class="tab-divider" aria-hidden="true"></div>
-        <button class="tab-btn tab-rate" onclick="switchTab('goldrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg><span>Gold Rate</span></button>
         <button class="tab-btn tab-rate" onclick="switchTab('fuelrate')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 22V10l5-3v15M10 22V7l5-2v17M15 22V5l6 3v14"/></svg><span>Fuel Rate</span></button>
         <button class="tab-btn tab-rate" onclick="switchTab('vegetables')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c-3 0-5 2-5 5 0 1 0 2 1 3-2 1-3 3-3 6 0 4 3 7 7 7s7-3 7-7c0-3-1-5-3-6 1-1 1-2 1-3 0-3-2-5-5-5z"/><path d="M12 2v20"/></svg><span>Veg &amp; Fruits</span></button>
     </div>
@@ -3373,58 +2960,6 @@ input[type="number"]:not(:focus):placeholder-shown + .stepper-btn-group,
         </div>
     </div>
 
-    <!-- Panel 4: Gold Rate -->
-    <div id="panel-goldrate" class="tab-panel" style="display:none">
-        <div class="gold-rate-widget" id="goldRateWidget">
-            <div class="grw-header">
-                <div class="grw-title">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/></svg>
-                    Live Gold Rate by Location
-                </div>
-                <span class="grw-live-pill"><span class="pulse"></span> Live</span>
-            </div>
-
-            <div class="grw-input-row">
-                <div>
-                    <label>Pincode or City</label>
-                    <div class="loc-combobox">
-                        <input type="text" id="grwLocationInput" placeholder="e.g. 560001 or Mumbai" inputmode="numeric" autocomplete="off">
-                        <button class="loc-history-toggle" id="grwHistoryToggle" onclick="toggleLocHistory('grw')" aria-label="Recent locations">
-                            <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-                        </button>
-                        <div class="loc-history-dropdown" id="grwHistoryDropdown"></div>
-                    </div>
-                </div>
-                <button class="grw-fetch-btn" id="grwFetchBtn" onclick="fetchGoldRates()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                    Get Today's Rates
-                </button>
-            </div>
-
-            <div class="grw-location-info" id="grwLocationInfo" style="display:none"></div>
-            <div class="grw-status" id="grwStatus"></div>
-
-            <!-- GST toggle: show ex / inc / both -->
-            <div class="grw-view-toggle" id="grwViewToggle" style="display:none">
-                <span class="grw-toggle-label">View:</span>
-                <button data-view="both" class="grw-toggle-btn active" onclick="setGoldView('both')">Both</button>
-                <button data-view="ex" class="grw-toggle-btn" onclick="setGoldView('ex')">Ex-GST</button>
-                <button data-view="inc" class="grw-toggle-btn" onclick="setGoldView('inc')">Inc-GST (MRP)</button>
-            </div>
-
-            <div class="grw-cards" id="grwCards" style="display:none"></div>
-
-            <div class="grw-footer" id="grwFooter" style="display:none">
-                <span class="grw-updated" id="grwUpdated"></span>
-                <button class="grw-use-btn" id="grwUseBtn" onclick="useSelectedGoldRate()">
-                    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    Use Selected Rate in Per-Gram
-                </button>
-            </div>
-
-            <div class="grw-disclaimer">Live spot price fetched from gold-api.com / Coinbase / CryptoCompare (whichever responds first), converted USD/oz → ₹/g using live USD→INR FX, then state-level markup + 3% GST applied. Cached for 15 minutes. Ex-GST = base gold value; Inc-GST (MRP) = final retail price. For indication only — confirm with your local jeweller for exact billing rate.</div>
-        </div>
-    </div>
 
     <!-- Panel 5: Fuel Rate -->
     <div id="panel-fuelrate" class="tab-panel" style="display:none">
@@ -4283,7 +3818,6 @@ window.switchTab = function(tab){
     document.getElementById('panel-gst').style.display = tab==='gst' ? 'block' : 'none';
     document.getElementById('panel-pergram').style.display = tab==='pergram' ? 'block' : 'none';
     document.getElementById('panel-discount').style.display = tab==='discount' ? 'block' : 'none';
-    document.getElementById('panel-goldrate').style.display = tab==='goldrate' ? 'block' : 'none';
     document.getElementById('panel-fuelrate').style.display = tab==='fuelrate' ? 'block' : 'none';
     document.getElementById('panel-vegetables').style.display = tab==='vegetables' ? 'block' : 'none';
     // attribute-based active state (works regardless of divider elements)
@@ -4548,402 +4082,6 @@ self.addEventListener('fetch', e => {
     }).catch(console.error);
 }
 
-// ===================== LIVE GOLD RATE WIDGET =====================
-const GRW = {
-    carats: [
-        { label: '24K', purity: 999, name: 'Pure Gold' },
-        { label: '22K', purity: 916, name: 'Standard Jewellery' },
-        { label: '20K', purity: 833, name: 'Light Jewellery' },
-        { label: '18K', purity: 750, name: 'Mid-range' },
-        { label: '14K', purity: 585, name: 'Economical' }
-    ],
-    // City-level retail markup factors over spot price (covers local making charges + taxes + margins)
-    // North-India (esp. Punjab) commands a small premium over Mumbai/Delhi due to higher local demand & making charges.
-    cityMarkups: {
-        'mumbai': 1.045, 'delhi': 1.055, 'kolkata': 1.050, 'chennai': 1.060,
-        'bangalore': 1.050, 'bengaluru': 1.050, 'hyderabad': 1.055, 'pune': 1.048,
-        'ahmedabad': 1.045, 'jaipur': 1.058, 'lucknow': 1.055, 'kochi': 1.062,
-        'coimbatore': 1.058, 'surat': 1.046, 'kanpur': 1.052, 'nagpur': 1.048,
-        'indore': 1.047, 'bhopal': 1.050, 'patna': 1.055, 'visakhapatnam': 1.052,
-        'varanasi': 1.057, 'madurai': 1.058, 'nashik': 1.047, 'vadodara': 1.046,
-        'ghaziabad': 1.052, 'ludhiana': 1.060, 'agra': 1.054, 'faridabad': 1.052,
-        // Punjab / Doaba region — premium for high jewellery demand (247667 Phagwara, 144001 Jalandhar, etc.)
-        'phagwara': 1.060, 'jalandhar': 1.060, 'amritsar': 1.062, 'patiala': 1.058,
-        'bathinda': 1.057, 'mohali': 1.055, 'chandigarh': 1.055,
-        // Haryana
-        'karnal': 1.052, 'panipat': 1.052, 'ambala': 1.052, 'kurukshetra': 1.052,
-        // UP west
-        'meerut': 1.054, 'bareilly': 1.052, 'aligarh': 1.052, 'noida': 1.055, 'greater noida': 1.055,
-        // Hill states
-        'shimla': 1.058, 'dehradun': 1.055
-    },
-    // Region-level markup applied when no city match found (covers smaller towns via state lookup)
-    regionMarkups: {
-        'Punjab': 1.060, 'Haryana': 1.052, 'Delhi': 1.055, 'Uttar Pradesh': 1.053,
-        'Rajasthan': 1.058, 'Madhya Pradesh': 1.050, 'Maharashtra': 1.046,
-        'Gujarat': 1.045, 'West Bengal': 1.050, 'Bihar': 1.055, 'Jharkhand': 1.052,
-        'Odisha': 1.050, 'Chhattisgarh': 1.050, 'Tamil Nadu': 1.058, 'Karnataka': 1.050,
-        'Kerala': 1.062, 'Andhra Pradesh': 1.054, 'Telangana': 1.055, 'Goa': 1.048,
-        'Jammu and Kashmir': 1.058, 'Himachal Pradesh': 1.058, 'Uttarakhand': 1.055,
-        'Assam': 1.065, 'Manipur': 1.070, 'Meghalaya': 1.068, 'Mizoram': 1.070,
-        'Nagaland': 1.070, 'Arunachal Pradesh': 1.068, 'Tripura': 1.068, 'Sikkim': 1.070,
-        'Chandigarh': 1.055, 'Puducherry': 1.058
-    },
-    selectedCarat: null,
-    selectedRate: null,
-    cacheKey: 'calcdeck_gold_cache_v1',
-    cacheTTL: 15 * 60 * 1000  // 15 minutes
-};
-
-// Enter key triggers fetch (defined later in location-history section)
-
-function grwShowStatus(msg, isError) {
-    const el = document.getElementById('grwStatus');
-    el.textContent = msg;
-    el.classList.add('show');
-    el.classList.toggle('error', !!isError);
-}
-function grwHideStatus() {
-    const el = document.getElementById('grwStatus');
-    el.classList.remove('show', 'error');
-    el.textContent = '';
-}
-
-// Step 1: Resolve pincode → city/district using free postalpincode.in API
-async function resolveLocation(input) {
-    const trimmed = (input || '').trim();
-    if (!trimmed) return { error: 'Please enter a pincode or city name.' };
-
-    // If pure digits 6 chars → pincode lookup
-    if (/^\d{6}$/.test(trimmed)) {
-        try {
-            const resp = await fetch(`https://api.postalpincode.in/pincode/${trimmed}`);
-            const data = await resp.json();
-            if (Array.isArray(data) && data[0] && data[0].PostOffice && data[0].PostOffice.length) {
-                const po = data[0].PostOffice[0];
-                return {
-                    city: po.District || po.Block || po.Region,
-                    state: po.State,
-                    country: po.Country,
-                    pincode: trimmed,
-                    display: `${po.District || po.Block}, ${po.State}`
-                };
-            }
-            return { error: 'Pincode not found. Please check and try again.' };
-        } catch (e) {
-            return { error: 'Could not verify pincode (network error). Showing India average rate.' };
-        }
-    }
-    // Otherwise treat as city name
-    return {
-        city: trimmed,
-        display: trimmed,
-        country: 'India'
-    };
-}
-
-// Step 2: Fetch live gold spot price in INR per gram (multiple fallback sources)
-// We try several free APIs in sequence — first one that returns a valid price wins.
-async function fetchSpotGoldPrice() {
-    // Check cache first (15-min TTL)
-    try {
-        const cached = JSON.parse(localStorage.getItem(GRW.cacheKey) || 'null');
-        if (cached && (Date.now() - cached.ts) < GRW.cacheTTL) {
-            return { price: cached.price, source: cached.source + ' (cached)', cached: true };
-        }
-    } catch (e) {}
-
-    // Fetch USD→INR once (used by USD-priced sources)
-    const usdInr = await fetchUsdInrRate();
-
-    // ----- Source list (tried in order) -----
-    const sources = [
-        // 1. gold-api.com — free, no key, returns spot in USD/oz
-        {
-            name: 'gold-api.com',
-            url: 'https://api.gold-api.com/price/XAU',
-            parse: async (d) => {
-                const usdPerOz = parseFloat(d.price);
-                if (!usdPerOz || usdPerOz < 100) throw new Error('Invalid price');
-                return (usdPerOz / 31.1035) * usdInr;
-            }
-        },
-        // 2. Coinbase — XAU-USD spot (CORS-enabled)
-        {
-            name: 'coinbase',
-            url: 'https://api.coinbase.com/v2/prices/XAU-USD/spot',
-            parse: (d) => {
-                if (!d || !d.data || !d.data.amount) throw new Error('No data');
-                const usdPerOz = parseFloat(d.data.amount);
-                if (!usdPerOz || usdPerOz < 100) throw new Error('Invalid price');
-                return (usdPerOz / 31.1035) * usdInr;
-            }
-        },
-        // 3. CryptoCompare — XAU spot in USD (CORS-enabled)
-        {
-            name: 'cryptocompare',
-            url: 'https://min-api.cryptocompare.com/data/price?fsym=XAU&tsyms=USD',
-            parse: (d) => {
-                if (!d || !d.USD) throw new Error('No USD');
-                const usdPerOz = parseFloat(d.USD);
-                if (!usdPerOz || usdPerOz < 100) throw new Error('Invalid price');
-                return (usdPerOz / 31.1035) * usdInr;
-            }
-        },
-        // 4. metalpriceapi.com (demo key) — returns INR + XAU per USD
-        {
-            name: 'metalpriceapi (demo)',
-            url: 'https://api.metalpriceapi.com/v1/latest?api_key=demo&base=USD&currencies=INR,XAU',
-            parse: (d) => {
-                if (!d || !d.rates) throw new Error('No rates');
-                const inrPerUsd = d.rates.INR;
-                const usdPerOz = 1 / d.rates.XAU;  // XAU is oz per USD, so USD per oz = 1/XAU
-                if (!isFinite(usdPerOz) || usdPerOz < 100) throw new Error('Invalid price');
-                return (usdPerOz / 31.1035) * inrPerUsd;
-            }
-        }
-    ];
-
-    for (const srcObj of sources) {
-        try {
-            const resp = await fetch(srcObj.url, { signal: AbortSignal.timeout ? AbortSignal.timeout(4000) : undefined });
-            if (!resp.ok) continue;
-            const data = await resp.json();
-            const price = typeof srcObj.parse === 'function'
-                ? (srcObj.parse.constructor.name === 'AsyncFunction' ? await srcObj.parse(data) : srcObj.parse(data))
-                : null;
-            // sanity check: 24K spot in INR/g should be 5000-15000 range
-            if (price && price > 5000 && price < 15000) {
-                localStorage.setItem(GRW.cacheKey, JSON.stringify({ price, source: srcObj.name, ts: Date.now() }));
-                return { price, source: srcObj.name, cached: false };
-            }
-        } catch (e) { /* try next source */ }
-    }
-
-    // Fallback: indicative Indian 24K spot price (₹/gram, ex-GST, ~mid-2026 reference).
-    return { price: 8180, source: 'indicative-fallback (2026 reference)', cached: false, fallback: true };
-}
-
-// Helper: fetch USD→INR FX rate (multiple sources)
-async function fetchUsdInrRate() {
-    // Try exchangerate-api first (open, CORS-enabled)
-    try {
-        const r = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-        if (r.ok) {
-            const d = await r.json();
-            if (d && d.rates && d.rates.INR && d.rates.INR > 70 && d.rates.INR < 120) return d.rates.INR;
-        }
-    } catch (e) {}
-    // Fallback 2: open.er-api.com
-    try {
-        const r = await fetch('https://open.er-api.com/v6/latest/USD');
-        if (r.ok) {
-            const d = await r.json();
-            if (d && d.rates && d.rates.INR && d.rates.INR > 70 && d.rates.INR < 120) return d.rates.INR;
-        }
-    } catch (e) {}
-    return 86.5; // sensible 2026 fallback
-}
-
-// Main entry: triggered by "Get Today's Rates" button
-async function fetchGoldRates() {
-    const input = document.getElementById('grwLocationInput').value;
-    const btn = document.getElementById('grwFetchBtn');
-    if (!input.trim()) {
-        grwShowStatus('Please enter a pincode or city name.', true);
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:grwSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
-    // inject spin keyframe if missing
-    if (!document.getElementById('grwSpinStyle')) {
-        const s = document.createElement('style');
-        s.id = 'grwSpinStyle';
-        s.textContent = '@keyframes grwSpin{to{transform:rotate(360deg)}}';
-        document.head.appendChild(s);
-    }
-    grwShowStatus('Resolving location & fetching live gold price...', false);
-
-    const loc = await resolveLocation(input);
-    if (loc.error) {
-        // soft error — still proceed with India average if pincode failed
-        grwShowStatus(loc.error, true);
-    } else if (loc.display) {
-        // Save to location history (shared across gold & fuel tabs)
-        saveLocHistory({ value: input.trim(), display: loc.display, state: loc.state || '', pincode: loc.pincode || '' });
-    }
-
-    const spot = await fetchSpotGoldPrice();
-    const spotPerGram24k = spot.price;
-
-    // City markup — try exact city match, then prefix match, then state-based region markup, then national avg.
-    let cityKey = loc.city ? loc.city.toLowerCase().trim() : '';
-    let markup = GRW.cityMarkups[cityKey];
-    if (!markup) {
-        // try matching first 4 chars (handles "Phagwara" vs "Phagwara Ho" etc.)
-        for (const k in GRW.cityMarkups) {
-            if (cityKey.startsWith(k.slice(0, 4)) || k.startsWith(cityKey.slice(0, 4))) { markup = GRW.cityMarkups[k]; break; }
-        }
-    }
-    if (!markup && loc.state && GRW.regionMarkups[loc.state]) {
-        markup = GRW.regionMarkups[loc.state];
-    }
-    if (!markup) markup = 1.052; // India average
-
-    // 24K base rate per gram (ex-GST) = spot × city markup
-    const GST_RATE = 0.03;
-    const base24kPerGramExGst = spotPerGram24k * markup;
-    const base24kPerGramIncGst = base24kPerGramExGst * (1 + GST_RATE);
-
-    // Deterministic daily change vs "previous day" (±0.6% jitter, day-seeded)
-    const today = new Date();
-    const dayKey = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-    let seed = 0;
-    for (let i = 0; i < dayKey.length; i++) seed = (seed * 31 + dayKey.charCodeAt(i)) % 9973;
-    const changePct = ((seed % 13) - 6) / 1000;  // -0.6% .. +0.6%
-    const prevBase24k = base24kPerGramExGst / (1 + changePct);
-
-    // Compute all carats using purity ratio
-    const rates = GRW.carats.map(c => {
-        const ratio = c.purity / 999;
-        const perGramEx = base24kPerGramExGst * ratio;
-        const perGramInc = base24kPerGramIncGst * ratio;
-        const prevPerGramEx = prevBase24k * ratio;
-        const change = Math.round(perGramEx - prevPerGramEx);
-        return {
-            ...c,
-            perGramEx: Math.round(perGramEx),
-            perGramInc: Math.round(perGramInc),
-            per10gEx: Math.round(perGramEx * 10),
-            per10gInc: Math.round(perGramInc * 10),
-            gstAmount: Math.round(perGramInc - perGramEx),
-            change: change  // ₹ change vs previous day (per gram)
-        };
-    });
-
-    // Render
-    grwHideStatus();
-    renderGoldRateCards(rates, loc, spot);
-    btn.disabled = false;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Refresh Rates';
-}
-
-function renderGoldRateCards(rates, loc, spot) {
-    // Location info
-    const locEl = document.getElementById('grwLocationInfo');
-    locEl.style.display = 'flex';
-    locEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Location: <strong>${loc.display || 'India (avg)'}</strong>${loc.pincode ? ` &middot; PIN: <strong>${loc.pincode}</strong>` : ''}${loc.state ? ` &middot; ${loc.state}` : ''}`;
-
-    // Show view toggle
-    document.getElementById('grwViewToggle').style.display = 'flex';
-
-    // Cards
-    const cardsEl = document.getElementById('grwCards');
-    cardsEl.style.display = 'grid';
-    cardsEl.innerHTML = rates.map((r, i) => {
-        const changeIcon = r.change > 0 ? '▲' : r.change < 0 ? '▼' : '–';
-        const changeClass = r.change > 0 ? 'pos' : r.change < 0 ? 'neg' : 'flat';
-        const changeStr = r.change === 0 ? 'No change' : `${changeIcon} ₹${Math.abs(r.change).toLocaleString('en-IN')}/g ${r.change > 0 ? 'up' : 'down'}`;
-        return `
-        <div class="grw-card" data-index="${i}" onclick="selectGoldRate(${i})">
-            <div class="carat">${r.label} &middot; ${r.purity}</div>
-            <div class="rate-block rate-ex">
-                <div class="rate-label">Ex-GST</div>
-                <div class="rate">₹${r.perGramEx.toLocaleString('en-IN')}</div>
-                <div class="per">per gram</div>
-                <div class="per10g">₹${r.per10gEx.toLocaleString('en-IN')} / 10g</div>
-            </div>
-            <div class="rate-block rate-inc">
-                <div class="rate-label">Inc-GST (MRP)</div>
-                <div class="rate">₹${r.perGramInc.toLocaleString('en-IN')}</div>
-                <div class="per">per gram</div>
-                <div class="per10g">₹${r.per10gInc.toLocaleString('en-IN')} / 10g</div>
-            </div>
-            <div class="gst-line">+₹${r.gstAmount.toLocaleString('en-IN')} GST/g (3%)</div>
-            <div class="rate-change ${changeClass}">${changeStr}</div>
-        </div>`;
-    }).join('');
-
-    // Footer
-    const footer = document.getElementById('grwFooter');
-    footer.style.display = 'flex';
-    const updated = document.getElementById('grwUpdated');
-    const srcLabel = spot.source === 'indicative-fallback' ? 'indicative rate (live API unreachable)'
-                   : spot.cached ? `cached from ${spot.source}`
-                   : `via ${spot.source}`;
-    const time = new Date().toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
-    updated.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Updated ${time} &middot; ${srcLabel}`;
-
-    // Store for selection
-    GRW._lastRates = rates;
-
-    // Auto-select 22K (most common) for convenience
-    selectGoldRate(1);
-
-    // Apply current view mode
-    setGoldView(GRW._viewMode || 'both');
-
-    if (spot.fallback) {
-        grwShowStatus('Live API unreachable — showing indicative reference rate. Try refreshing in a moment.', true);
-    }
-}
-
-// View toggle: show Both / Ex-GST only / Inc-GST only
-function setGoldView(mode) {
-    GRW._viewMode = mode;
-    document.querySelectorAll('.grw-toggle-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.view === mode);
-    });
-    const cards = document.querySelectorAll('.grw-card');
-    cards.forEach(card => {
-        const exBlock = card.querySelector('.rate-ex');
-        const incBlock = card.querySelector('.rate-inc');
-        if (mode === 'ex') { exBlock.style.display = 'block'; incBlock.style.display = 'none'; }
-        else if (mode === 'inc') { exBlock.style.display = 'none'; incBlock.style.display = 'block'; }
-        else { exBlock.style.display = 'block'; incBlock.style.display = 'block'; }
-    });
-}
-
-function selectGoldRate(index) {
-    GRW._lastRates.forEach((r, i) => {
-        const card = document.querySelector(`.grw-card[data-index="${i}"]`);
-        if (card) card.classList.toggle('selected', i === index);
-    });
-    GRW.selectedCarat = GRW._lastRates[index];
-    document.getElementById('grwUseBtn').classList.add('show');
-}
-
-// Plug the selected rate into the Per-Gram calculator
-function useSelectedGoldRate() {
-    if (!GRW.selectedCarat) return;
-    const priceInput = document.getElementById('pgPrice');
-    const weightInput = document.getElementById('pgWeight');
-
-    // Use the inc-GST (MRP) rate by default, since that's the final retail price.
-    // If user is in 'ex' view mode, use ex-GST rate instead so they get what they see.
-    const useInc = GRW._viewMode !== 'ex';
-    const perGram = useInc ? GRW.selectedCarat.perGramInc : GRW.selectedCarat.perGramEx;
-    const per10g = useInc ? GRW.selectedCarat.per10gInc : GRW.selectedCarat.per10gEx;
-
-    priceInput.value = per10g;
-    weightInput.value = 10;
-    // Set unit to grams
-    setUnit('g', 'Gram (g)');
-
-    // Switch to pergram tab so user sees the calculation
-    switchTab('pergram');
-
-    // Trigger calculation
-    calcPerGram();
-
-    // Visual feedback
-    const btn = document.getElementById('grwUseBtn');
-    const original = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Applied!';
-    setTimeout(() => { btn.innerHTML = original; }, 1800);
-}
-
 // ===================== LOCATION HISTORY (shared combobox) =====================
 const LOC_HISTORY_KEY = 'calcdeck_loc_history_v1';
 const LOC_HISTORY_MAX = 10;
@@ -5018,9 +4156,7 @@ function pickLocHistory(prefix, value) {
     // close dropdown
     document.getElementById(prefix + 'HistoryDropdown').classList.remove('show');
     document.getElementById(prefix + 'HistoryToggle').classList.remove('open');
-    // trigger appropriate fetch
-    if (prefix === 'grw') fetchGoldRates();
-    else if (prefix === 'frw') fetchFuelRates();
+    if (prefix === 'frw') fetchFuelRates();
 }
 
 // Close location dropdown when clicking outside
@@ -5031,10 +4167,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Wire gold-rate input Enter key (existing) + close-on-blur
-document.getElementById('grwLocationInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') fetchGoldRates();
-});
 
 // ===================== FUEL RATE WIDGET =====================
 const FRW = {
@@ -5265,13 +4397,7 @@ async function fetchFuelRates() {
     }
 
     btn.disabled = true;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:grwSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
-    if (!document.getElementById('grwSpinStyle')) {
-        const s = document.createElement('style');
-        s.id = 'grwSpinStyle';
-        s.textContent = '@keyframes grwSpin{to{transform:rotate(360deg)}}';
-        document.head.appendChild(s);
-    }
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:rateSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
     frwShowStatus('Resolving location & fetching today\'s fuel rates...', false);
 
     const loc = await resolveLocationForFuel(input);
@@ -5789,7 +4915,7 @@ async function fetchVegRates() {
     }
 
     btn.disabled = true;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:grwSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:rateSpin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Fetching...';
     vwShowStatus('Resolving location & fetching today\'s mandi prices...', false);
 
     const loc = await resolveLocationForVeg(input);
