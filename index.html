@@ -2550,6 +2550,23 @@
                     <button class="confirm-clear" id="confirmClearModal">Yes, Clear All</button>
                 </div>
             </div>
+         </div>
+
+        <!-- Custom History Load Confirmation Modal -->
+        <div id="customHistoryLoadModal" class="custom-clear-modal">
+            <div class="clear-modal-content">
+                <h3><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <path d="M3 3v5h5" />
+                        <path d="M12 7v5l4 2" />
+                    </svg> Load Calculation?</h3>
+                <p>This will overwrite your current inputs in the calculator.</p>
+                <div class="clear-buttons">
+                    <button class="cancel-clear" id="cancelHistoryLoadModal">Cancel</button>
+                    <button class="confirm-clear" id="confirmHistoryLoadModal" style="background:#029D9D;">Yes, Load</button>
+                </div>
+            </div>
         </div>
 
         <!-- Custom Comparison Clear Confirmation Modal -->
@@ -3217,9 +3234,19 @@
                 return `<div class="history-item" onclick="loadHistoryEntry(${entry.id}, event)" data-share="${encodeURIComponent(shareText)}"><div class="history-item-header">${iconSvg}<span>${title}</span></div><div class="history-details">${details}</div>${shareBtnHtml}<div class="history-date">${entry.date}</div></div>`;
             }).join('');
         }
+        let pendingLoadId = null;
+        let pendingLoadEvent = null;
+
         window.loadHistoryEntry = function (id, event) {
             if (event.target.closest('.history-share-btn')) return;
-            const entry = unifiedHistory.find(item => item.id === id);
+            pendingLoadId = id;
+            pendingLoadEvent = event;
+            document.getElementById('customHistoryLoadModal').classList.add('show');
+        };
+
+        function executeHistoryLoad() {
+            if (pendingLoadId === null) return;
+            const entry = unifiedHistory.find(item => item.id === pendingLoadId);
             if (!entry) return;
 
             if (entry.type === 'gst_add' || entry.type === 'gst_remove') {
@@ -3233,14 +3260,14 @@
                 const rawWeight = entry.rawWeight || parseFloat(entry.weightDisplay) || 0;
                 const rawPrice = entry.rawPrice || (parseFloat(entry.price) - parseFloat(entry.making || 0)) || 0;
                 const rawDesiredQty = entry.rawDesiredQty || parseFloat(entry.desiredQty) || '';
-                
+
                 document.getElementById('val_p_p').value = rawPrice;
                 document.getElementById('val_p_w').value = rawWeight;
                 document.getElementById('val_p_d').value = rawDesiredQty;
-                
+
                 const unitLabels = { 'g': 'Gram (g)', 'kg': 'Kilogram (kg)', 'days': 'Day(s)', 'piece': 'Piece (unit)' };
                 setUnit(rawUnit, unitLabels[rawUnit]);
-                
+
                 const makingType = entry.makingType || (parseFloat(entry.making) > 0 ? 'fixed' : 'none');
                 const makingVal = entry.makingVal || parseFloat(entry.making) || '';
                 const typeEl = document.getElementById('pgMakingType');
@@ -3276,7 +3303,10 @@
                 calcFuelCost();
             }
             document.getElementById('historyDialog')?.classList.remove('show');
-        };
+            document.getElementById('customHistoryLoadModal').classList.remove('show');
+            pendingLoadId = null;
+            pendingLoadEvent = null;
+        }
         function addHistoryEntry(entry) { unifiedHistory.unshift({ id: Date.now(), ...entry, date: new Date().toLocaleString() }); if (unifiedHistory.length > 500) unifiedHistory.pop(); localStorage.setItem('calcSuiteHistory', JSON.stringify(unifiedHistory)); renderHistory(); }
 
         // Custom clear modal logic
@@ -3288,6 +3318,30 @@
         clearHistoryBtn?.addEventListener('click', () => { clearModal.classList.add('show'); });
         cancelClearModal?.addEventListener('click', () => { clearModal.classList.remove('show'); });
         confirmClearModal?.addEventListener('click', () => { unifiedHistory = []; localStorage.setItem('calcSuiteHistory', '[]'); renderHistory(); clearModal.classList.remove('show'); document.getElementById('historyDialog')?.classList.remove('show'); });
+
+        // Custom History Load modal logic
+        const historyLoadModal = document.getElementById('customHistoryLoadModal');
+        const cancelHistoryLoadModal = document.getElementById('cancelHistoryLoadModal');
+        const confirmHistoryLoadModal = document.getElementById('confirmHistoryLoadModal');
+
+        cancelHistoryLoadModal?.addEventListener('click', () => {
+            historyLoadModal.classList.remove('show');
+            pendingLoadId = null;
+            pendingLoadEvent = null;
+        });
+
+        confirmHistoryLoadModal?.addEventListener('click', () => {
+            executeHistoryLoad();
+        });
+
+        // close modal on backdrop click
+        historyLoadModal?.addEventListener('click', (e) => {
+            if (e.target === historyLoadModal) {
+                historyLoadModal.classList.remove('show');
+                pendingLoadId = null;
+                pendingLoadEvent = null;
+            }
+        });
         // close modal on backdrop click
         clearModal?.addEventListener('click', (e) => { if (e.target === clearModal) clearModal.classList.remove('show'); });
 
@@ -4001,7 +4055,11 @@
         };
         switchTab('pergram'); renderHistory();
         document.getElementById('openHistoryBtn')?.addEventListener('click', (e) => { e.stopPropagation(); renderHistory(); document.getElementById('historyDialog')?.classList.toggle('show'); closeAllDropdowns(); miniDialog.classList.remove('show'); comparisonDialog?.classList.remove('show'); hideAllTooltips(); });
-        document.addEventListener('click', (e) => { if (!document.getElementById('historyDialog')?.contains(e.target) && e.target !== document.getElementById('openHistoryBtn')) document.getElementById('historyDialog')?.classList.remove('show'); });
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.custom-clear-modal')) return;
+            if (!document.getElementById('historyDialog')?.contains(e.target) && e.target !== document.getElementById('openHistoryBtn'))
+                document.getElementById('historyDialog')?.classList.remove('show');
+        });
 
         // ---------- TOOLTIP SYSTEM (removed) ----------
         // No-op stub kept so existing call-sites (closeAllDialogs, dialog open handlers, etc.) don't break.
