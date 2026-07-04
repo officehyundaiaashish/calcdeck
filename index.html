@@ -2012,6 +2012,11 @@
         @media (max-width: 720px) {
             body {
                 padding: 8px;
+                background: linear-gradient(165deg, #12192d 0%, #0f1629 100%) !important;
+            }
+
+            body.light-mode {
+                background: #ffffff !important;
             }
 
             .card {
@@ -4333,11 +4338,18 @@
             if (!darkMeta || !lightMeta) return;
             function apply() {
                 const isLight = document.body.classList.contains('light-mode');
-                darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
-                lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                const isMobile = window.innerWidth <= 720;
+                if (isMobile) {
+                    darkMeta.content = isLight ? '#ffffff' : '#12192d';
+                    lightMeta.content = isLight ? '#ffffff' : '#12192d';
+                } else {
+                    darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                    lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                }
             }
             // Observe class changes on body (light-mode toggle)
             new MutationObserver(apply).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            window.addEventListener('resize', apply);
             apply();
         }());
     </script>
