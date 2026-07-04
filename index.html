@@ -657,6 +657,17 @@
             gap: 5px;
             flex-shrink: 0;
             min-width: 0;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
+        body.light-mode .history-item:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .history-item-header {
@@ -2261,7 +2272,8 @@
             .add-to-comparison-btn:hover,
             .split-btn:hover,
             .copy-btn:hover,
-            .stepper-btn:hover {
+            .stepper-btn:hover,
+            .history-item:hover {
                 transform: none !important;
                 box-shadow: none !important;
             }
@@ -3202,9 +3214,69 @@
                 const shareBtnHtml = navigator.share
                     ? `<button class="history-share-btn" onclick="shareHistoryItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg> Share</button>`
                     : `<button class="history-share-btn" onclick="shareHistoryItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>`;
-                return `<div class="history-item" data-share="${encodeURIComponent(shareText)}"><div class="history-item-header">${iconSvg}<span>${title}</span></div><div class="history-details">${details}</div>${shareBtnHtml}<div class="history-date">${entry.date}</div></div>`;
+                return `<div class="history-item" onclick="loadHistoryEntry(${entry.id}, event)" data-share="${encodeURIComponent(shareText)}"><div class="history-item-header">${iconSvg}<span>${title}</span></div><div class="history-details">${details}</div>${shareBtnHtml}<div class="history-date">${entry.date}</div></div>`;
             }).join('');
         }
+        window.loadHistoryEntry = function (id, event) {
+            if (event.target.closest('.history-share-btn')) return;
+            const entry = unifiedHistory.find(item => item.id === id);
+            if (!entry) return;
+
+            if (entry.type === 'gst_add' || entry.type === 'gst_remove') {
+                switchTab('gst');
+                document.getElementById('val_a').value = entry.amount;
+                setGST(entry.gstRate);
+                if (entry.type === 'gst_add') addGST(); else removeGST();
+            } else if (entry.type === 'pergram') {
+                switchTab('pergram');
+                const rawUnit = entry.rawUnit || (entry.weightDisplay.includes('kg') ? 'kg' : entry.weightDisplay.includes('days') || entry.weightDisplay.includes('day') ? 'days' : entry.weightDisplay.includes('pieces') || entry.weightDisplay.includes('piece') ? 'piece' : 'g');
+                const rawWeight = entry.rawWeight || parseFloat(entry.weightDisplay) || 0;
+                const rawPrice = entry.rawPrice || (parseFloat(entry.price) - parseFloat(entry.making || 0)) || 0;
+                const rawDesiredQty = entry.rawDesiredQty || parseFloat(entry.desiredQty) || '';
+                
+                document.getElementById('val_p_p').value = rawPrice;
+                document.getElementById('val_p_w').value = rawWeight;
+                document.getElementById('val_p_d').value = rawDesiredQty;
+                
+                const unitLabels = { 'g': 'Gram (g)', 'kg': 'Kilogram (kg)', 'days': 'Day(s)', 'piece': 'Piece (unit)' };
+                setUnit(rawUnit, unitLabels[rawUnit]);
+                
+                const makingType = entry.makingType || (parseFloat(entry.making) > 0 ? 'fixed' : 'none');
+                const makingVal = entry.makingVal || parseFloat(entry.making) || '';
+                const typeEl = document.getElementById('pgMakingType');
+                const valEl = document.getElementById('pgMakingValue');
+                if (typeEl) {
+                    typeEl.value = makingType;
+                    const mcBtn = document.getElementById('selectedMaking');
+                    if (mcBtn) {
+                        const makingLabels = { none: 'No making charges', percent: 'Percentage (%)', pergram: 'Per Gram (₹/g)', fixed: 'Fixed Amount (₹)' };
+                        mcBtn.querySelector('.fancy-swatch').setAttribute('data-tier', 'mc-' + makingType);
+                        mcBtn.querySelector('.fancy-btn-label').innerText = makingLabels[makingType] || 'No making charges';
+                        document.querySelectorAll('#makingMenuList .fancy-option').forEach(opt => {
+                            opt.classList.toggle('active', opt.dataset.value === makingType);
+                        });
+                    }
+                }
+                if (valEl) valEl.value = makingVal;
+                calcPerGram();
+            } else if (entry.type === 'discount') {
+                switchTab('discount');
+                setDiscountMode('single');
+                document.getElementById('val_d_p').value = entry.original;
+                document.getElementById('val_d_v').value = entry.discountValue;
+                const typeBtn = document.querySelector(`.discount-type-btn[data-type="${entry.discountType}"]`);
+                if (typeBtn) typeBtn.click();
+                calcDiscount();
+            } else if (entry.type === 'fuel') {
+                switchTab('fuel');
+                setFuelType(entry.fuelType);
+                document.getElementById('val_f_p').value = entry.price;
+                document.getElementById('val_f_a').value = entry.average;
+                document.getElementById('val_f_d').value = entry.distance;
+                calcFuelCost();
+            }
+            document.getElementById('historyDialog')?.classList.remove('show');
+        };
         function addHistoryEntry(entry) { unifiedHistory.unshift({ id: Date.now(), ...entry, date: new Date().toLocaleString() }); if (unifiedHistory.length > 500) unifiedHistory.pop(); localStorage.setItem('calcSuiteHistory', JSON.stringify(unifiedHistory)); renderHistory(); }
 
         // Custom clear modal logic
@@ -3607,7 +3679,22 @@
                 document.getElementById('pgPer100Row').style.display = 'none';
                 document.getElementById('pgPer1kgRow').style.display = 'none';
                 let desiredQty = parseFloat(document.getElementById('val_p_d').value);
-                let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: `Price per ${unitLabel}`, perUnit: perUnit.toFixed(2), priceLabel: 'Total Price', unit: unit === 'days' ? 'Day(s)' : 'Piece', making: making.toFixed(2) };
+                let historyEntry = {
+                    type: 'pergram',
+                    rawPrice: price,
+                    rawWeight: weight,
+                    rawUnit: unit,
+                    rawDesiredQty: desiredQty,
+                    makingType: document.getElementById('pgMakingType')?.value || 'none',
+                    makingVal: parseFloat(document.getElementById('pgMakingValue')?.value) || 0,
+                    price: totalPriceWithMaking.toFixed(2),
+                    weightDisplay: weightDisplay,
+                    perUnitLabel: `Price per ${unitLabel}`,
+                    perUnit: perUnit.toFixed(2),
+                    priceLabel: 'Total Price',
+                    unit: unit === 'days' ? 'Day(s)' : 'Piece',
+                    making: making.toFixed(2)
+                };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
                     historyEntry.desiredQty = desiredQty + ' ' + (unit === 'days' ? 'days' : 'pcs');
                     historyEntry.desiredAmount = (perUnit * desiredQty).toFixed(2);
@@ -3623,7 +3710,24 @@
                 document.getElementById('pgPer1kgRow').style.display = 'flex';
                 document.getElementById('pgResultPer1kg').innerText = '₹' + (perUnit * 1000).toFixed(2);
                 let desiredQty = parseFloat(document.getElementById('val_p_d').value);
-                let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: 'Price per Gram', perUnit: perUnit.toFixed(4), per100g: (perUnit * 100).toFixed(2), per1kg: (perUnit * 1000).toFixed(2), priceLabel: 'Total Price', unit: PG_UNIT_LABELS[unit], making: making.toFixed(2) };
+                let historyEntry = {
+                    type: 'pergram',
+                    rawPrice: price,
+                    rawWeight: weight,
+                    rawUnit: unit,
+                    rawDesiredQty: desiredQty,
+                    makingType: document.getElementById('pgMakingType')?.value || 'none',
+                    makingVal: parseFloat(document.getElementById('pgMakingValue')?.value) || 0,
+                    price: totalPriceWithMaking.toFixed(2),
+                    weightDisplay: weightDisplay,
+                    perUnitLabel: 'Price per Gram',
+                    perUnit: perUnit.toFixed(4),
+                    per100g: (perUnit * 100).toFixed(2),
+                    per1kg: (perUnit * 1000).toFixed(2),
+                    priceLabel: 'Total Price',
+                    unit: PG_UNIT_LABELS[unit],
+                    making: making.toFixed(2)
+                };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
                     historyEntry.desiredQty = desiredQty + ' g';
                     historyEntry.desiredAmount = (perUnit * desiredQty).toFixed(2);
