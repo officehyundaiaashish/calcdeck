@@ -57,41 +57,27 @@ self.addEventListener('fetch', event => {
     if (url.origin !== self.location.origin) return;
   } catch (_) { return; }
 
-  if (req.mode === 'navigate') {
-    /*
-     * NAVIGATION — Network First
-     * Always try the network so updates land the moment you visit after a deploy.
-     * Fall back to the cached shell for offline use.
-     */
-    event.respondWith(
-      fetch(req)
-        .then(res => {
-          if (res.ok) {
-            const clone = res.clone();
-            caches.open(CACHE).then(c => c.put(req, clone));
+  /*
+   * NETWORK FIRST WITH OFFLINE FALLBACK
+   * Always fetch from the network first when online to guarantee that
+   * every update/commit is served instantly. Fall back to cache only when offline.
+   */
+  event.respondWith(
+    fetch(req)
+      .then(res => {
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(cache => cache.put(req, clone));
+        }
+        return res;
+      })
+      .catch(() => {
+        return caches.match(req).then(cached => {
+          if (cached) return cached;
+          if (req.mode === 'navigate') {
+            return caches.match('./index.html');
           }
-          return res;
-        })
-        .catch(() =>
-          caches.match(req).then(cached => cached || caches.match('./index.html'))
-        )
-    );
-  } else {
-    /*
-     * STATIC ASSETS — Stale-While-Revalidate
-     * Return cache immediately (fast), refresh cache in background.
-     * If nothing cached yet, fetch from network and cache the result.
-     */
-    event.respondWith(
-      caches.open(CACHE).then(cache =>
-        cache.match(req).then(cached => {
-          const networkFetch = fetch(req).then(res => {
-            if (res.ok) cache.put(req, res.clone());
-            return res;
-          });
-          return cached || networkFetch;
-        })
-      )
-    );
-  }
+        });
+      })
+  );
 });
