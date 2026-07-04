@@ -46,7 +46,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 0 20px 24px;
+            padding: 24px 20px;
             transition: background 0.3s ease;
             overflow-x: hidden;
         }
@@ -837,11 +837,6 @@
 
         body.light-mode .card {
             color: #0f172a;
-        }
-
-        body.light-mode .top-bar {
-            background: #ffffff;
-            box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.06);
         }
 
         body.light-mode input,
@@ -3192,8 +3187,14 @@
         function syncThemeColor() {
             if (!darkMeta || !lightMeta) return;
             const isLight = document.body.classList.contains('light-mode');
-            darkMeta.content = isLight ? '#ffffff' : '#12192d';
-            lightMeta.content = isLight ? '#ffffff' : '#12192d';
+            const isMobile = window.innerWidth <= 720;
+            if (isMobile) {
+                darkMeta.content = isLight ? '#ffffff' : '#12192d';
+                lightMeta.content = isLight ? '#ffffff' : '#12192d';
+            } else {
+                darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
+            }
         }
         function setThemeIcons(isLight) {
             if (isLight) themeSvg.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
