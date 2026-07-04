@@ -10,8 +10,8 @@
     <link rel="apple-touch-icon" href="./icon.png">
     <link rel="icon" type="image/png" href="./icon.png">
     <!-- Status bar adapts to system theme on Android Chrome -->
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12192d">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1120">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef2ff">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
         rel="stylesheet">
@@ -3116,12 +3116,28 @@
         // ---------- THEME ----------
         const themeBtn = document.getElementById('themeToggleBtn');
         const themeSvg = themeBtn.querySelector('svg');
+        const darkMeta = document.querySelector('meta[name="theme-color"][media*="dark"]');
+        const lightMeta = document.querySelector('meta[name="theme-color"][media*="light"]');
+        function syncThemeColor() {
+            if (!darkMeta || !lightMeta) return;
+            const isLight = document.body.classList.contains('light-mode');
+            const isMobile = window.innerWidth <= 720;
+            if (isMobile) {
+                darkMeta.content = isLight ? '#ffffff' : '#12192d';
+                lightMeta.content = isLight ? '#ffffff' : '#12192d';
+            } else {
+                darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
+            }
+        }
         function setThemeIcons(isLight) {
             if (isLight) themeSvg.innerHTML = '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
             else themeSvg.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>';
         }
         if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); setThemeIcons(true); } else setThemeIcons(false);
-        themeBtn.addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); setThemeIcons(isLight); hideAllTooltips(); });
+        syncThemeColor();
+        themeBtn.addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); setThemeIcons(isLight); syncThemeColor(); hideAllTooltips(); });
+        window.addEventListener('resize', syncThemeColor);
 
         // ---------- UNIFIED HISTORY (SVG only) ----------
         let unifiedHistory = JSON.parse(localStorage.getItem('calcSuiteHistory') || '[]');
@@ -4342,27 +4358,8 @@
         document.getElementById('val_f_a')?.addEventListener('input', () => resetComparisonBtnState('fuel'));
         document.getElementById('val_f_d')?.addEventListener('input', () => resetComparisonBtnState('fuel'));
 
-        // Sync theme-color meta with live light/dark toggle
-        (function syncThemeColorMeta() {
-            const darkMeta = document.querySelector('meta[name="theme-color"][media*="dark"]');
-            const lightMeta = document.querySelector('meta[name="theme-color"][media*="light"]');
-            if (!darkMeta || !lightMeta) return;
-            function apply() {
-                const isLight = document.body.classList.contains('light-mode');
-                const isMobile = window.innerWidth <= 720;
-                if (isMobile) {
-                    darkMeta.content = isLight ? '#ffffff' : '#12192d';
-                    lightMeta.content = isLight ? '#ffffff' : '#12192d';
-                } else {
-                    darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
-                    lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
-                }
-            }
-            // Observe class changes on body (light-mode toggle)
-            new MutationObserver(apply).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-            window.addEventListener('resize', apply);
-            apply();
-        }());
+        // Observe class changes on body (light-mode toggle)
+        new MutationObserver(syncThemeColor).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     </script>
 </body>
 
