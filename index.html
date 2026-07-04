@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="./icon.png">
     <link rel="icon" type="image/png" href="./icon.png">
     <!-- Status bar adapts to system theme on Android Chrome -->
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1528">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1120">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef2ff">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
@@ -2016,7 +2016,11 @@
 
             .card {
                 padding: 0.9rem 0.75rem 0.9rem;
-                border-radius: 1.2rem;
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
             }
 
             /* Top bar — tighter */
@@ -4329,8 +4333,8 @@
             if (!darkMeta || !lightMeta) return;
             function apply() {
                 const isLight = document.body.classList.contains('light-mode');
-                darkMeta.content = isLight ? '#eef2ff' : '#0b1528';
-                lightMeta.content = isLight ? '#eef2ff' : '#0b1528';
+                darkMeta.content = isLight ? '#eef2ff' : '#0b1120';
+                lightMeta.content = isLight ? '#eef2ff' : '#0b1120';
             }
             // Observe class changes on body (light-mode toggle)
             new MutationObserver(apply).observe(document.body, { attributes: true, attributeFilter: ['class'] });
