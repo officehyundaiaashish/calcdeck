@@ -2189,6 +2189,73 @@
                 width: 240px;
                 top: 56px;
                 max-height: calc(100vh - 80px);
+                transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
+            }
+
+            /* Snappy, hardware-accelerated animations for phone */
+            .tab-panel {
+                animation: panelInPhone 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
+            }
+
+            .fancy-menu.show {
+                animation: fancyMenuInPhone 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
+            }
+
+            .fancy-menu.open-upward {
+                animation: fancyMenuInUpPhone 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform;
+            }
+
+            /* Prevent sticky/laggy hover translations on touch screens */
+            .icon-btn:hover,
+            .tab-btn:hover,
+            .preset-chip:hover,
+            .fancy-btn:hover,
+            .fancy-option:hover,
+            .comparison-clear-btn:hover,
+            .comparison-item-remove:hover,
+            .add-to-comparison-btn:hover,
+            .split-btn:hover,
+            .copy-btn:hover,
+            .stepper-btn:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
+
+            @keyframes panelInPhone {
+                from {
+                    opacity: 0;
+                    transform: translateY(3px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fancyMenuInPhone {
+                from {
+                    opacity: 0;
+                    transform: translateY(-3px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fancyMenuInUpPhone {
+                from {
+                    opacity: 0;
+                    transform: translateY(3px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         }
 
