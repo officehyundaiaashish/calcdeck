@@ -2534,6 +2534,13 @@
                     <circle cx="15" cy="15" r="1" />
                     <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
                 </svg><span>Discount</span></button>
+            <button class="tab-btn tab-calc" onclick="switchTab('fuel')"><svg viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8">
+                    <path d="M19 18V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14" />
+                    <path d="M21 18H3" />
+                    <circle cx="12" cy="15" r="2" />
+                    <path d="M19 9h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2" />
+                </svg><span>Fuel Cost</span></button>
         </div>
 
         <!-- Panel 1: GST -->
@@ -2985,6 +2992,74 @@
             </div>
         </div>
 
+        <!-- Panel 4: Fuel Cost -->
+        <div id="panel-fuel" class="tab-panel" style="display:none">
+            <div class="form-container">
+                <div class="two-columns">
+                    <div>
+                        <div class="row">
+                            <div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M19 18V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14" />
+                                    <path d="M21 18H3" />
+                                    <circle cx="12" cy="15" r="2" />
+                                </svg> Fuel Type</div>
+                            <div class="mode-tabs">
+                                <button type="button" class="mode-tab active" id="btn_fuel_petrol"
+                                    onclick="setFuelType('petrol')">Petrol</button>
+                                <button type="button" class="mode-tab" id="btn_fuel_diesel"
+                                    onclick="setFuelType('diesel')">Diesel</button>
+                                <button type="button" class="mode-tab" id="btn_fuel_cng"
+                                    onclick="setFuelType('cng')">CNG</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M12 2v20M4 12h16" />
+                                </svg> Fuel Price (₹ / Litre or kg)</div>
+                            <input type="number" id="val_f_p" placeholder="Enter fuel price (e.g. 104.50)" step="0.01">
+                        </div>
+                        <div class="row">
+                            <div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M20 12H4M12 4v16M8 8l4-4 4 4" />
+                                </svg> Vehicle Mileage (km/L or km/kg)</div>
+                            <input type="number" id="val_f_a" placeholder="Enter mileage (e.g. 15)" step="0.1">
+                        </div>
+                        <div class="row">
+                            <div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M9 18V6M15 18v-8M3 21h18" />
+                                </svg> Distance to Travel (km)</div>
+                            <input type="number" id="val_f_d" placeholder="Enter distance in km" step="1">
+                        </div>
+                        <div class="action-btns">
+                            <button type="button" class="action add" onclick="calcFuelCost()">Calculate</button>
+                            <button type="button" class="action secondary" onclick="clearFuelCalc()">Reset</button>
+                        </div>
+                        <button type="button" class="add-to-comparison-btn" id="addFuelToComparison"
+                            onclick="addToComparison('fuel')"><svg width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg> Add to Comparison</button>
+                    </div>
+                    <div class="result">
+                        <div class="result-item"><span>Fuel Price</span><span id="fuelPriceDisplay">₹0.00</span></div>
+                        <div class="result-item"><span>Vehicle Average</span><span id="vehicleAvgDisplay">0.0 km/L</span></div>
+                        <div class="result-item"><span>Total Distance</span><span id="totalDistanceDisplay">0 km</span></div>
+                        <div class="result-item"><span>Fuel Needed</span><span id="fuelNeededDisplay">0.00 L</span></div>
+                        <div class="result-item"><span>Cost per km</span><span id="costPerKmDisplay">₹0.00 / km</span></div>
+                        <hr>
+                        <div class="result-item"><span>Total Fuel Cost</span><span class="total"
+                                id="totalFuelCostDisplay">₹0.00</span></div>
+                        <div class="result-actions">
+                            <button type="button" class="copy-btn" onclick="copyFuelResult()"><svg viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg> Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -3032,10 +3107,12 @@
                 else if (entry.type === 'gst_remove') { iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`; title = `Remove GST (${entry.gstRate}%)`; shareText = `GST Removal:\nTotal: ₹${entry.total.toFixed(2)}\nGST (${entry.gstRate}%): ₹${entry.gstAmount.toFixed(2)}\nBase: ₹${entry.amount.toFixed(2)}`; }
                 else if (entry.type === 'pergram') { iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 12H4M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4"/></svg>`; title = `Per Gram · ${entry.unit}`; shareText = `Per Gram Calculation:\n${entry.priceLabel}: ₹${entry.price}\n${entry.weightDisplay}\n${entry.perUnitLabel}: ₹${entry.perUnit}` + (entry.per100g ? `\nPer 100g: ₹${entry.per100g}\nPer 1kg: ₹${entry.per1kg}` : ''); }
                 else if (entry.type === 'discount') { iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 15l6-6"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/></svg>`; title = `Discount (${entry.discountType === 'percent' ? entry.discountValue + '%' : '₹' + entry.discountValue})`; shareText = `Discount Calculation:\nOriginal: ₹${entry.original}\nDiscount: ${entry.discountType === 'percent' ? entry.discountValue + '%' : '₹' + entry.discountValue}\nSaved: ₹${entry.saved}\nFinal: ₹${entry.final}`; }
+                else if (entry.type === 'fuel') { iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 18V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14"/><path d="M21 18H3"/><circle cx="12" cy="15" r="2"/></svg>`; title = `Fuel Cost (${entry.fuelType.toUpperCase()})`; shareText = `Fuel Cost Calculation:\nDistance: ${entry.distance} km\nMileage: ${entry.average} km/L\nFuel Needed: ${entry.fuelNeeded}\nCost/km: ₹${entry.costPerKm}/km\nTotal Cost: ₹${entry.totalCost}`; }
                 let details = '';
                 if (entry.type === 'gst_add' || entry.type === 'gst_remove') details = `Base: ₹${entry.amount.toFixed(2)} → Total: ₹${entry.total.toFixed(2)} (GST: ₹${entry.gstAmount.toFixed(2)})`;
                 else if (entry.type === 'pergram') { iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 12H4M12 4v16M8 8l4-4 4 4M8 16l4 4 4-4"/></svg>`; title = `Per Gram · ${entry.unit}`; shareText = `Per Gram Calculation:\n${entry.priceLabel}: ₹${entry.price}\n${entry.weightDisplay}\n${entry.perUnitLabel}: ₹${entry.perUnit}` + (entry.per100g ? `\nPer 100g: ₹${entry.per100g}\nPer 1kg: ₹${entry.per1kg}` : '') + (entry.desiredQty && entry.desiredAmount ? `\nFor ${entry.desiredQty}: ₹${entry.desiredAmount}` : ''); }
                 else if (entry.type === 'discount') details = `Original: ₹${entry.original} | Saved: ₹${entry.saved} → Final: ₹${entry.final}`;
+                else if (entry.type === 'fuel') details = `${entry.distance} km @ ${entry.average} km/L avg → Total: ₹${entry.totalCost}`;
                 const shareBtnHtml = navigator.share
                     ? `<button class="history-share-btn" onclick="shareHistoryItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg> Share</button>`
                     : `<button class="history-share-btn" onclick="shareHistoryItem(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button>`;
@@ -3683,6 +3760,7 @@
             document.getElementById('panel-gst').style.display = tab === 'gst' ? 'block' : 'none';
             document.getElementById('panel-pergram').style.display = tab === 'pergram' ? 'block' : 'none';
             document.getElementById('panel-discount').style.display = tab === 'discount' ? 'block' : 'none';
+            document.getElementById('panel-fuel').style.display = tab === 'fuel' ? 'block' : 'none';
             // attribute-based active state (works regardless of divider elements)
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 const isActive = btn.getAttribute('onclick') === `switchTab('${tab}')`;
@@ -3735,6 +3813,10 @@
                     iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M9 15l6-6"/></svg>`;
                     title = `Discount ${item.discount}`;
                     details = `₹${item.original} → ₹${item.final} (Save ₹${item.saved})`;
+                } else if (item.type === 'fuel') {
+                    iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="14" height="14"><path d="M19 18V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v14"/><circle cx="12" cy="15" r="2"/></svg>`;
+                    title = `Fuel (${item.fuelType.toUpperCase()})`;
+                    details = `${item.distance} km @ ${item.average} km/L → ₹${item.totalCost}`;
                 }
                 return `<div class="comparison-item"><div class="comparison-item-header"><span class="comparison-item-title">${iconSvg}${title}</span><button class="comparison-item-remove" onclick="removeFromComparison(${index})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="comparison-item-details">${details}</div></div>`;
             }).join('');
@@ -3753,6 +3835,12 @@
                 const btn = document.getElementById('addDiscountToComparison');
                 btn.classList.remove('added');
                 btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison';
+            } else if (type === 'fuel') {
+                const btn = document.getElementById('addFuelToComparison');
+                if (btn) {
+                    btn.classList.remove('added');
+                    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison';
+                }
             }
         }
 
@@ -3788,6 +3876,18 @@
                 item.final = document.getElementById('finalPrice').innerText.replace('₹', '');
                 item.saved = document.getElementById('savedAmount').innerText.replace('₹', '');
                 const btn = document.getElementById('addDiscountToComparison');
+                btn.classList.add('added');
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Added!';
+                setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison'; }, 1500);
+            } else if (calcType === 'fuel') {
+                const dist = parseFloat(document.getElementById('val_f_d').value) || 0;
+                const avg = parseFloat(document.getElementById('val_f_a').value) || 0;
+                if (dist <= 0 || avg <= 0) { alert('Please calculate Fuel Cost first'); return; }
+                item.fuelType = selectedFuelType;
+                item.distance = dist.toFixed(1);
+                item.average = avg.toFixed(1);
+                item.totalCost = document.getElementById('totalFuelCostDisplay').innerText.replace('₹', '');
+                const btn = document.getElementById('addFuelToComparison');
                 btn.classList.add('added');
                 btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Added!';
                 setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison'; }, 1500);
@@ -4110,6 +4210,69 @@
         }
 
 
+
+        // ---------- FUEL COST CALCULATOR LOGIC ----------
+        let selectedFuelType = 'petrol';
+        window.setFuelType = (type) => {
+            selectedFuelType = type;
+            document.querySelectorAll('#panel-fuel .mode-tab').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn_fuel_${type}`).classList.add('active');
+            const priceInput = document.getElementById('val_f_p');
+            if (type === 'petrol') { priceInput.placeholder = 'Enter petrol price (e.g. 104.50)'; }
+            else if (type === 'diesel') { priceInput.placeholder = 'Enter diesel price (e.g. 92.20)'; }
+            else if (type === 'cng') { priceInput.placeholder = 'Enter CNG price (e.g. 82.00)'; }
+            resetComparisonBtnState('fuel');
+        };
+        window.calcFuelCost = () => {
+            const price = parseFloat(document.getElementById('val_f_p').value) || 0;
+            const avg = parseFloat(document.getElementById('val_f_a').value) || 0;
+            const dist = parseFloat(document.getElementById('val_f_d').value) || 0;
+            if (price <= 0 || avg <= 0 || dist <= 0) { alert('Please enter valid price, mileage, and distance'); return; }
+            
+            const fuelNeeded = dist / avg;
+            const totalCost = fuelNeeded * price;
+            const costPerKm = price / avg;
+            
+            const unit = selectedFuelType === 'cng' ? 'kg' : 'L';
+            
+            document.getElementById('fuelPriceDisplay').innerText = '₹' + price.toFixed(2);
+            document.getElementById('vehicleAvgDisplay').innerText = avg.toFixed(1) + ' km/' + unit;
+            document.getElementById('totalDistanceDisplay').innerText = dist.toFixed(1) + ' km';
+            document.getElementById('fuelNeededDisplay').innerText = fuelNeeded.toFixed(2) + ' ' + unit;
+            document.getElementById('costPerKmDisplay').innerText = '₹' + costPerKm.toFixed(2) + ' / km';
+            document.getElementById('totalFuelCostDisplay').innerText = '₹' + totalCost.toFixed(2);
+            
+            addHistoryEntry({
+                type: 'fuel',
+                fuelType: selectedFuelType,
+                price: price,
+                average: avg,
+                distance: dist,
+                fuelNeeded: fuelNeeded.toFixed(2) + ' ' + unit,
+                costPerKm: costPerKm.toFixed(2),
+                totalCost: totalCost.toFixed(2)
+            });
+        };
+        window.clearFuelCalc = () => {
+            document.getElementById('val_f_p').value = '';
+            document.getElementById('val_f_a').value = '';
+            document.getElementById('val_f_d').value = '';
+            const unit = selectedFuelType === 'cng' ? 'kg' : 'L';
+            document.getElementById('fuelPriceDisplay').innerText = '₹0.00';
+            document.getElementById('vehicleAvgDisplay').innerText = '0.0 km/' + unit;
+            document.getElementById('totalDistanceDisplay').innerText = '0 km';
+            document.getElementById('fuelNeededDisplay').innerText = '0.00 ' + unit;
+            document.getElementById('costPerKmDisplay').innerText = '₹0.00 / km';
+            document.getElementById('totalFuelCostDisplay').innerText = '₹0.00';
+            resetComparisonBtnState('fuel');
+        };
+        window.copyFuelResult = () => {
+            const txt = `Distance: ${document.getElementById('val_f_d').value} km | Mileage: ${document.getElementById('val_f_a').value} km/L | Cost: ${document.getElementById('totalFuelCostDisplay').innerText}`;
+            navigator.clipboard?.writeText(txt).then(() => showToast('Fuel calculation copied'));
+        };
+        document.getElementById('val_f_p')?.addEventListener('input', () => resetComparisonBtnState('fuel'));
+        document.getElementById('val_f_a')?.addEventListener('input', () => resetComparisonBtnState('fuel'));
+        document.getElementById('val_f_d')?.addEventListener('input', () => resetComparisonBtnState('fuel'));
 
         // Sync theme-color meta with live light/dark toggle
         (function syncThemeColorMeta() {
