@@ -2443,7 +2443,8 @@
 
         <!-- Panel 1: GST -->
         <div id="panel-gst" class="tab-panel active">
-            <div class="two-columns">
+            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+                <div class="two-columns">
                 <div class="calc-col-left">
                     <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8">
@@ -2580,12 +2581,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
+            </form>
         </div>
 
         <!-- Panel 2: Per Gram -->
         <div id="panel-pergram" class="tab-panel" style="display:none">
-            <div class="two-columns">
+            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+                <div class="two-columns">
                 <div>
                     <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M3 3h18v18H3z" />
@@ -2722,12 +2725,13 @@
                             </svg> Copy</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Panel 3: Discount -->
         <div id="panel-discount" class="tab-panel" style="display:none">
-            <div class="two-columns">
+            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+                <div class="two-columns">
                 <div>
                     <div class="mode-tabs">
                         <button class="mode-tab active" data-mode="single" onclick="setDiscountMode('single')">Single
@@ -2848,7 +2852,7 @@
                             </svg> Copy</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
 
@@ -3880,6 +3884,9 @@
             allInputs.forEach(el => {
                 if (el.dataset && el.dataset.autofillLocked === '1') return; // already processed
                 if (el.dataset) el.dataset.autofillLocked = '1';
+
+                // Randomize name attribute to bypass browser heuristic mapping
+                el.setAttribute('name', 'calc_' + Math.random().toString(36).substring(2, 9));
 
                 // (a) Chrome-specific strongest signal: "one-time-code" opts the field completely out
                 //     of Google Password Manager and Google Pay suggestions on Android Chrome.
