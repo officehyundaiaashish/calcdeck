@@ -2809,7 +2809,7 @@
                         <div class="result-item"><span>Total Price</span><span id="pgResultPrice">₹0.00</span></div>
                         <div id="pgMakingRow" class="result-item" style="display:none"><span>Making Charges</span><span
                                 id="pgResultMaking">₹0.00</span></div>
-                        <div class="result-item"><span>Total Qty</span><span id="pgResultWeight">0</span></div>
+                        <div class="result-item"><span id="pgResultWeightLabel">Total Qty</span><span id="pgResultWeight">0</span></div>
                         <hr>
                         <div class="result-item"><span id="pgResultLabel">Price per gram</span><span class="pg-total"
                                 id="pgResultPerUnit">₹0.00</span></div>
@@ -3521,6 +3521,7 @@
                 const unitLabel = unit === 'days' ? 'Day' : 'Piece';
                 const unitLabelPlural = unit === 'days' ? 'days' : 'pieces';
                 document.getElementById('pgResultLabel').innerText = `Price per ${unitLabel}`;
+                document.getElementById('pgResultWeightLabel').innerText = unit === 'days' ? 'Total Days' : 'Total Qty';
                 document.getElementById('pgResultPerUnit').innerText = '₹' + perUnit.toFixed(2);
                 document.getElementById('pgPer100Row').style.display = 'none';
                 document.getElementById('pgPer1kgRow').style.display = 'none';
@@ -3534,6 +3535,7 @@
             } else {
                 let perUnit = totalPriceWithMaking / weightInGrams;
                 document.getElementById('pgResultLabel').innerText = 'Price per Gram';
+                document.getElementById('pgResultWeightLabel').innerText = 'Total Qty';
                 document.getElementById('pgResultPerUnit').innerText = '₹' + perUnit.toFixed(4);
                 document.getElementById('pgPer100Row').style.display = 'flex';
                 document.getElementById('pgResultPer100').innerText = '₹' + (perUnit * 100).toFixed(2);
@@ -3569,6 +3571,7 @@
             document.getElementById('pgResultPrice').innerText = '₹0.00';
             document.getElementById('pgResultMaking').innerText = '₹0.00';
             document.getElementById('pgMakingRow').style.display = 'none';
+            document.getElementById('pgResultWeightLabel').innerText = 'Total Qty';
             document.getElementById('pgResultWeight').innerText = '0';
             document.getElementById('pgResultPerUnit').innerText = '₹0.00';
             document.getElementById('pgResultPer100').innerText = '₹0.00';
