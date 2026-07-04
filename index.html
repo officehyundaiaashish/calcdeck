@@ -1366,12 +1366,8 @@
             background: linear-gradient(135deg, #a78bfa, #7c3aed);
         }
 
-        .fancy-swatch[data-tier="unit-tola"] {
+        .fancy-swatch[data-tier="unit-days"] {
             background: linear-gradient(135deg, #fbbf24, #d97706);
-        }
-
-        .fancy-swatch[data-tier="unit-bhori"] {
-            background: linear-gradient(135deg, #f59e0b, #b45309);
         }
 
         .fancy-swatch[data-tier="unit-piece"] {
@@ -2645,26 +2641,15 @@
                                                 wholesale</div>
                                         </div>
                                     </div>
-                                    <div class="fancy-option" data-value="tola" data-tier="unit-tola"
-                                        data-search="tola 11.66g traditional indian gold south asia"
-                                        onclick="setUnit('tola','Tola (11.66g)')">
-                                        <span class="fancy-swatch" data-tier="unit-tola"></span>
+                                    <div class="fancy-option" data-value="days" data-tier="unit-days"
+                                        data-search="days day duration recharge validity plan"
+                                        onclick="setUnit('days','Day(s)')">
+                                        <span class="fancy-swatch" data-tier="unit-days"></span>
                                         <div class="fancy-option-body">
-                                            <div class="fancy-option-title">Tola <span class="fancy-tag">11.66 g</span>
+                                            <div class="fancy-option-title">Day(s) <span class="fancy-tag common">Count</span>
                                             </div>
-                                            <div class="fancy-option-desc">Traditional South-Asian unit — still used in
-                                                gold/silver trading</div>
-                                        </div>
-                                    </div>
-                                    <div class="fancy-option" data-value="bhori" data-tier="unit-bhori"
-                                        data-search="bhori 46.65g 4 tola bengal gold"
-                                        onclick="setUnit('bhori','Bhori (46.65g)')">
-                                        <span class="fancy-swatch" data-tier="unit-bhori"></span>
-                                        <div class="fancy-option-body">
-                                            <div class="fancy-option-title">Bhori <span class="fancy-tag">46.65 g</span>
-                                            </div>
-                                            <div class="fancy-option-desc">4 tola — traditional Bengal/jewellery unit
-                                                for precious metals</div>
+                                            <div class="fancy-option-desc">Use for recharge validity, plans, reminders, and
+                                                other day-based entries</div>
                                         </div>
                                     </div>
                                     <div class="fancy-option" data-value="piece" data-tier="unit-piece"
@@ -2678,7 +2663,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="fancy-menu-footer">Choose unit · Tola = 11.66 g · Bhori = 4 Tola = 46.65 g
+                                <div class="fancy-menu-footer">Choose unit · Day(s) for duration entries · Piece for count-based items
                                 </div>
                             </div>
                             <input type="hidden" id="pgUnit" value="g">
@@ -2992,9 +2977,9 @@
                         menu.style.maxWidth = (viewportW - pad * 2) + 'px';
                     }
                 });
-                // Focus search input
+                // Keep menus from forcing the mobile keyboard open
                 const search = menu.querySelector('input[type="text"]');
-                if (search) { search.value = ''; setTimeout(() => search.focus(), 50); }
+                if (search) { search.value = ''; try { search.blur(); } catch (e) { } }
                 // Filter to show all
                 if (menuId === 'gstMenu') filterGstMenu();
                 else if (menuId === 'unitMenu') filterUnitMenu();
@@ -3202,13 +3187,12 @@
         const PG_UNIT_FACTORS = {
             'g': 1,
             'kg': 1000,
-            'tola': 11.6638,
-            'bhori': 46.6553,
+            'days': null,
             'piece': null  // handled separately
         };
         const PG_UNIT_LABELS = {
-            'g': 'Gram (g)', 'kg': 'Kilogram (kg)', 'tola': 'Tola (11.66g)',
-            'bhori': 'Bhori (46.65g)', 'piece': 'Piece (unit)'
+            'g': 'Gram (g)', 'kg': 'Kilogram (kg)', 'days': 'Day(s)',
+            'piece': 'Piece (unit)'
         };
         window.setUnit = (val, label) => {
             document.getElementById('pgUnit').value = val;
@@ -3223,8 +3207,7 @@
                 const unitDescMap = {
                     'g': 'Standard metric',
                     'kg': '1000 g · bulk',
-                    'tola': '11.66 g · traditional',
-                    'bhori': '46.65 g · 4 tola',
+                    'days': 'Duration / validity',
                     'piece': 'Per-item count'
                 };
                 labelEl.innerText = label + ' · ' + (unitDescMap[val] || '');
@@ -3272,19 +3255,21 @@
                 document.getElementById('pgMakingRow').style.display = 'none';
             }
 
-            let weightDisplay = weight + ' ' + (unit === 'kg' ? 'kg' : unit === 'tola' ? 'tola' : unit === 'bhori' ? 'bhori' : unit === 'piece' ? (weight === 1 ? 'piece' : 'pieces') : 'g');
+            let weightDisplay = weight + ' ' + (unit === 'kg' ? 'kg' : unit === 'days' ? (weight === 1 ? 'day' : 'days') : unit === 'piece' ? (weight === 1 ? 'piece' : 'pieces') : 'g');
             document.getElementById('pgResultWeight').innerText = weightDisplay;
 
-            if (unit === 'piece') {
+            if (unit === 'piece' || unit === 'days') {
                 let perUnit = totalPriceWithMaking / weight;
-                document.getElementById('pgResultLabel').innerText = 'Price per Piece';
+                const unitLabel = unit === 'days' ? 'Day' : 'Piece';
+                const unitLabelPlural = unit === 'days' ? 'days' : 'pieces';
+                document.getElementById('pgResultLabel').innerText = `Price per ${unitLabel}`;
                 document.getElementById('pgResultPerUnit').innerText = '₹' + perUnit.toFixed(2);
                 document.getElementById('pgPer100Row').style.display = 'none';
                 document.getElementById('pgPer1kgRow').style.display = 'none';
                 let desiredQty = parseFloat(document.getElementById('val_p_d').value);
-                let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: 'Price per Piece', perUnit: perUnit.toFixed(2), priceLabel: 'Total Price', unit: 'Piece', making: making.toFixed(2) };
+                let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: `Price per ${unitLabel}`, perUnit: perUnit.toFixed(2), priceLabel: 'Total Price', unit: unit === 'days' ? 'Day(s)' : 'Piece', making: making.toFixed(2) };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
-                    historyEntry.desiredQty = desiredQty + ' pcs';
+                    historyEntry.desiredQty = desiredQty + ' ' + (unit === 'days' ? 'days' : 'pcs');
                     historyEntry.desiredAmount = (perUnit * desiredQty).toFixed(2);
                 }
                 addHistoryEntry(historyEntry);
@@ -3299,9 +3284,8 @@
                 let desiredQty = parseFloat(document.getElementById('val_p_d').value);
                 let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: 'Price per Gram', perUnit: perUnit.toFixed(4), per100g: (perUnit * 100).toFixed(2), per1kg: (perUnit * 1000).toFixed(2), priceLabel: 'Total Price', unit: PG_UNIT_LABELS[unit], making: making.toFixed(2) };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
-                    let desiredQtyInGrams = unit === 'kg' ? desiredQty * 1000 : (unit === 'tola' ? desiredQty * 11.6638 : (unit === 'bhori' ? desiredQty * 46.6553 : desiredQty));
-                    historyEntry.desiredQty = desiredQty + ' ' + (unit === 'kg' ? 'kg' : unit === 'tola' ? 'tola' : unit === 'bhori' ? 'bhori' : 'g');
-                    historyEntry.desiredAmount = (perUnit * desiredQtyInGrams).toFixed(2);
+                    historyEntry.desiredQty = desiredQty + ' g';
+                    historyEntry.desiredAmount = (perUnit * desiredQty).toFixed(2);
                 }
                 addHistoryEntry(historyEntry);
             }
@@ -3364,15 +3348,15 @@
             const totalPrice = price + making;
 
             let perUnit, desiredQtyInGrams;
-            if (unit === 'piece') {
+            if (unit === 'piece' || unit === 'days') {
                 perUnit = totalPrice / weight;
             } else {
                 perUnit = totalPrice / weightInGrams;
-                desiredQtyInGrams = unit === 'kg' ? desiredQty * 1000 : (unit === 'tola' ? desiredQty * 11.6638 : (unit === 'bhori' ? desiredQty * 46.6553 : desiredQty));
+                desiredQtyInGrams = unit === 'kg' ? desiredQty * 1000 : desiredQty;
             }
 
-            let finalAmount = unit === 'piece' ? perUnit * desiredQty : perUnit * desiredQtyInGrams;
-            let qtyDisplay = desiredQty + ' ' + (unit === 'kg' ? 'kg' : unit === 'tola' ? 'tola' : unit === 'bhori' ? 'bhori' : unit === 'piece' ? (desiredQty === 1 ? 'piece' : 'pieces') : 'g');
+            let finalAmount = (unit === 'piece' || unit === 'days') ? perUnit * desiredQty : perUnit * desiredQtyInGrams;
+            let qtyDisplay = desiredQty + ' ' + (unit === 'kg' ? 'kg' : unit === 'days' ? 'days' : unit === 'piece' ? (desiredQty === 1 ? 'piece' : 'pieces') : 'g');
 
             document.getElementById('desiredQtyLabel').innerText = 'For ' + qtyDisplay;
             document.getElementById('desiredQtyAmount').innerText = '₹' + finalAmount.toFixed(2);
