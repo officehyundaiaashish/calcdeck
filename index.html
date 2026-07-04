@@ -314,7 +314,7 @@
             margin-bottom: 1.2rem;
         }
 
-        label {
+        .input-label {
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -326,7 +326,7 @@
             gap: 6px;
         }
 
-        label svg {
+        .input-label svg {
             width: 14px;
             height: 14px;
             stroke: currentColor;
@@ -911,7 +911,7 @@
             background: rgba(0, 0, 0, 0.04);
         }
 
-        body.light-mode label {
+        body.light-mode .input-label {
             color: #475569;
             opacity: 1;
         }
@@ -1288,7 +1288,7 @@
             background: linear-gradient(135deg, rgba(45, 212, 191, 0.10), rgba(0, 0, 0, 0.25));
         }
 
-        .fancy-btn .fancy-btn-label {
+        .fancy-btn .fancy-btn-.input-label {
             flex: 1;
             min-width: 0;
             overflow: hidden;
@@ -1593,7 +1593,7 @@
             box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.18);
         }
 
-        .fancy-manual-row label {
+        .fancy-manual-row .input-label {
             font-size: 0.65rem;
             color: #94a3b8;
             text-transform: uppercase;
@@ -1666,7 +1666,7 @@
             border-color: rgba(0, 0, 0, 0.08);
         }
 
-        body.light-mode .fancy-manual-row label {
+        body.light-mode .fancy-manual-row .input-label {
             color: #64748b;
         }
 
@@ -1837,7 +1837,7 @@
             font-size: 0.85rem;
         }
 
-        .gst-split-row .split-label {
+        .gst-split-row .split-.input-label {
             color: #94a3b8;
             font-size: 0.78rem;
         }
@@ -1847,7 +1847,7 @@
             font-weight: 700;
         }
 
-        body.light-mode .gst-split-row .split-label {
+        body.light-mode .gst-split-row .split-.input-label {
             color: #64748b;
         }
 
@@ -1867,7 +1867,7 @@
         .fancy-option-title,
         .fancy-option-desc,
         .fancy-menu-footer,
-        .fancy-btn-label {
+        .fancy-btn-.input-label {
             overflow-wrap: anywhere;
             word-break: break-word;
             min-width: 0;
@@ -2070,13 +2070,13 @@
                 margin-bottom: 0.7rem;
             }
 
-            label {
+            .input-label {
                 font-size: 0.65rem;
                 margin-bottom: 4px;
                 gap: 4px;
             }
 
-            label svg {
+            .input-label svg {
                 width: 12px;
                 height: 12px;
             }
@@ -2443,17 +2443,17 @@
 
         <!-- Panel 1: GST -->
         <div id="panel-gst" class="tab-panel active">
-            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+            <div class="form-container">
                 <div class="two-columns">
                 <div class="calc-col-left">
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8">
                                 <line x1="19" y1="5" x2="5" y2="19" />
                                 <circle cx="6.5" cy="6.5" r="2.5" />
                                 <circle cx="17.5" cy="17.5" r="2.5" />
-                            </svg> Amount (₹)</label>
-                        <div class="amount-input-wrapper"><input type="number" id="amount"
-                                placeholder="Enter amount"><button type="button" id="clearAmountBtn"
+                            </svg> Amount (₹)</div>
+                        <div class="amount-input-wrapper"><input type="number" id="val_a"
+                                placeholder="Enter amount"><button type="button" id="clearAmtBtn"
                                 class="clear-input-btn">✕</button></div>
                         <div class="preset-row">
                             <button type="button" class="preset-chip" onclick="setGstAmount(100)">₹100</button>
@@ -2464,9 +2464,9 @@
                             <button type="button" class="preset-chip" onclick="setGstAmount(50000)">₹50,000</button>
                         </div>
                     </div>
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M3 6h18M8 12h8M12 18h0" />
-                            </svg> GST Rate</label>
+                            </svg> GST Rate</div>
                         <div class="fancy-selector" id="gstSelector">
                             <button type="button" class="fancy-btn" id="selectedGST" aria-expanded="false">
                                 <span class="fancy-swatch" data-tier="gst-18"></span>
@@ -2478,7 +2478,7 @@
                             </button>
                             <div class="fancy-menu" id="gstMenu">
                                 <div class="fancy-menu-search">
-                                    <input type="text" id="gstMenuSearch" placeholder="Search GST rates..."
+                                    <input type="text" id="val_g_s" placeholder="Search GST rates..."
                                         oninput="filterGstMenu()">
                                 </div>
                                 <div class="fancy-menu-list" id="gstMenuList">
@@ -2534,8 +2534,8 @@
                                     </div>
                                 </div>
                                 <div class="fancy-manual-row">
-                                    <label>Custom %</label>
-                                    <input type="number" id="manualGSTInput" placeholder="e.g. 0.25, 1, 1.5, 7.5..."
+                                    <div class="input-label">Custom %</div>
+                                    <input type="number" id="val_m_g" placeholder="e.g. 0.25, 1, 1.5, 7.5..."
                                         min="0" max="100" step="0.25">
                                 </div>
                                 <div class="fancy-menu-footer">GST rates as per Indian CBIC notification · Select or
@@ -2545,7 +2545,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label>Tax Type (for split view)</label>
+                        <div class="input-label">Tax Type (for split view)</div>
                         <div class="split-toggle">
                             <button type="button" class="split-btn active" data-split="intra" onclick="setGstSplit('intra')">CGST +
                                 SGST</button>
@@ -2582,24 +2582,24 @@
                     </div>
                 </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- Panel 2: Per Gram -->
         <div id="panel-pergram" class="tab-panel" style="display:none">
-            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+            <div class="form-container">
                 <div class="two-columns">
                 <div>
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M3 3h18v18H3z" />
                                 <path d="M9 9h6v6H9z" />
-                            </svg> Total Price (₹)</label><input type="number" id="pgPrice" placeholder="e.g. 250">
+                            </svg> Total Price (₹)</div><input type="number" id="val_p_p" placeholder="e.g. 250">
                     </div>
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M12 2v20M4 12h16" />
-                            </svg> Weight / Quantity</label><input type="number" id="pgWeight" placeholder="e.g. 500">
+                            </svg> Weight / Quantity</div><input type="number" id="val_p_w" placeholder="e.g. 500">
                     </div>
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8">
                                 <path
                                     d="M21.3 15.3a2.82 2.82 0 0 1 0 4c-1 1-2.5 1-3.5 0L2.8 4.3a2.82 2.82 0 0 1 0-4c1-1 2.5-1 3.5 0Z" />
@@ -2608,7 +2608,7 @@
                                 <path d="M17 14.1l2.8 2.8" />
                                 <path d="m8.5 5.6 1.4-1.4" />
                                 <path d="m14.1 11.3 1.4-1.4" />
-                            </svg> Unit</label>
+                            </svg> Unit</div>
                         <div class="fancy-selector" id="unitSelector">
                             <button type="button" class="fancy-btn" id="selectedUnit" aria-expanded="false">
                                 <span class="fancy-swatch" data-tier="unit-g"></span>
@@ -2620,7 +2620,7 @@
                             </button>
                             <div class="fancy-menu" id="unitMenu">
                                 <div class="fancy-menu-search">
-                                    <input type="text" id="unitMenuSearch" placeholder="Search units..."
+                                    <input type="text" id="val_u_s" placeholder="Search units..."
                                         oninput="filterUnitMenu()">
                                 </div>
                                 <div class="fancy-menu-list" id="unitMenuList">
@@ -2685,13 +2685,13 @@
                         </div>
                     </div>
 
-                    <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="1.8">
                                 <circle cx="8" cy="21" r="1" />
                                 <circle cx="19" cy="21" r="1" />
                                 <path
                                     d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-                            </svg> Desired Quantity</label><input type="number" id="pgDesiredQty" placeholder="e.g. 150"
+                            </svg> Desired Quantity</div><input type="number" id="val_p_d" placeholder="e.g. 150"
                             oninput="calcDesiredAmount()"></div>
                     <div class="action-btns"><button type="button" class="action add"
                             onclick="calcPerGram()">Calculate</button><button type="button" class="action secondary"
@@ -2726,12 +2726,12 @@
                     </div>
                 </div>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- Panel 3: Discount -->
         <div id="panel-discount" class="tab-panel" style="display:none">
-            <form autocomplete="off" onsubmit="return false;" style="margin: 0; padding: 0;">
+            <div class="form-container">
                 <div class="two-columns">
                 <div>
                     <div class="mode-tabs">
@@ -2746,27 +2746,27 @@
 
                     <!-- Single discount mode (original) -->
                     <div id="discountSingleMode">
-                        <div class="row"><label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <div class="row"><div class="input-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path d="M3 3h18v18H3z" />
                                     <circle cx="8.5" cy="8.5" r="1.5" />
                                     <circle cx="15.5" cy="15.5" r="1.5" />
-                                </svg> Original Price (₹)</label><input type="number" id="discountPrice"
+                                </svg> Original Price (₹)</div><input type="number" id="val_d_p"
                                 placeholder="0.00"></div>
-                        <div class="row"><label>Discount Type</label>
+                        <div class="row"><div class="input-label">Discount Type</div>
                             <div class="discount-group"><button type="button" data-type="percent" class="discount-type-btn active">%
                                     Percentage</button><button type="button" data-type="fixed" class="discount-type-btn">₹
                                     Fixed</button></div>
                         </div>
-                        <div class="row"><label id="discountValueLabel">Discount (%)</label><input type="number"
-                                id="discountValue" placeholder="e.g. 15"></div>
+                        <div class="row"><div class="input-label" id="discountValueLabel">Discount (%)</div><input type="number"
+                                id="val_d_v" placeholder="e.g. 15"></div>
                     </div>
 
                     <!-- Stacked discounts mode -->
                     <div id="discountStackedMode" style="display:none">
-                        <div class="row"><label>Original Price (₹)</label><input type="number" id="stackOrigPrice"
+                        <div class="row"><div class="input-label">Original Price (₹)</div><input type="number" id="val_s_o"
                                 placeholder="e.g. 5000" oninput="calcStackedDiscount()"></div>
                         <div class="row">
-                            <label>Discounts (applied in sequence)</label>
+                            <div class="input-label">Discounts (applied in sequence)</div>
                             <div class="discount-stack-list show" id="stackList">
                                 <div class="stack-row">
                                     <input type="number" class="stack-input" placeholder="%"
@@ -2798,26 +2798,26 @@
 
                     <!-- BOGO mode -->
                     <div id="discountBogoMode" style="display:none">
-                        <div class="row"><label>Unit Price (₹)</label><input type="number" id="bogoUnitPrice"
+                        <div class="row"><div class="input-label">Unit Price (₹)</div><input type="number" id="val_b_u"
                                 placeholder="e.g. 100" oninput="calcBogo()"></div>
                         <div class="making-charges-row">
-                            <div><label>Buy Quantity</label><input type="number" id="bogoBuyQty" placeholder="e.g. 2"
+                            <div><div class="input-label">Buy Quantity</div><input type="number" id="val_b_b" placeholder="e.g. 2"
                                     oninput="calcBogo()"></div>
-                            <div><label>Get Free Quantity</label><input type="number" id="bogoGetQty"
+                            <div><div class="input-label">Get Free Quantity</div><input type="number" id="val_b_g"
                                     placeholder="e.g. 1" oninput="calcBogo()"></div>
                         </div>
-                        <div class="row"><label>Customer wants total quantity</label><input type="number"
-                                id="bogoTotalQty" placeholder="e.g. 6" oninput="calcBogo()"></div>
+                        <div class="row"><div class="input-label">Customer wants total quantity</div><input type="number"
+                                id="val_b_t" placeholder="e.g. 6" oninput="calcBogo()"></div>
                     </div>
 
                     <!-- Markup/Margin mode -->
                     <div id="discountMarginMode" style="display:none">
-                        <div class="row"><label>Cost Price (₹)</label><input type="number" id="marginCP"
+                        <div class="row"><div class="input-label">Cost Price (₹)</div><input type="number" id="val_m_c"
                                 placeholder="e.g. 800" oninput="calcMargin()"></div>
                         <div class="making-charges-row">
-                            <div><label>Markup % (on CP)</label><input type="number" id="marginMarkupPct"
+                            <div><div class="input-label">Markup % (on CP)</div><input type="number" id="val_m_m"
                                     placeholder="e.g. 25" oninput="calcMargin()"></div>
-                            <div><label>OR Selling Price (₹)</label><input type="number" id="marginSP"
+                            <div><div class="input-label">OR Selling Price (₹)</div><input type="number" id="val_m_s"
                                     placeholder="e.g. 1000" oninput="calcMargin()"></div>
                         </div>
                         <div class="row" style="font-size:0.72rem;color:#94a3b8;margin-top:-6px;">Tip: Enter Cost Price
@@ -2854,7 +2854,7 @@
                     </div>
                 </div>
                 </div>
-            </form>
+            </div>
         </div>
 
 
@@ -3096,7 +3096,7 @@
                 });
             }
         }
-        document.getElementById('manualGSTInput')?.addEventListener('input', function () {
+        document.getElementById('val_m_g')?.addEventListener('input', function () {
             let val = parseFloat(this.value);
             if (!isNaN(val)) {
                 if (val < 0) val = 0;
@@ -3116,20 +3116,20 @@
         });
 
         window.filterUnitMenu = () => {
-            const q = (document.getElementById('unitMenuSearch').value || '').toLowerCase().trim();
+            const q = (document.getElementById('val_u_s').value || '').toLowerCase().trim();
             document.querySelectorAll('#unitMenuList .fancy-option').forEach(opt => {
                 const search = (opt.dataset.search || '') + ' ' + (opt.dataset.value || '').toLowerCase();
                 opt.style.display = !q || search.includes(q) ? 'flex' : 'none';
             });
         };
         window.filterGstMenu = () => {
-            const q = (document.getElementById('gstMenuSearch').value || '').toLowerCase().trim();
+            const q = (document.getElementById('val_g_s').value || '').toLowerCase().trim();
             document.querySelectorAll('#gstMenuList .fancy-option').forEach(opt => {
                 const search = (opt.dataset.search || '') + ' ' + (opt.dataset.value || '');
                 opt.style.display = !q || search.includes(q) ? 'flex' : 'none';
             });
         };
-        window.setGstAmount = (v) => { document.getElementById('amount').value = v; document.getElementById('clearAmountBtn').style.display = 'block'; resetComparisonBtnState('gst'); };
+        window.setGstAmount = (v) => { document.getElementById('val_a').value = v; document.getElementById('clearAmtBtn').style.display = 'block'; resetComparisonBtnState('gst'); };
         window.setGstSplit = (mode) => {
             gstSplitMode = mode;
             document.querySelectorAll('.split-btn').forEach(b => b.classList.toggle('active', b.dataset.split === mode));
@@ -3162,7 +3162,7 @@
             }
         }
         window.addGST = () => {
-            let amt = parseFloat(document.getElementById('amount').value) || 0;
+            let amt = parseFloat(document.getElementById('val_a').value) || 0;
             let gst = parseFloat(document.getElementById('gst').value);
             let gstAmt = amt * gst / 100;
             let total = amt + gstAmt;
@@ -3173,7 +3173,7 @@
             if (amt > 0) addHistoryEntry({ type: 'gst_add', amount: amt, gstRate: gst, gstAmount: gstAmt, total: total });
         };
         window.removeGST = () => {
-            let amt = parseFloat(document.getElementById('amount').value) || 0;
+            let amt = parseFloat(document.getElementById('val_a').value) || 0;
             let gst = parseFloat(document.getElementById('gst').value);
             let base = amt / (1 + gst / 100);
             let gstAmt = amt - base;
@@ -3187,15 +3187,15 @@
             const txt = `Base: ${document.getElementById('base').innerText} | GST: ${document.getElementById('gstAmount').innerText} | Total: ${document.getElementById('total').innerText}`;
             navigator.clipboard?.writeText(txt).then(() => showToast('GST result copied'));
         };
-        const clearAmount = document.getElementById('clearAmountBtn'), amountInput = document.getElementById('amount');
+        const clearAmount = document.getElementById('clearAmtBtn'), amountInput = document.getElementById('val_a');
         amountInput?.addEventListener('input', () => { clearAmount.style.display = amountInput.value ? 'block' : 'none'; });
         clearAmount?.addEventListener('click', () => { amountInput.value = ''; clearAmount.style.display = 'none'; amountInput.focus(); resetComparisonBtnState('gst'); });
         amountInput?.addEventListener('input', () => resetComparisonBtnState('gst'));
-        document.getElementById('manualGSTInput')?.addEventListener('input', () => resetComparisonBtnState('gst'));
+        document.getElementById('val_m_g')?.addEventListener('input', () => resetComparisonBtnState('gst'));
 
         // ---------- PER GRAM WITH FIXED HISTORY (no duplicate, no undefined) ----------
         window.setPgWeight = (w) => {
-            document.getElementById('pgWeight').value = w;
+            document.getElementById('val_p_w').value = w;
             resetComparisonBtnState('pergram');
         };
         // Unit conversion factors (everything → grams)
@@ -3239,7 +3239,7 @@
             resetComparisonBtnState('pergram');
         };
         function getPgWeightInGrams() {
-            const weight = parseFloat(document.getElementById('pgWeight').value) || 0;
+            const weight = parseFloat(document.getElementById('val_p_w').value) || 0;
             const unit = document.getElementById('pgUnit').value;
             if (unit === 'piece') return null;
             return weight * (PG_UNIT_FACTORS[unit] || 1);
@@ -3257,7 +3257,7 @@
             return 0;
         }
         window.calcPerGram = () => {
-            let price = parseFloat(document.getElementById('pgPrice').value) || 0, weight = parseFloat(document.getElementById('pgWeight').value) || 0, unit = document.getElementById('pgUnit').value;
+            let price = parseFloat(document.getElementById('val_p_p').value) || 0, weight = parseFloat(document.getElementById('val_p_w').value) || 0, unit = document.getElementById('pgUnit').value;
             if (price <= 0 || weight <= 0) { alert('Valid price and weight required'); return; }
 
             const weightInGrams = getPgWeightInGrams();
@@ -3281,7 +3281,7 @@
                 document.getElementById('pgResultPerUnit').innerText = '₹' + perUnit.toFixed(2);
                 document.getElementById('pgPer100Row').style.display = 'none';
                 document.getElementById('pgPer1kgRow').style.display = 'none';
-                let desiredQty = parseFloat(document.getElementById('pgDesiredQty').value);
+                let desiredQty = parseFloat(document.getElementById('val_p_d').value);
                 let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: 'Price per Piece', perUnit: perUnit.toFixed(2), priceLabel: 'Total Price', unit: 'Piece', making: making.toFixed(2) };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
                     historyEntry.desiredQty = desiredQty + ' pcs';
@@ -3296,7 +3296,7 @@
                 document.getElementById('pgResultPer100').innerText = '₹' + (perUnit * 100).toFixed(2);
                 document.getElementById('pgPer1kgRow').style.display = 'flex';
                 document.getElementById('pgResultPer1kg').innerText = '₹' + (perUnit * 1000).toFixed(2);
-                let desiredQty = parseFloat(document.getElementById('pgDesiredQty').value);
+                let desiredQty = parseFloat(document.getElementById('val_p_d').value);
                 let historyEntry = { type: 'pergram', price: totalPriceWithMaking.toFixed(2), weightDisplay: weightDisplay, perUnitLabel: 'Price per Gram', perUnit: perUnit.toFixed(4), per100g: (perUnit * 100).toFixed(2), per1kg: (perUnit * 1000).toFixed(2), priceLabel: 'Total Price', unit: PG_UNIT_LABELS[unit], making: making.toFixed(2) };
                 if (!isNaN(desiredQty) && desiredQty > 0) {
                     let desiredQtyInGrams = unit === 'kg' ? desiredQty * 1000 : (unit === 'tola' ? desiredQty * 11.6638 : (unit === 'bhori' ? desiredQty * 46.6553 : desiredQty));
@@ -3308,9 +3308,9 @@
             calcDesiredAmount();
         };
         window.clearPGCalc = () => {
-            document.getElementById('pgPrice').value = '';
-            document.getElementById('pgWeight').value = '';
-            document.getElementById('pgDesiredQty').value = '';
+            document.getElementById('val_p_p').value = '';
+            document.getElementById('val_p_w').value = '';
+            document.getElementById('val_p_d').value = '';
             const pgMakingVal = document.getElementById('pgMakingValue');
             if (pgMakingVal) pgMakingVal.value = '';
             const pgMakingType = document.getElementById('pgMakingType');
@@ -3343,14 +3343,14 @@
             const txt = `${label}: ${perUnit} | Total: ${document.getElementById('pgResultPrice').innerText}`;
             navigator.clipboard?.writeText(txt).then(() => showToast('Per-gram result copied'));
         };
-        document.getElementById('pgPrice')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
-        document.getElementById('pgWeight')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
-        document.getElementById('pgDesiredQty')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
+        document.getElementById('val_p_p')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
+        document.getElementById('val_p_w')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
+        document.getElementById('val_p_d')?.addEventListener('input', () => resetComparisonBtnState('pergram'));
 
         window.calcDesiredAmount = () => {
-            let desiredQty = parseFloat(document.getElementById('pgDesiredQty').value);
-            let price = parseFloat(document.getElementById('pgPrice').value);
-            let weight = parseFloat(document.getElementById('pgWeight').value);
+            let desiredQty = parseFloat(document.getElementById('val_p_d').value);
+            let price = parseFloat(document.getElementById('val_p_p').value);
+            let weight = parseFloat(document.getElementById('val_p_w').value);
             let unit = document.getElementById('pgUnit').value;
 
             if (isNaN(desiredQty) || desiredQty <= 0 || isNaN(price) || price <= 0 || isNaN(weight) || weight <= 0) {
@@ -3415,7 +3415,7 @@
             list.appendChild(row);
         };
         window.calcStackedDiscount = () => {
-            let orig = parseFloat(document.getElementById('stackOrigPrice').value);
+            let orig = parseFloat(document.getElementById('val_s_o').value);
             if (!orig || orig <= 0) return;
             let current = orig;
             let totalSaved = 0;
@@ -3436,10 +3436,10 @@
             document.getElementById('effectivePercent').innerText = eff.toFixed(2) + '%';
         };
         window.calcBogo = () => {
-            const unitPrice = parseFloat(document.getElementById('bogoUnitPrice').value);
-            const buyQty = parseFloat(document.getElementById('bogoBuyQty').value);
-            const getQty = parseFloat(document.getElementById('bogoGetQty').value);
-            const totalQty = parseFloat(document.getElementById('bogoTotalQty').value);
+            const unitPrice = parseFloat(document.getElementById('val_b_u').value);
+            const buyQty = parseFloat(document.getElementById('val_b_b').value);
+            const getQty = parseFloat(document.getElementById('val_b_g').value);
+            const totalQty = parseFloat(document.getElementById('val_b_t').value);
             if (!unitPrice || !buyQty || !getQty || !totalQty || buyQty <= 0 || getQty <= 0 || totalQty <= 0) return;
             const setQty = buyQty + getQty;
             const sets = Math.floor(totalQty / setQty);
@@ -3458,17 +3458,17 @@
             document.getElementById('bogoFreeCount').innerText = freeItems + ' free';
         };
         window.calcMargin = () => {
-            let cp = parseFloat(document.getElementById('marginCP').value);
-            let markupPct = parseFloat(document.getElementById('marginMarkupPct').value);
-            let sp = parseFloat(document.getElementById('marginSP').value);
+            let cp = parseFloat(document.getElementById('val_m_c').value);
+            let markupPct = parseFloat(document.getElementById('val_m_m').value);
+            let sp = parseFloat(document.getElementById('val_m_s').value);
             if (!cp || cp <= 0) return;
             if (sp > 0 && (!markupPct || markupPct === 0)) {
                 // SP given, derive markup
                 markupPct = ((sp - cp) / cp) * 100;
-                document.getElementById('marginMarkupPct').value = markupPct.toFixed(2);
+                document.getElementById('val_m_m').value = markupPct.toFixed(2);
             } else if (markupPct > 0 && (!sp || sp === 0)) {
                 sp = cp * (1 + markupPct / 100);
-                document.getElementById('marginSP').value = sp.toFixed(2);
+                document.getElementById('val_m_s').value = sp.toFixed(2);
             } else if (sp > 0 && markupPct > 0) {
                 // both — keep SP as source of truth
                 markupPct = ((sp - cp) / cp) * 100;
@@ -3492,7 +3492,7 @@
             if (discountCalcMode === 'bogo') { calcBogo(); return; }
             if (discountCalcMode === 'margin') { calcMargin(); return; }
 
-            let orig = parseFloat(document.getElementById('discountPrice').value) || 0, val = parseFloat(document.getElementById('discountValue').value) || 0;
+            let orig = parseFloat(document.getElementById('val_d_p').value) || 0, val = parseFloat(document.getElementById('val_d_v').value) || 0;
             if (orig <= 0) { alert('Enter original price'); return; }
             let saved = 0, final = orig, eff = 0;
             if (discountMode === 'percent') { saved = orig * val / 100; final = orig - saved; eff = val; } else { saved = Math.min(val, orig); final = orig - saved; eff = (saved / orig) * 100; }
@@ -3503,16 +3503,16 @@
             addHistoryEntry({ type: 'discount', original: orig.toFixed(2), discountValue: val, discountType: discountMode, saved: saved.toFixed(2), final: final.toFixed(2) });
         };
         window.clearDiscount = () => {
-            document.getElementById('discountPrice').value = '';
-            document.getElementById('discountValue').value = '';
-            document.getElementById('stackOrigPrice').value = '';
-            document.getElementById('bogoUnitPrice').value = '';
-            document.getElementById('bogoBuyQty').value = '';
-            document.getElementById('bogoGetQty').value = '';
-            document.getElementById('bogoTotalQty').value = '';
-            document.getElementById('marginCP').value = '';
-            document.getElementById('marginMarkupPct').value = '';
-            document.getElementById('marginSP').value = '';
+            document.getElementById('val_d_p').value = '';
+            document.getElementById('val_d_v').value = '';
+            document.getElementById('val_s_o').value = '';
+            document.getElementById('val_b_u').value = '';
+            document.getElementById('val_b_b').value = '';
+            document.getElementById('val_b_g').value = '';
+            document.getElementById('val_b_t').value = '';
+            document.getElementById('val_m_c').value = '';
+            document.getElementById('val_m_m').value = '';
+            document.getElementById('val_m_s').value = '';
             document.querySelectorAll('#stackList .stack-input').forEach(i => i.value = '');
             document.getElementById('originalDisplay').innerText = '₹0.00';
             document.getElementById('savedAmount').innerText = '₹0.00';
@@ -3548,8 +3548,8 @@
             }, 1800);
         }
 
-        document.getElementById('discountPrice')?.addEventListener('input', () => resetComparisonBtnState('discount'));
-        document.getElementById('discountValue')?.addEventListener('input', () => resetComparisonBtnState('discount'));
+        document.getElementById('val_d_p')?.addEventListener('input', () => resetComparisonBtnState('discount'));
+        document.getElementById('val_d_v')?.addEventListener('input', () => resetComparisonBtnState('discount'));
 
         // ---------- TAB SWITCH ----------
         window.switchTab = function (tab) {
@@ -3632,7 +3632,7 @@
         window.addToComparison = function (calcType) {
             let item = { type: calcType, addedAt: Date.now() };
             if (calcType === 'gst') {
-                const amt = parseFloat(document.getElementById('amount').value) || 0;
+                const amt = parseFloat(document.getElementById('val_a').value) || 0;
                 const gst = parseFloat(document.getElementById('gst').value) || 0;
                 if (amt <= 0) { alert('Please calculate GST first'); return; }
                 item.amount = amt.toFixed(2);
@@ -3643,11 +3643,11 @@
                 btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Added!';
                 setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison'; }, 1500);
             } else if (calcType === 'pergram') {
-                const price = parseFloat(document.getElementById('pgPrice').value) || 0;
-                const weight = parseFloat(document.getElementById('pgWeight').value) || 0;
+                const price = parseFloat(document.getElementById('val_p_p').value) || 0;
+                const weight = parseFloat(document.getElementById('val_p_w').value) || 0;
                 if (price <= 0 || weight <= 0) { alert('Please calculate Per Gram first'); return; }
                 item.price = price.toFixed(2);
-                item.weight = document.getElementById('pgWeight').value + ' ' + document.getElementById('pgUnit').value;
+                item.weight = document.getElementById('val_p_w').value + ' ' + document.getElementById('pgUnit').value;
                 item.unit = document.getElementById('selectedUnit').innerText.replace(' ▼', '');
                 item.perUnit = document.getElementById('pgResultPerUnit').innerText.replace('₹', '');
                 const btn = document.getElementById('addPGToComparison');
@@ -3655,9 +3655,9 @@
                 btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Added!';
                 setTimeout(() => { btn.classList.remove('added'); btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add to Comparison'; }, 1500);
             } else if (calcType === 'discount') {
-                const orig = parseFloat(document.getElementById('discountPrice').value) || 0;
+                const orig = parseFloat(document.getElementById('val_d_p').value) || 0;
                 if (orig <= 0) { alert('Please calculate Discount first'); return; }
-                item.original = orig.toFixed(2); item.discount = document.getElementById('discountValue').value + (discountMode === 'percent' ? '%' : '₹');
+                item.original = orig.toFixed(2); item.discount = document.getElementById('val_d_v').value + (discountMode === 'percent' ? '%' : '₹');
                 item.final = document.getElementById('finalPrice').innerText.replace('₹', '');
                 item.saved = document.getElementById('savedAmount').innerText.replace('₹', '');
                 const btn = document.getElementById('addDiscountToComparison');
