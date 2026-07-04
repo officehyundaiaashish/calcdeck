@@ -3767,63 +3767,7 @@
             });
         });
 
-        // ===================== INLINE PWA (self-contained) =====================
-        let deferredPrompt;
-        const installBtn = document.createElement('button');
-        installBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#38bdf8;color:#0f172a;padding:12px 20px;border:none;border-radius:999px;font-weight:700;z-index:9999;box-shadow:0 10px 30px -10px rgba(56,189,248,0.6);display:none;';
-        installBtn.innerHTML = 'Install CalcDeck';
-        document.body.appendChild(installBtn);
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'block';
-        });
-        installBtn.addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => { installBtn.style.display = 'none'; });
-            }
-        });
-
-        // Inline Service Worker for instant updates (caches HTML + auto-reloads on new version)
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
-self.addEventListener('activate', e => {
-    e.waitUntil(
-        caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
-            .then(() => self.clients.claim())
-    );
-});
-self.addEventListener('fetch', e => {
-    if (e.request.method !== 'GET') return;
-    e.respondWith(
-        fetch(e.request)
-            .then(res => {
-                if (res && res.status === 200) {
-                    const clone = res.clone();
-                    caches.open('calcdeck-shell').then(cache => cache.put(e.request, clone));
-                }
-                return res;
-            })
-            .catch(() => caches.match(e.request))
-    );
-});
-    `;
-            const blob = new Blob([swCode], { type: 'text/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl).then(reg => {
-                reg.addEventListener('updatefound', () => {
-                    const newWorker = reg.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            if (confirm('New version available. Reload to update?')) window.location.reload();
-                        }
-                    });
-                });
-            }).catch(console.error);
-        }
 
         // ---------- CUSTOM STEPPER ENHANCEMENT ----------
         function enhanceNumberInputs() {
